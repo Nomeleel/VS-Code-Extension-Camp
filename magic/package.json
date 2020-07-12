@@ -1,0 +1,21 @@
+{
+    "name": "magic",
+    "displayName": "magic",
+    "description": "magic extension.",
+    "version": "0.0.1",
+    "publisher": "nomeleel",
+    "engines": {
+        "vscode": "^1.47.0"
+    },
+    "categories": [
+        "Snippets"
+    ],
+    "contributes": {
+        "snippets": [
+            {
+                "language": "json",
+                "path": "./snippets/magic.json"
+            }
+        ]
+    }
+}

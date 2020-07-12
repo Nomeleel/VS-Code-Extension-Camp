@@ -1,0 +1,62 @@
+
+{
+    "Add Container": {
+        "prefix": ["Container", "XContainer", "container", "xcontainer"],
+        "scope": "json",
+        "body": [
+            "{",
+            "\t\"type\": \"XContainer\",",
+            "\t\"conf\": {",
+            "\t\t\"height\": $1,",
+            "\t\t\"width\": $2",
+            "\t},",
+            "\t\"child\": $0",
+            "}"
+        ],
+        "description": "Add Container..."
+    },
+    "Add XAppBar": {
+        "prefix": ["AppBar", "XAppBar", "xappbar", "appbar"],
+        "scope": "json",
+        "body": [
+            "{",
+            "\t\"type\": \"XAppBar\",",
+            "\t\"conf\": {",
+            "\t\t\"titleSpacing\": $1,",
+            "\t\t\"title\": $2",
+            "\t},",
+            "\t\"child\": $0",
+            "}"
+        ],
+        "description": "Add XAppBar..."
+    },
+    "Add decoration in conf": {
+        "prefix": ["decoration"],
+        "scope": "json",
+        "body": [
+            "\"decoration\": {",
+            "\t\"color\": \"#$1\",",
+            "\t\"radius\": $0",
+            "}"
+        ],
+        "description": "Add decoration in conf..."
+    },
+    "Geometry all": {
+        "prefix": ["all"],
+        "scope": "json",
+        "body": "\"$1,$1,$1,$1\"",
+        "description": "Geometry all..."
+    },
+    "Geometry ABAB symmetric": {
+        "prefix": ["symmetric"],
+        "scope": "json",
+        "body": "\"$1,$2,$1,$2\"",
+        "description": "Geometry ABAB symmetric..."
+    },
+    "Geometry AABB symmetric": {
+        "prefix": ["symmetric"],
+        "scope": "json",
+        "body": "\"$1,$1,$2,$2\"",
+        "description": "Geometry AABB symmetric..."
+    }
+}
