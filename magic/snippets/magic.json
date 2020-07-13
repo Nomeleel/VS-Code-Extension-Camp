@@ -1,5 +1,159 @@
-
 {
+    "Add AppBar": {
+        "prefix": ["AppBar", "XAppBar", "xappbar", "appbar"],
+        "scope": "json",
+        "body": [
+            "{",
+            "\t\"type\": \"XAppBar\",",
+            "\t\"conf\": {",
+            "\t\t\"color\": \"#$1\",",
+            "\t\t\"centerTitle\": ${2|true,false|},",
+            "\t\t\"titleSpacing\": ${3:0.0},",
+            "\t\t\"brightness\": \"${4|dark,light|}\",",
+            "\t\t\"elevation\": ${5:0.0}",
+            "\t},",
+            "\t\"leading\": ${6:{}},",
+            "\t\"title\": ${7:{}},",
+            "\t\"bottom\": ${8:{}},",
+            "\t\"actions\": ${0:{}}",
+            "}"
+        ],
+        "description": "Add AppBar..."
+    },
+    "Add BackdropFilter": {
+        "prefix": ["BackdropFilter", "XBackdropFilter", "backdropfilter", "xbackdropfilter"],
+        "scope": "json",
+        "body": [
+            "{",
+            "\t\"type\": \"XBackdropFilter\",",
+            "\t\"conf\": {",
+            "\t\t\"x\": ${1:0.0},",
+            "\t\t\"y\": ${2:0.0}",
+            "\t},",
+            "\t\"child\": ${0:{}}",
+            "}"
+        ],
+        "description": "Add BackdropFilter..."
+    },
+    "Add Badge": {
+        "prefix": ["Badge", "XBadge", "badge", "xbadge"],
+        "scope": "json",
+        "body": [
+            "{",
+            "\t\"type\": \"XBadge\",",
+            "\t\"conf\": {",
+            "\t\t\"toAnimate\": ${1|true,false|},",
+            "\t\t\"showBadge\": ${2|true,false|},",
+            "\t\t\"color\": \"#${3:FFFF4433}\"",
+            "\t},",
+            "\t\"child\": ${0:{}}",
+            "}"
+        ],
+        "description": "Add Badge..."
+    },
+    "Add BottomTabBar": {
+        "prefix": ["BottomTabBar", "XBottomTabBar", "bottomtabbar", "xbottomtabbar"],
+        "scope": "json",
+        "body": [
+            "{",
+            "\t\"type\": \"XBottomTabBar\",",
+            "\t\"conf\": {",
+            "\t\t\"currentIndex\": ${1:0},",
+            "\t\t\"bindDataKey\": \"$2\",",
+            "\t\t\"backgroundColor\": \"#$3\",",
+            "\t\t\"activeColor\": \"#$4\",",
+            "\t\t\"inactiveColor\": \"#$5\",",
+            "\t\t\"iconSize\": ${6:14.0},",
+            "\t\t\"border\": ${7:{}}",
+            "\t},",
+            "\t\"children\": ${0:{}}",
+            "}"
+        ],
+        "description": "Add BottomTabBar..."
+    },
+    "Add Card": {
+        "prefix": ["Card", "XCard", "card", "xcard"],
+        "scope": "json",
+        "body": [
+            "{",
+            "\t\"type\": \"XCard\",",
+            "\t\"conf\": {",
+            "\t\t\"color\": \"#$1\",",
+            "\t\t\"shadowColor\": \"#$2\",",
+            "\t\t\"elevation\": ${3:7.0},",
+            "\t\t\"shape\": \"${4|rectangle,circle|}\",",
+            "\t\t\"margin\": $5",
+            "\t},",
+            "\t\"child\": ${0:{}}",
+            "}"
+        ],
+        "description": "Add Card..."
+    },
+    "Add Center": {
+        "prefix": ["Center", "XCenter", "center", "xcenter"],
+        "scope": "json",
+        "body": [
+            "{",
+            "\t\"type\": \"XCenter\",",
+            "\t\"conf\": {",
+            "\t\t\"widthFactor\": ${1:1.0},",
+            "\t\t\"heightFactor\": ${2:1.0}",
+            "\t},",
+            "\t\"child\": ${0:{}}",
+            "}"
+        ],
+        "description": "Add Center..."
+    },
+    "Add CircleAvatar": {
+        "prefix": ["CircleAvatar", "XCircleAvatar", "circleavatar", "xcircleavatar"],
+        "scope": "json",
+        "body": [
+            "{",
+            "\t\"type\": \"XCircleAvatar\",",
+            "\t\"conf\": {",
+            "\t\t\"radius\": ${1:7.0},",
+            "\t\t\"backgroundImage\": \"$2\",",
+            "\t\t\"backgroundColor\": \"#$3\"",
+            "\t},",
+            "\t\"child\": ${0:{}}",
+            "}"
+        ],
+        "description": "Add CircleAvatar..."
+    },
+    "Add ClipRRect": {
+        "prefix": ["ClipRRect", "XClipRRect", "cliprrect", "xcliprrect"],
+        "scope": "json",
+        "body": [
+            "{",
+            "\t\"type\": \"XClipRRect\",",
+            "\t\"conf\": {",
+            "\t\t\"borderRadius\": ${1:\"\"},",
+            "\t\t\"clipBehavior\": \"${2|antiAlias,none,hardEdge,antiAliasWithSaveLayer|}\"",
+            "\t},",
+            "\t\"child\": ${0:{}}",
+            "}"
+        ],
+        "description": "Add ClipRRect..."
+    },
+    "Add Column": {
+        "prefix": ["Column", "XColumn", "column", "xcolumn"],
+        "scope": "json",
+        "body": [
+            "{",
+            "\t\"type\": \"XColumn\",",
+            "\t\"conf\": {",
+            "\t\t\"mainAxisAlign\": \"${1|start,end,center,spaceBetween,spaceAround,spaceEvenly|}\",",
+            "\t\t\"mainAxisSize\": \"${2|max,min|}\",",
+            "\t\t\"textDir\": \"${3|center,start,end,stretch,baseline|}\",",
+            "\t\t\"crossAxisAlign\": \"${4|ltr,rtl|}\",",
+            "\t\t\"verticalDir\": \"${5|down,up|}\",",
+            "\t\t\"textBaseline\": \"${6|ltr,rtl|}\"",
+            "\t},",
+            "\t\"children\": ${0:{}}",
+            "}"
+        ],
+        "description": "Add Column..."
+    },
     "Add Container": {
         "prefix": ["Container", "XContainer", "container", "xcontainer"],
         "scope": "json",
@@ -7,28 +161,87 @@
             "{",
             "\t\"type\": \"XContainer\",",
             "\t\"conf\": {",
-            "\t\t\"height\": $1,",
-            "\t\t\"width\": $2",
+            "\t\t\"height\": ${1:700}.0,",
+            "\t\t\"width\": ${2:200}.0,",
+            "\t\t\"useScreenHeight\": ${3|true,false|},",
+            "\t\t\"useScreenWidth\": ${4|true,false|},",
+            "\t\t\"color\": \"#$5\",",
+            "\t\t\"decoration\": ${6:{}}",
             "\t},",
-            "\t\"child\": $0",
+            "\t\"child\": ${0:{}}",
             "}"
         ],
         "description": "Add Container..."
     },
-    "Add XAppBar": {
-        "prefix": ["AppBar", "XAppBar", "xappbar", "appbar"],
+    "Add CustomScrollView": {
+        "prefix": ["CustomScrollView", "XCustomScrollView", "customscrollview", "xcustomscrollview"],
         "scope": "json",
         "body": [
             "{",
-            "\t\"type\": \"XAppBar\",",
+            "\t\"type\": \"XCustomScrollView\",",
             "\t\"conf\": {",
-            "\t\t\"titleSpacing\": $1,",
-            "\t\t\"title\": $2",
+            "\t\t\"scrollDirection\": \"${1|horizontal,vertical|}\",",
+            "\t\t\"cacheExtent\": ${2:0.0},",
+            "\t\t\"semanticChildCount\": ${3:7},",
+            "\t\t\"isShowLeading\": ${4|false,true|},",
+            "\t\t\"ctrl\": \"$5\",",
+            "\t\t\"reverse\": ${6|false,true|},",
+            "\t\t\"primary\": ${7|false,true|},",
+            "\t\t\"shrinkWrap\": ${8|false,true|},",
+            "\t\t\"anchor\": ${9:0.0},",
+            "\t\t\"dragStartBehavior\": \"${10|start,down|}\"",
             "\t},",
-            "\t\"child\": $0",
+            "\t\"slivers\": ${0:{}}",
             "}"
         ],
-        "description": "Add XAppBar..."
+        "description": "Add CustomScrollView..."
+    },
+    "Add Divider": {
+        "prefix": ["Divider", "XDivider", "divider", "xdivider"],
+        "scope": "json",
+        "body": [
+            "{",
+            "\t\"type\": \"XDivider\",",
+            "\t\"conf\": {",
+            "\t\t\"color\": \"#$1\",",
+            "\t\t\"endIndent\": ${2:0.0},",
+            "\t\t\"indent\": ${3:0.0},",
+            "\t\t\"thickness\": ${4:0.0},",
+            "\t\t\"height\": ${5:16.0}",
+            "\t}",
+            "}"
+        ],
+        "description": "Add Divider..."
+    },
+    "Add Expanded": {
+        "prefix": ["Expanded", "XExpanded", "expanded", "xexpanded"],
+        "scope": "json",
+        "body": [
+            "{",
+            "\t\"type\": \"XExpanded\",",
+            "\t\"conf\": {",
+            "\t\t\"flex\": ${1:1}",
+            "\t},",
+            "\t\"child\": ${0:{}}",
+            "}"
+        ],
+        "description": "Add Expanded..."
+    },
+    "Add decoration": {
+        "prefix": ["decoration"],
+        "scope": "json",
+        "body": [
+            "{",
+            "\t\"color\": \"#$1\",",
+            "\t\"border\": ${2:{}},",
+            "\t\"shape\": \"${3|rectangle,circle|}\",",
+            "\t\"borderRadius\": $0,",
+            "\t\"gradient\": ${4:{}},",
+            "\t\"image\": ${5:{}},",
+            "\t\"boxShadow\": ${6:{}}",
+            "}"
+        ],
+        "description": "Add decoration..."
     },
     "Add decoration in conf": {
         "prefix": ["decoration"],
@@ -36,7 +249,12 @@
         "body": [
             "\"decoration\": {",
             "\t\"color\": \"#$1\",",
-            "\t\"radius\": $0",
+            "\t\"border\": ${2:{}},",
+            "\t\"shape\": \"${3|rectangle,circle|}\",",
+            "\t\"borderRadius\": $0,",
+            "\t\"gradient\": ${4:{}},",
+            "\t\"image\": ${5:{}},",
+            "\t\"boxShadow\": ${6:{}}",
             "}"
         ],
         "description": "Add decoration in conf..."
