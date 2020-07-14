@@ -227,6 +227,165 @@
         ],
         "description": "Add Expanded..."
     },
+    "Add FlatButton": {
+        "prefix": ["FlatButton", "XFlatButton", "flatbutton", "xflatbutton"],
+        "scope": "json",
+        "body": [
+            "{",
+            "\t\"type\": \"XFlatButton\",",
+            "\t\"conf\": {",
+            "\t\t\"color\": \"#$1\",",
+            "\t\t\"textColor\": \"#$2\"",
+            "\t},",
+            "\t\"child\": ${0:{}}",
+            "}"
+        ],
+        "description": "Add FlatButton..."
+    },
+    "Add Flexible": {
+        "prefix": ["Flexible", "XFlexible", "flexible", "xflexible"],
+        "scope": "json",
+        "body": [
+            "{",
+            "\t\"type\": \"XFlexible\",",
+            "\t\"conf\": {",
+            "\t\t\"flex\": ${1:1},",
+            "\t\t\"fit\": \"${2|loose,tight|}\"",
+            "\t},",
+            "\t\"child\": ${0:{}}",
+            "}"
+        ],
+        "description": "Add Flexible..."
+    },
+    "Add FlexibleSpaceBar": {
+        "prefix": ["FlexibleSpaceBar", "XFlexibleSpaceBar", "flexiblespacebar", "xflexiblespacebar"],
+        "scope": "json",
+        "body": [
+            "{",
+            "\t\"type\": \"XFlexibleSpaceBar\",",
+            "\t\"conf\": {",
+            "\t\t\"title\": ${1:{}},",
+            "\t\t\"background\": ${2:{}},",
+            "\t\t\"collapseMode\": \"${3|parallax,pin,none|}\",",
+            "\t\t\"titlePadding\": \"$4\",",
+            "\t\t\"centerTitle\": ${5|true,false|}",
+            "\t},",
+            "\t\"child\": ${0:{}}",
+            "}"
+        ],
+        "description": "Add FlexibleSpaceBar..."
+    },
+    "Add GradientText": {
+        "prefix": ["GradientText", "XGradientText", "gradienttext", "xgradienttext"],
+        "scope": "json",
+        "body": [
+            "{",
+            "\t\"type\": \"XGradientText\",",
+            "\t\"conf\": {",
+            "\t\t\"style\": ${1:{}},",
+            "\t\t\"textAlign\": \"${2|left,right,center,justify,start,end|}\",",
+            "\t\t\"gradient\": ${3:{}},",
+            "\t\t\"text\": \"$4\",",
+            "\t\t\"bindDataKey\": \"$5\"",
+            "\t},",
+            "\t\"child\": ${0:{}}",
+            "}"
+        ],
+        "description": "Add GradientText..."
+    },
+    "Add GridView": {
+        "prefix": ["GridView", "XGridView", "gridview", "xgridview"],
+        "scope": "json",
+        "body": [
+            "{",
+            "\t\"type\": \"XGridView\",",
+            "\t\"conf\": {",
+            "\t\t\"scrollDir\": \"${1|vertical,horizontal|}\",",
+            "\t\t\"padding\": \"$2\",",
+            "\t\t\"shrinkWrap\": ${3|false,true|},",
+            "\t\t\"reverse\": ${4|false,true|},",
+            "\t\t\"itemCount\": ${5:7},",
+            "\t\t\"physics\": \"${6|bounce,clamp,always,never|}\"",
+            "\t},",
+            "\t\"gridDelegate\": ${7:{}},",
+            "\t\"itemBuilder\": ${8:{}},",
+            "\t\"addItem\": ${9:{}},",
+            "\t\"children\": ${0:{}}",
+            "}"
+        ],
+        "description": "Add GridView..."
+    },
+    "Add Icon": {
+        "prefix": ["Icon", "XIcon", "icon", "xicon"],
+        "scope": "json",
+        "body": [
+            "{",
+            "\t\"type\": \"XIcon\",",
+            "\t\"conf\": {",
+            "\t\t\"icon\": \"0x${1:e145}\",",
+            "\t\t\"fontFamily\": \"${2|MaterialIcons,CupertinoIcons|}\",",
+            "\t\t\"color\": \"#$3\",",
+            "\t\t\"size\": ${4:14.0}",
+            "\t},",
+            "\t\"child\": ${0:{}}",
+            "}"
+        ],
+        "description": "Add Icon..."
+    },
+    "Add IndexedStack": {
+        "prefix": ["IndexedStack", "XIndexedStack", "indexedstack", "xindexedstack"],
+        "scope": "json",
+        "body": [
+            "{",
+            "\t\"type\": \"XIndexedStack\",",
+            "\t\"conf\": {",
+            "\t\t\"index\": ${1:0},",
+            "\t\t\"bindDataKey\": \"$2\",",
+            "\t\t\"alignment\": \"${3|topLeft,topCenter,topRight,centerLeft,center,centerRight,bottomLeft,bottomCenter,bottomRight|}\",",
+            "\t\t\"textDirection\": \"${4|rtl,ltr|}\",",
+            "\t\t\"sizing\": \"${5|loose,expand,passthrough|}\"",
+            "\t},",
+            "\t\"child\": ${0:{}}",
+            "}"
+        ],
+        "description": "Add IndexedStack..."
+    },
+    "Add Listener": {
+        "prefix": ["Listener", "XListener", "listener", "xlistener"],
+        "scope": "json",
+        "body": [
+            "{",
+            "\t\"type\": \"XListener\",",
+            "\t\"conf\": {",
+            "\t\t\"param\": ${1:{}}",
+            "\t},",
+            "\t\"child\": ${0:{}}",
+            "}"
+        ],
+        "description": "Add Listener..."
+    },
+    "Add ListTitle": {
+        "prefix": ["ListTitle", "XListTitle", "listtitle", "xlisttitle"],
+        "scope": "json",
+        "body": [
+            "{",
+            "\t\"type\": \"XListTitle\",",
+            "\t\"conf\": {",
+            "\t\t\"leading\": ${1:{}},",
+            "\t\t\"title\": ${2:{}},",
+            "\t\t\"subtitle\": ${3:{}},",
+            "\t\t\"trailing\": ${4:{}},",
+            "\t\t\"isThreeLine\": ${5|false,true|},",
+            "\t\t\"dense\": ${6|false,true|},",
+            "\t\t\"contentPadding\": \"$7\",",
+            "\t\t\"enabled\": ${8|false,true|},",
+            "\t\t\"selected\": ${9|false,true|}",
+            "\t},",
+            "\t\"child\": ${0:{}}",
+            "}"
+        ],
+        "description": "Add ListTitle..."
+    },
     "Add decoration": {
         "prefix": ["decoration"],
         "scope": "json",
@@ -258,6 +417,36 @@
             "}"
         ],
         "description": "Add decoration in conf..."
+    },
+    "Add gridDelegate": {
+        "prefix": ["griddelegate"],
+        "scope": "json",
+        "body": [
+            "{",
+            "\t\"type\": \"${1|fixedCross,maxCross|}\",",
+            "\t\"crossAxisCount\": ${2:7},",
+            "\t\"maxCrossAxisExtent\": ${3:7.0},",
+            "\t\"mainAxisSpacing\": ${4:7.0},",
+            "\t\"crossAxisSpacing\": ${5:7.0},",
+            "\t\"childAspectRatio\": ${6:1.0}",
+            "}"
+        ],
+        "description": "Add gridDelegate..."
+    },
+    "Add gridDelegate in conf": {
+        "prefix": ["griddelegate"],
+        "scope": "json",
+        "body": [
+            "\"griddelegate\": {",
+            "\t\"type\": \"${1|fixedCross,maxCross|}\",",
+            "\t\"crossAxisCount\": ${2:7},",
+            "\t\"maxCrossAxisExtent\": ${3:7.0},",
+            "\t\"mainAxisSpacing\": ${4:7.0},",
+            "\t\"crossAxisSpacing\": ${5:7.0},",
+            "\t\"childAspectRatio\": ${6:1.0}",
+            "}"
+        ],
+        "description": "Add gridDelegate in conf..."
     },
     "Geometry all": {
         "prefix": ["all"],
