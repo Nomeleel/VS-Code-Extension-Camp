@@ -51,6 +51,33 @@
         ],
         "description": "Add Badge..."
     },
+    "Add Binding": {
+        "prefix": ["Binding", "XBinding", "binding", "xbinding"],
+        "scope": "json",
+        "body": [
+            "{",
+            "\t\"type\": \"XBinding\",",
+            "\t\"conf\": {",
+            "\t\t\"memory\": {",
+            "\t\t\t\"key\": \"$1\"",
+            "\t\t},",
+            "\t\t\"post\": {",
+            "\t\t\t\"url\": \"$2\",",
+            "\t\t\t\"data\": {},",
+            "\t\t\t\"postDataKeys\": \"$3\",",
+            "\t\t\t\"cacheKey\": \"$4\",",
+            "\t\t\t\"forceLoad\": ${5|false,true|},",
+            "\t\t\t\"tryTimes\": ${6:-1},",
+            "\t\t\t\"desc\": \"$7\"",
+            "\t\t}",
+            "\t},",
+            "\t\"loading\": ${8:{}},",
+            "\t\"error\": ${9:{}},",
+            "\t\"binding\": ${0:{}}",
+            "}"
+        ],
+        "description": "Add Binding..."
+    },
     "Add BottomTabBar": {
         "prefix": ["BottomTabBar", "XBottomTabBar", "bottomtabbar", "xbottomtabbar"],
         "scope": "json",
@@ -275,6 +302,21 @@
         ],
         "description": "Add FlexibleSpaceBar..."
     },
+    "Add GestureDetector": {
+        "prefix": ["GestureDetector", "XGestureDetector", "gesturedetector", "xgesturedetector"],
+        "scope": "json",
+        "body": [
+            "{",
+            "\t\"type\": \"XGestureDetector\",",
+            "\t\"conf\": {",
+            "\t\t\"codeRef\": \"$1\",",
+            "\t\t\"param\": ${2|\"\",{}|}",
+            "\t},",
+            "\t\"child\": ${0:{}}",
+            "}"
+        ],
+        "description": "Add GestureDetector..."
+    },
     "Add GradientText": {
         "prefix": ["GradientText", "XGradientText", "gradienttext", "xgradienttext"],
         "scope": "json",
@@ -305,7 +347,8 @@
             "\t\t\"shrinkWrap\": ${3|false,true|},",
             "\t\t\"reverse\": ${4|false,true|},",
             "\t\t\"itemCount\": ${5:7},",
-            "\t\t\"physics\": \"${6|bounce,clamp,always,never|}\"",
+            "\t\t\"physics\": \"${6|bounce,clamp,always,never|}\",",
+            "\t\t\"listKey\": \"$7\"",
             "\t},",
             "\t\"gridDelegate\": ${7:{}},",
             "\t\"itemBuilder\": ${8:{}},",
@@ -385,6 +428,131 @@
             "}"
         ],
         "description": "Add ListTitle..."
+    },
+    "Add ListView": {
+        "prefix": ["ListView", "XListView", "listview", "xlistview"],
+        "scope": "json",
+        "body": [
+            "{",
+            "\t\"type\": \"XListView\",",
+            "\t\"conf\": {",
+            "\t\t\"scrollDir\": \"${1|horizontal,vertical|}\",",
+            "\t\t\"padding\": \"$2\",",
+            "\t\t\"physics\": \"${3|bounce,clamp,always,never|}\",",
+            "\t\t\"shrinkWrap\": ${4|true,false|},",
+            "\t\t\"reverse\": ${5|false,true|},",
+            "\t\t\"itemExtent\": \"${6:0.0}\",",
+            "\t\t\"isShowLeading\": ${7|true,false|},",
+            "\t\t\"cacheExtent\": \"${8:0.0}\",",
+            "\t\t\"cacheExtentMax\": ${9|false,true|},",
+            "\t\t\"ctrl\": \"$10\",",
+            "\t\t\"headerBuilder\": ${11:{}},",
+            "\t\t\"footerBuilder\": ${12:{}},",
+            "\t\t\"itemCount\": ${13:7},",
+            "\t\t\"itemBuilder\": ${14:{}},",
+            "\t\t\"separated\": ${15:{}},",
+            "\t\t\"empty\": ${16:{}},",
+            "\t\t\"listKey\": \"$17\"",
+            "\t},",
+            "\t\"children\": ${0:{}}",
+            "}"
+        ],
+        "description": "Add ListView..."
+    },
+    "Add Padding": {
+        "prefix": ["Padding", "XPadding", "padding", "xpadding"],
+        "scope": "json",
+        "body": [
+            "{",
+            "\t\"type\": \"XPadding\",",
+            "\t\"padding\": \"$1\",",
+            "\t\"child\": ${0:{}}",
+            "}"
+        ],
+        "description": "Add Padding..."
+    },
+    "Add Positioned": {
+        "prefix": ["Positioned", "XPositioned", "positioned", "xpositioned"],
+        "scope": "json",
+        "body": [
+            "{",
+            "\t\"type\": \"XPositioned\",",
+            "\t\"top\": ${1:0.0},",
+            "\t\"left\": ${2:0.0},",
+            "\t\"right\": ${3:0.0},",
+            "\t\"bottom\": ${4:0.0},",
+            "\t\"height\": ${5:0.0},",
+            "\t\"width\": ${6:0.0},",
+            "\t\"child\": ${0:{}},",
+            "}"
+        ],
+        "description": "Add Positioned..."
+    },
+    "Add Row": {
+        "prefix": ["Row", "XRow", "row", "xrow"],
+        "scope": "json",
+        "body": [
+            "{",
+            "\t\"type\": \"XRow\",",
+            "\t\"conf\": {",
+            "\t\t\"mainAxisAlign\": \"${1|start,end,center,spaceBetween,spaceAround,spaceEvenly|}\",",
+            "\t\t\"mainAxisSize\": \"${2|max,min|}\",",
+            "\t\t\"textDir\": \"${3|center,start,end,stretch,baseline|}\",",
+            "\t\t\"crossAxisAlign\": \"${4|ltr,rtl|}\",",
+            "\t\t\"verticalDir\": \"${5|down,up|}\",",
+            "\t\t\"textBaseline\": \"${6|ltr,rtl|}\"",
+            "\t},",
+            "\t\"children\": ${0:{}}",
+            "}"
+        ],
+        "description": "Add Row..."
+    },
+    "Add SizedBox": {
+        "prefix": ["SizedBox", "XSizedBox", "sizedbox", "xsizedbox"],
+        "scope": "json",
+        "body": [
+            "{",
+            "\t\"type\": \"XSizedBox\",",
+            "\t\"conf\": {",
+            "\t\t\"height\": ${1:77.0},",
+            "\t\t\"width\": ${2:77.0}",
+            "\t},",
+            "\t\"child\": ${0:{}}",
+            "}"
+        ],
+        "description": "Add SizedBox..."
+    },
+    "Add Stack": {
+        "prefix": ["Stack", "XStack", "stack", "xstack"],
+        "scope": "json",
+        "body": [
+            "{",
+            "\t\"type\": \"XStack\",",
+            "\t\"conf\": {",
+            "\t\t\"alignDir\": \"${1|topStart,topCenter,topEnd,centerStart,center,centerEnd,bottomStart,bottomCenter,bottomEnd|}\",",
+            "\t\t\"textDir\": \"${2|ltr,rtl|}\",",
+            "\t\t\"fit\": \"${3|loose,expand,passthrough|}\",",
+            "\t\t\"overflow\": \"${4|visible,clip|}\"",
+            "\t},",
+            "\t\"children\": ${0:{}}",
+            "}"
+        ],
+        "description": "Add Stack..."
+    },
+    "Add StatusBind": {
+        "prefix": ["StatusBind", "XStatusBind", "statusbind", "xstatusbind"],
+        "scope": "json",
+        "body": [
+            "{",
+            "\t\"type\": \"XStatusBind\",",
+            "\t\"conf\": {",
+            "\t\t\"bindDataKey\": \"$1\",",
+            "\t\t\"1\": ${2:{}},",
+            "\t\t\"default\": ${0:{}}",
+            "\t}",
+            "}"
+        ],
+        "description": "Add StatusBind..."
     },
     "Add decoration": {
         "prefix": ["decoration"],
