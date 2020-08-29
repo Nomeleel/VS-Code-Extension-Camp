@@ -5,27 +5,34 @@
     "version": "0.0.1",
     "publisher": "nomeleel",
     "engines": {
-        "vscode": "^1.47.0"
+        "vscode": "^1.48.0"
     },
     "categories": [
         "Snippets",
         "Programming Languages"
     ],
-    "activationEvents": [
-		"onCommand:magic.helloWorld"
+	"activationEvents": [
+		"onLanguage:json",
+		"workspaceContains:*.json",
+		"workspaceContains:**/*.json",
+		"onCommand:magic.showTime"
 	],
-	"main": "./out/extension.js",
+	"main": "./out/extension/extension.js",
     "contributes": {
         "snippets": [
             {
                 "language": "json",
                 "path": "./snippets/magic.json"
+			},
+			{
+                "language": "dart",
+                "path": "./snippets/script.json"
             }
         ],
         "commands": [
 			{
-				"command": "magic.helloWorld",
-				"title": "Hello World"
+				"command": "magic.showTime",
+				"title": "Show Time ^_^"
 			}
 		]
     },
