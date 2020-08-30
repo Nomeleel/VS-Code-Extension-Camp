@@ -12,6 +12,8 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(disposable);
 
 	context.subscriptions.push(new ColorDecorations(path.join(context.globalStoragePath, "colors")));
+	
+	context.subscriptions.push(new JsonFileListener());
 
 }
 
