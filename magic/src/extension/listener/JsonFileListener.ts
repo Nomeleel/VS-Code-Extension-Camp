@@ -23,9 +23,16 @@ export class JsonFileListener implements vs.Disposable {
 		}));
 
 		this.subscriptions.push(vs.workspace.onDidRenameFiles((e) => {
-			// 文件移动也算Rename
+			// 文件移动也算Rename 先删除老的 在增加新的
+			// 同路径改名字
+			// 文件夹修改 先不考虑
 			vs.window.showInformationMessage('onDidRenameFiles');
 		}));
+
+		this.subscriptions.push(vs.workspace.onDidDeleteFiles((e) => {
+			vs.window.showInformationMessage('onDidDeleteFiles');
+		}));
+
 	}
 
 	// 正则方式 /"page":\s*\[\s*("\S*",?)*\s*\]/g 貌似这个匹配不了
@@ -45,9 +52,10 @@ export class JsonFileListener implements vs.Disposable {
 		fs.writeFile(targetFiles.appJsonPath, newAppJson, (err) => {
 			if (err) {
 				vs.window.showErrorMessage('😂 😂 😂 Added failed, please add manually. 😂 😂 😂', 
-					'Copy To Clipboard', 'Cancel').then((select) => {
-						if (select === 'Copy To Clipboard') {
-							// TODO
+					'Copy And Manual', 'Cancel').then((select) => {
+						if (select === 'Copy And Manual') {
+							// TODO 复制到剪切板
+							this.openAppJson(targetFiles.appJsonPath);
 						}
 				});
 				return;
@@ -56,7 +64,7 @@ export class JsonFileListener implements vs.Disposable {
 			vs.window.showInformationMessage('😊 😊 😊 Added successfully! Whether to check?😊 😊 😊', 
 				'Double Check', 'I Believe You').then((select) => {
 					if (select === 'Double Check') {
-						// TODO
+						this.openAppJson(targetFiles.appJsonPath);
 					}
 			});;
 
@@ -88,6 +96,13 @@ export class JsonFileListener implements vs.Disposable {
 		});
 
 		return targetFiles;
+	}
+
+	private openAppJson(appJsonPath: string) : void {
+		vs.workspace.openTextDocument(appJsonPath).then((textDocument) => {
+			// TODO 定位到添加的地方
+			vs.window.showTextDocument(textDocument);
+		});
 	}
 
 	public dispose() {
