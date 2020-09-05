@@ -1,0 +1,37 @@
+{
+    "Add Script": {
+        "prefix": ["Script", "script"],
+        "scope": "dart",
+        "body": [
+            "import 'package:magic_pkg/mgrs/DynamicCodeMgr.dart';",
+            "",
+            "import '../BaseScript.dart';",
+            "",
+            "class $0 extends BaseScript {",
+            "\tvoid init() {}",
+            "",
+            "\tvoid dispose() {}",
+            "",
+            "\tvoid tap() {}",
+            "}",
+            "",
+            "DynamicCode init$0() {",
+            "\t$0 page = $0();",
+            "\tDynamicCode dynamicCode = DynamicCode();",
+            "\tdynamicCode.setComponent = page.setComponent;",
+            "\tdynamicCode.init = page.init;",
+            "\tdynamicCode.dispose = page.dispose;",
+            "\tdynamicCode.tap = page.tap;",
+            "",
+            "\treturn dynamicCode;",
+            "}",
+            "",
+            "// Add in InitScript.dart",
+            "",
+            "//import '$0.dart';",
+            "",
+            "//dynamicCodeMap[\"$0\"] = init$0;"
+        ],
+        "description": "Add Script..."
+    }
+}

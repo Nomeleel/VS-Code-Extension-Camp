@@ -256,6 +256,23 @@
         ],
         "description": "Add Expanded..."
     },
+    "Add FileImage": {
+        "prefix": ["FileImage", "XFileImage", "fileimage", "xfileimage"],
+        "scope": "json",
+        "body": [
+            "{",
+            "\t\"type\": \"XFileImage\",",
+            "\t\"conf\": {",
+            "\t\t\"width\": ${1:22.0},",
+            "\t\t\"height\": ${2:22.0},",
+            "\t\t\"fit\": \"${3|cover,fill,contain,fitWidth,fitHeight,scaleDown,none|}\",",
+            "\t\t\"align\": \"${4|center,topLeft,topCenter,topRight,centerLeft,centerRight,bottomLeft,bottomCenter,bottomRight|}\"",
+            "\t},",
+            "\t\"path\": \"$0\"",
+            "}"
+        ],
+        "description": "Add FileImage..."
+    },
     "Add FlatButton": {
         "prefix": ["FlatButton", "XFlatButton", "flatbutton", "xflatbutton"],
         "scope": "json",
@@ -390,7 +407,7 @@
             "\t\t\"textDirection\": \"${4|rtl,ltr|}\",",
             "\t\t\"sizing\": \"${5|loose,expand,passthrough|}\"",
             "\t},",
-            "\t\"child\": ${0:{}}",
+            "\t\"children\": ${0:[]}",
             "}"
         ],
         "description": "Add IndexedStack..."
@@ -461,6 +478,35 @@
         ],
         "description": "Add ListView..."
     },
+    "Add NetImage": {
+        "prefix": ["NetImage", "XNetImage", "netimage", "xnetimage"],
+        "scope": "json",
+        "body": [
+            "{",
+            "\t\"type\": \"XNetImage\",",
+            "\t\"conf\": {",
+            "\t\t\"width\": ${1:22.0},",
+            "\t\t\"height\": ${2:22.0},",
+            "\t\t\"fit\": \"${3|cover,fill,contain,fitWidth,fitHeight,scaleDown,none|}\",",
+            "\t\t\"align\": \"${4|center,topLeft,topCenter,topRight,centerLeft,centerRight,bottomLeft,bottomCenter,bottomRight|}\",",
+            "\t\t\"cdn\": \"${5|cnd,remote|}\",",
+            "\t\t\"bindDataKey\": \"\\${machineId}/\\${picUrl}\",",
+            "\t\t\"placeholder\": {",
+            "\t\t\t\"type\": \"placeholder\"",
+            "\t\t},",
+            "\t\t\"tryTimes\": ${6:3},",
+            "\t\t\"fade\": ${7|false,true|},",
+            "\t\t\"fadeInDuration\": ${8:300},",
+            "\t\t\"fadeOutDuration\": ${9:300},",
+            "\t\t\"fadeInCurve\": \"$10\",",
+            "\t\t\"fadeOutCurve\": \"$11\",",
+            "\t\t\"cache\": ${12|false,true|}",
+            "\t},",
+            "\t\"path\": \"$0\"",
+            "}"
+        ],
+        "description": "Add NetImage..."
+    },
     "Add Padding": {
         "prefix": ["Padding", "XPadding", "padding", "xpadding"],
         "scope": "json",
@@ -479,13 +525,15 @@
         "body": [
             "{",
             "\t\"type\": \"XPositioned\",",
-            "\t\"top\": ${1:0.0},",
-            "\t\"left\": ${2:0.0},",
-            "\t\"right\": ${3:0.0},",
-            "\t\"bottom\": ${4:0.0},",
-            "\t\"height\": ${5:0.0},",
-            "\t\"width\": ${6:0.0},",
-            "\t\"child\": ${0:{}},",
+            "\t\"conf\": {",
+            "\t\t\"top\": ${1:0.0},",
+            "\t\t\"left\": ${2:0.0},",
+            "\t\t\"right\": ${3:0.0},",
+            "\t\t\"bottom\": ${4:0.0},",
+            "\t\t\"height\": ${5:0.0},",
+            "\t\t\"width\": ${6:0.0}",
+            "\t},",
+            "\t\"child\": ${0:{}}",
             "}"
         ],
         "description": "Add Positioned..."
@@ -516,13 +564,11 @@
             "{",
             "\t\"type\": \"XScaffold\",",
             "\t\"conf\": {",
-            "\t\t\"\": $1,",
-            "\t\t\"\": $2,",
-            "\t\t\"\": $3",
+            "\t\t\"color\": \"#$1\"",
             "\t},",
-            "\t\"appBar\": ${0:{}},",
-            "\t\"body\": ${0:{}},",
-            "\t\"bottomNavigationBar\": ${0:{}},",
+            "\t\"appBar\": {},",
+            "\t\"body\": {},",
+            "\t\"bottomNavigationBar\": {}",
             "}"
         ],
         "description": "Add Scaffold..."
