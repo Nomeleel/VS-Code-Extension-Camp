@@ -16,11 +16,11 @@ VS Code Extension Collection.
 写代码的时候总会有一些重复性的代码，但每次复制粘贴也会很麻烦，所以这就是snippets存在的意义。
 像我写flutter会有很多widget，这些widget种类繁多，幸运的是官方有Dart，Flutter插件帮你做了一些snippets，但不幸的是，出于某种目的我需要使用json文件配置方式写widget，眼馋的我只能自食其力，写了json版本的snippets，但奈何widget也太多了，所以目前只把经常用到的widget加了snippets。
 
-![排水沟颜色块展示](https://raw.githubusercontent.com/Nomeleel/Assets/master/vs_code_extension_collection/markdown/snippets.png)
+![Snippets](https://raw.githubusercontent.com/Nomeleel/Assets/master/vs_code_extension_collection/markdown/snippets.png)
 
 还有就是在写snippets的过程中我发现，这些snippets写的过程也有很多重复的代码，所以就写了编写snippets的snippets，一不小心就自举了 哈哈哈
 
-![排水沟颜色块展示](https://raw.githubusercontent.com/Nomeleel/Assets/master/vs_code_extension_collection/markdown/snippet_snippet.png)
+![Snippet Snippets](https://raw.githubusercontent.com/Nomeleel/Assets/master/vs_code_extension_collection/markdown/snippet_snippet.png)
 
 ### 2. 排水沟颜色块展示
 
@@ -36,19 +36,19 @@ VS Code Extension Collection.
 
 ***Add***
 
-![排水沟颜色块展示](https://raw.githubusercontent.com/Nomeleel/Assets/master/vs_code_extension_collection/markdown/add_json_file.gif)
+![Add](https://raw.githubusercontent.com/Nomeleel/Assets/master/vs_code_extension_collection/markdown/add_json_file.gif)
 
 ***Delete***
 
-![排水沟颜色块展示](https://raw.githubusercontent.com/Nomeleel/Assets/master/vs_code_extension_collection/markdown/delete_json_file.gif)
+![Delete](https://raw.githubusercontent.com/Nomeleel/Assets/master/vs_code_extension_collection/markdown/delete_json_file.gif)
 
-![排水沟颜色块展示](https://raw.githubusercontent.com/Nomeleel/Assets/master/vs_code_extension_collection/markdown/delete_jsons_file.gif)
+![Delete More File](https://raw.githubusercontent.com/Nomeleel/Assets/master/vs_code_extension_collection/markdown/delete_jsons_file.gif)
 
 ***Rename***
 
-![排水沟颜色块展示](https://raw.githubusercontent.com/Nomeleel/Assets/master/vs_code_extension_collection/markdown/rename_json_file.gif)
+![Rename](https://raw.githubusercontent.com/Nomeleel/Assets/master/vs_code_extension_collection/markdown/rename_json_file.gif)
 
 ***Move***
 
-![排水沟颜色块展示](https://raw.githubusercontent.com/Nomeleel/Assets/master/vs_code_extension_collection/markdown/move_json_file.gif)
+![Move](https://raw.githubusercontent.com/Nomeleel/Assets/master/vs_code_extension_collection/markdown/move_json_file.gif)
 

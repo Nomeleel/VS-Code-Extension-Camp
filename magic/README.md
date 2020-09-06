@@ -1,53 +1,59 @@
-# magic README
+# Magic README
 
 Magic project vs code extension.
 
 ## Features
 
-Widget snippets.
++ Snippets
++ Gutter Color
++ APP Json File Auto Update
 
-\!\[feature X\]\(images/feature-x.png\)
+### Snippets
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+重复代码当然要用Snippet了
 
-## Requirements
+![Container Snippets](https://raw.githubusercontent.com/Nomeleel/Assets/master/vs_code_extension_collection/markdown/container_snippet.gif)
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+支持大多数常用的Widget
 
-## Extension Settings
+![Widget Snippets](https://raw.githubusercontent.com/Nomeleel/Assets/master/vs_code_extension_collection/markdown/snippets.png)
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+当然如果还有没添加的话，可以自己添加snippet，这还有添加snippet的snippet
 
-For example:
+![Snippets Snippet](https://raw.githubusercontent.com/Nomeleel/Assets/master/vs_code_extension_collection/markdown/snippets_snippet.gif)
 
-This extension contributes the following settings:
+另外还有一些重复的Script也可以搞成Snippet
 
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
+![Script Snippet](https://raw.githubusercontent.com/Nomeleel/Assets/master/vs_code_extension_collection/markdown/script_snippet.gif)
 
-## Known Issues
+未完，待续...
 
+### Gutter Color
 
+排水沟颜色块展示, 隔壁***Dart***插件抄过来的
 
-## Release Notes
+![Gutter Color](https://raw.githubusercontent.com/Nomeleel/Assets/master/vs_code_extension_collection/markdown/gutter_color.png)
 
-First release.
+### APP Json File Auto Update
 
-### 0.0.1
+添加、删除、重命名、移动Json文件时，自动更新app.json文件
 
-First release...
+***Add***
 
-## Working with Markdown
+![Add](https://raw.githubusercontent.com/Nomeleel/Assets/master/vs_code_extension_collection/markdown/add_json_file.gif)
 
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
+***Delete***
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
+![Delete](https://raw.githubusercontent.com/Nomeleel/Assets/master/vs_code_extension_collection/markdown/delete_json_file.gif)
 
-### For more information
+![Delete More File](https://raw.githubusercontent.com/Nomeleel/Assets/master/vs_code_extension_collection/markdown/delete_jsons_file.gif)
 
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+***Rename***
+
+![Rename](https://raw.githubusercontent.com/Nomeleel/Assets/master/vs_code_extension_collection/markdown/rename_json_file.gif)
+
+***Move***
+
+![Move](https://raw.githubusercontent.com/Nomeleel/Assets/master/vs_code_extension_collection/markdown/move_json_file.gif)
 
 **Enjoy!**

@@ -1,16 +1,20 @@
 {
-    "name": "magic",
-    "displayName": "magic",
-    "description": "magic extension.",
-    "version": "0.0.1",
-    "publisher": "nomeleel",
-    "engines": {
-        "vscode": "^1.48.0"
-    },
-    "categories": [
-        "Snippets",
-        "Programming Languages"
-    ],
+	"name": "magic",
+	"displayName": "Magic",
+	"description": "Magic vs code extension.",
+	"version": "0.0.1",
+	"publisher": "Nomeleel",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Nomeleel/VS-Code-Extension-Collection.git"
+	},
+	"engines": {
+		"vscode": "^1.48.0"
+	},
+	"categories": [
+		"Snippets",
+		"Programming Languages"
+	],
 	"activationEvents": [
 		"onLanguage:json",
 		"workspaceContains:*.json",
@@ -18,25 +22,25 @@
 		"onCommand:magic.showTime"
 	],
 	"main": "./out/extension/extension.js",
-    "contributes": {
-        "snippets": [
-            {
-                "language": "json",
-                "path": "./snippets/magic.json"
+	"contributes": {
+		"snippets": [
+			{
+				"language": "json",
+				"path": "./snippets/magic.json"
 			},
 			{
-                "language": "dart",
-                "path": "./snippets/script.json"
-            }
-        ],
-        "commands": [
+				"language": "dart",
+				"path": "./snippets/script.json"
+			}
+		],
+		"commands": [
 			{
 				"command": "magic.showTime",
 				"title": "Show Time ^_^"
 			}
 		]
-    },
-    "scripts": {
+	},
+	"scripts": {
 		"vscode:prepublish": "npm run compile",
 		"compile": "tsc -p ./",
 		"lint": "eslint src --ext ts",
