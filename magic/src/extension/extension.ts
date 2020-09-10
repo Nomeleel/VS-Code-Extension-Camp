@@ -5,8 +5,11 @@ import { JsonFileListener } from "./listener/JsonFileListener";
 
 export function activate(context: vscode.ExtensionContext) {
 
-	let disposable = vscode.commands.registerCommand('magic.showTime', () => {
+	let disposable = vscode.commands.registerCommand('magic.showTime', async () => {
 		vscode.window.showInformationMessage('Show Time ^_^');
+
+		let Symbols = await getWorkspaceSymbols('TestImport');
+		Symbols.forEach(console.log);
 	});
 
 	context.subscriptions.push(disposable);
@@ -19,3 +22,8 @@ export function activate(context: vscode.ExtensionContext) {
 
 // this method is called when your extension is deactivated
 export function deactivate() {}
+
+export async function getWorkspaceSymbols(query: string): Promise<vscode.SymbolInformation[]> {
+	const workspaceSymbolResult = await (vscode.commands.executeCommand("vscode.executeWorkspaceSymbolProvider", query) as Thenable<vscode.SymbolInformation[]>);
+	return workspaceSymbolResult || [];
+}
