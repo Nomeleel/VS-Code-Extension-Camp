@@ -15,6 +15,9 @@ export class JsonFileListener implements vs.Disposable {
 		this.subscriptions.push(vs.workspace.onDidRenameFiles((e) => this.jsonFileChangedHandle(e, OperationType.Updated)));
 
 		this.subscriptions.push(vs.workspace.onDidDeleteFiles((e) => this.jsonFileChangedHandle(e, OperationType.Deleted)));
+
+		// 点击type 后面字符串 找到文件后 ctrl 左键 可打开 对应文件
+		// 点击ref 后面字符串 找到文件后 ctrl 左键 可打开 对应文件
 	}
 
 	private jsonFileChangedHandle(event: any, operationType: OperationType) {
@@ -96,7 +99,7 @@ export class JsonFileListener implements vs.Disposable {
 		let fsPath: string = fileUri.fsPath;
 		let parsedPath = path.parse(fsPath);
 		if (parsedPath.ext === '.json') {
-			let appJsonPath = path.resolve(fsPath, '../../app.json');
+			let appJsonPath = path.resolve(fsPath, '../../../app.json');
 			if (fs.existsSync(appJsonPath)) {
 				return new AnalysisFileUri(appJsonPath, 
 					parsedPath.dir.split(path.sep).pop() ?? '', parsedPath.name);
