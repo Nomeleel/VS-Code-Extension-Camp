@@ -38,9 +38,17 @@
 				"command": "magic.showTime",
 				"title": "Show Time ^_^"
 			}
+		],
+		"grammars": [
+			{
+				"language": "json",
+				"scopeName": "source.json",
+				"path": "./syntaxes/JSON.tmLanguage.json"
+			}
 		]
 	},
 	"scripts": {
+		"start": "npm run compile",
 		"vscode:prepublish": "npm run compile",
 		"compile": "tsc -p ./",
 		"lint": "eslint src --ext ts",
