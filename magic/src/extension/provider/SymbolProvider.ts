@@ -1,5 +1,5 @@
 import { CancellationToken, SymbolKind, SymbolInformation, WorkspaceSymbolProvider, Location, Uri, Position, workspace, Range } from "vscode";
-import { downloadAndUnzipVSCode } from "vscode-test";
+import * as path from "path";
 
 export class SymbolProvider implements WorkspaceSymbolProvider {
   
@@ -13,7 +13,16 @@ export class SymbolProvider implements WorkspaceSymbolProvider {
         if (uris.length === 1) {
           return [new SymbolInformation(query, SymbolKind.File, query, new Location(uris[0], await this.getFillRange(uris[0])))];
         } else {
-          // 在containerName中添加标示
+          // 在containerName中添加标识
+          let uriList = uris.map((e) => e.fsPath.split(path.sep));
+          let symbolList: SymbolInformation[] = new Array<SymbolInformation>();
+          for (let index = 0; index < uriList.length; index++) {
+            let bIndex = index + 1 < uriList.length ? index + 1 : 0;
+            let diff = uriList[index].filter(e => !uriList[bIndex].includes(e));
+            symbolList.push(new SymbolInformation(query, SymbolKind.File, diff ? diff[0] : '', new Location(uris[0], await this.getFillRange(uris[0]))));
+          }
+          console.log(symbolList);
+          return symbolList;
         }
       }
     }
