@@ -15,37 +15,148 @@
 		"custom": {
 			"patterns": [
 				{
-					"begin": "\"(X|C)",
+					"begin": "\\{",
 					"beginCaptures": {
 						"0": {
-							"name": "keyword"
+							"name": "punctuation.definition.dictionary.begin.json"
+						}
+					},
+					"end": "\\}",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.definition.dictionary.end.json"
+						}
+					},
+					"name": "meta.structure.dictionary.json",
+					"patterns": [
+						{
+							"begin": "(\"(type|type1)\"): (\")",
+							"beginCaptures": {
+								"1": {
+									"name": "keyword.control"
+								},
+								"2": {
+									"name": "keyword.control"
+								},
+								"3": {
+									"name": "keyword"
+								}
+							},
+							"end": "(,)|(?=\\})",
+							"endCaptures": {
+								"0": {
+									"name": "punctuation.separator.dictionary.pair.json"
+								}
+							},
+							"name": "punctuation.separator.dictionary.key-value.json",
+							"patterns": [
+								{
+									"begin": "(X|C)[^\"\\s]+",
+									"beginCaptures": {
+										"1": {
+											"name": "keyword.control"
+										},
+										"2": {
+											"name": "keyword.control"
+										}
+									},
+									"end": "\"",
+									"endCaptures": {
+										"0": {
+											"name": "keyword"
+										}
+									},
+									"name": "support.class"
+								},
+								{
+									"begin": "[^\"\\s]+",
+									"beginCaptures": {
+										"0": {
+											"name": "entity.name.function.json"
+										}
+									},
+									"end": "\"",
+									"endCaptures": {
+										"0": {
+											"name": "keyword"
+										}
+									},
+									"name": "support.class"
+								}
+							]
 						},
-						"1": {
-							"name": "keyword.control"
+						{
+							"begin": "(\"(codeRef)\"): (\")",
+							"beginCaptures": {
+								"1": {
+									"name": "keyword.control"
+								},
+								"2": {
+									"name": "keyword.control"
+								},
+								"3": {
+									"name": "support.class"
+								}
+							},
+							"end": "(,)|(?=\\})",
+							"endCaptures": {
+								"1": {
+									"name": "keyword"
+								}
+							},
+							"name": "punctuation.separator.dictionary.key-value.json",
+							"patterns": [
+								{
+									"match": "[^\\s,]",
+									"name": "support.class"
+								}
+							]
+						},
+						{
+							"comment": "the JSON object key",
+							"include": "#objectkey"
+						},
+						{
+							"include": "#comments"
+						},
+						{
+							"begin": ":",
+							"beginCaptures": {
+								"0": {
+									"name": "punctuation.separator.dictionary.key-value.json"
+								}
+							},
+							"end": "(,)|(?=\\})",
+							"endCaptures": {
+								"1": {
+									"name": "punctuation.separator.dictionary.pair.json"
+								}
+							},
+							"name": "meta.structure.dictionary.value.json",
+							"patterns": [
+								{
+									"comment": "the JSON object value",
+									"include": "#value"
+								},
+								{
+									"match": "[^\\s,]",
+									"name": "invalid.illegal.expected-dictionary-separator.json"
+								}
+							]
+						},
+						{
+							"match": "[^\\s\\}]",
+							"name": "invalid.illegal.expected-dictionary-separator.json"
 						}
-					},
-					"end": "\"",
-					"endCaptures": {
-						"0": {
-							"name": "keyword"
-						}
-					},
-					"name": "support.class"
-				},
+					]
+				}
+			]
+		},
+		"customContent": {
+			"patterns": [
 				{
-					"begin": "(\")[A-Z]",
-					"beginCaptures": {
-						"1": {
-							"name": "keyword"
-						}
-					},
-					"end": "\"",
-					"endCaptures": {
-						"0": {
-							"name": "keyword"
-						}
-					},
-					"name": "support.class"
+					"match": "type|codeRef",
+					"name": "keyword.control"
 				}
 			]
 		},
