@@ -30,85 +30,60 @@
 					"name": "meta.structure.dictionary.json",
 					"patterns": [
 						{
-							"begin": "(\"(type|type1)\"): (\")",
+							"begin": "(\"type\"): ",
 							"beginCaptures": {
 								"1": {
 									"name": "keyword.control"
-								},
-								"2": {
-									"name": "keyword.control"
-								},
-								"3": {
-									"name": "keyword"
 								}
 							},
 							"end": "(,)|(?=\\})",
-							"endCaptures": {
-								"0": {
-									"name": "punctuation.separator.dictionary.pair.json"
-								}
-							},
 							"name": "punctuation.separator.dictionary.key-value.json",
 							"patterns": [
 								{
-									"begin": "(X|C)[^\"\\s]+",
+									"begin": "\"(X|C)[^\"\\s]+",
 									"beginCaptures": {
 										"1": {
 											"name": "keyword.control"
-										},
-										"2": {
-											"name": "keyword.control"
 										}
 									},
 									"end": "\"",
-									"endCaptures": {
-										"0": {
-											"name": "keyword"
-										}
-									},
 									"name": "support.class"
 								},
 								{
-									"begin": "[^\"\\s]+",
-									"beginCaptures": {
-										"0": {
-											"name": "entity.name.function.json"
-										}
-									},
-									"end": "\"",
-									"endCaptures": {
-										"0": {
-											"name": "keyword"
-										}
-									},
-									"name": "support.class"
+									"match": "[^\\s,]",
+									"name": "entity.name.function.json"
 								}
 							]
 						},
 						{
-							"begin": "(\"(codeRef)\"): (\")",
+							"begin": "(\"codeRef\"): ",
 							"beginCaptures": {
 								"1": {
 									"name": "keyword.control"
-								},
-								"2": {
-									"name": "keyword.control"
-								},
-								"3": {
-									"name": "support.class"
 								}
 							},
 							"end": "(,)|(?=\\})",
-							"endCaptures": {
-								"1": {
-									"name": "keyword"
-								}
-							},
 							"name": "punctuation.separator.dictionary.key-value.json",
 							"patterns": [
 								{
 									"match": "[^\\s,]",
 									"name": "support.class"
+								}
+							]
+						},
+						{
+							"begin": "(\"[^\\s,]*Key\"): ",
+							"beginCaptures": {
+								"1": {
+									"name": "keyword.control"
+								}
+							},
+							"end": "(,)|(?=\\})",
+							"name": "punctuation.separator.dictionary.key-value.json",
+							"patterns": [
+								{
+									"match": "[^\\s,]",
+									"name": "keyword"
 								}
 							]
 						},
@@ -149,14 +124,6 @@
 							"name": "invalid.illegal.expected-dictionary-separator.json"
 						}
 					]
-				}
-			]
-		},
-		"customContent": {
-			"patterns": [
-				{
-					"match": "type|codeRef",
-					"name": "keyword.control"
 				}
 			]
 		},
