@@ -78,11 +78,16 @@
 									"name": "keyword.control"
 								}
 							},
-							"end": "(,)|(?=\\})",
-							"name": "punctuation.separator.dictionary.key-value.json",
+							"end": ",",
+							"endCaptures": {
+								"0": {
+									"name": "punctuation.separator.dictionary.key-value.json"
+								}
+							},
+							"name": "entity.name.function.json",
 							"patterns": [
 								{
-									"match": "[^\\s,]",
+									"match": "[^$\\{\\}\\s,]",
 									"name": "keyword"
 								}
 							]
