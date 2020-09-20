@@ -11,7 +11,7 @@ export class SymbolProvider implements WorkspaceSymbolProvider {
       let uris = await workspace.findFiles(`**/*${query}.json`);
       if (uris) {
         if (uris.length === 1) {
-          return [new SymbolInformation(query, SymbolKind.File, query, new Location(uris[0], await this.getFillRange(uris[0])))];
+          return [new SymbolInformation(query, SymbolKind.Key, query, new Location(uris[0], await this.getFillRange(uris[0])))];
         } else {
           // 在containerName中添加标识
           let uriList = uris.map((e) => e.fsPath.split(path.sep));
@@ -19,7 +19,7 @@ export class SymbolProvider implements WorkspaceSymbolProvider {
           for (let index = 0; index < uriList.length; index++) {
             let bIndex = index + 1 < uriList.length ? index + 1 : 0;
             let diff = uriList[index].filter(e => !uriList[bIndex].includes(e));
-            symbolList.push(new SymbolInformation(query, SymbolKind.File, diff ? diff[0] : '', new Location(uris[0], await this.getFillRange(uris[0]))));
+            symbolList.push(new SymbolInformation(query, SymbolKind.Key, diff ? diff[0] : '', new Location(uris[0], await this.getFillRange(uris[0]))));
           }
           console.log(symbolList);
           return symbolList;

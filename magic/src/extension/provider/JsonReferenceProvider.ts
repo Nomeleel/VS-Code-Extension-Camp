@@ -38,7 +38,7 @@ export class JsonReferenceProvider implements DefinitionProvider, ReferenceProvi
       if (/[A-Z]\S*/.test(query)) {
         return symbolsList.find((e) => e.kind === SymbolKind.Class);
       } else {
-        let symbols = symbolsList.filter((e) => e.kind === SymbolKind.File);
+        let symbols = symbolsList.filter((e) => e.kind === SymbolKind.Key);
         if (symbols) {
           if (symbols.length === 1) {
             return symbols[0];
