@@ -7,6 +7,8 @@ Magic project vs code extension.
 + Snippets
 + Gutter Color
 + APP Json File Auto Update
++ Json Syntaxe Highlight
++ Support Definition For Json
 
 ### Snippets
 
@@ -55,5 +57,18 @@ Magic project vs code extension.
 ***Move***
 
 ![Move](https://raw.githubusercontent.com/Nomeleel/Assets/master/vs_code_extension_collection/markdown/move_json_file.gif)
+
+### Json Syntaxe Highlight
+
+普通json就是单调的两个颜色，可读性太差，所以就给一些特殊的地方高亮显示，例如type，codeRef，还有各种key，后续还可以继续添加规则，现在显示如下：
+
+![Json Syntaxe](https://raw.githubusercontent.com/Nomeleel/Assets/master/vs_code_extension_collection/markdown/json_syntaxe.png)
+
+### Support Definition For Json
+
+写json时会写到很多Widget，但老是忘记它有啥属性，所以就要老是要打开定义Widget的文件，所以就需要像其他语言一样，按F12就可以自动跳转到对应文件，
+除了Widget，脚本也实现了这个功能，另外对于type后面跟的文件名也支持跳转，也可以通过F12跳转到对应的文件。
+
+![Json Definition](https://raw.githubusercontent.com/Nomeleel/Assets/master/vs_code_extension_collection/markdown/json_definition.gif)
 
 **Enjoy!**

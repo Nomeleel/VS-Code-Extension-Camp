@@ -30,7 +30,7 @@ VS Code Extension Collection.
 
 ![排水沟颜色块展示](https://raw.githubusercontent.com/Nomeleel/Assets/master/vs_code_extension_collection/markdown/gutter_color.png)
 
-### 3. 自维护app.json文件、
+### 3. 自维护app.json文件
 
 基于项目架构，对于json文件，要将其文件名添加到app.json对应节点下。对于这个动作是如此的机械，完全可以写个插件自动监测添加的json文件，一旦你有对json文件操作的动作，便会弹出提醒，询问你是否要维护app.json文件，当你选择是的时候，自动帮你添加、删除、更新来维护app.json文件。
 
@@ -52,3 +52,16 @@ VS Code Extension Collection.
 
 ![Move](https://raw.githubusercontent.com/Nomeleel/Assets/master/vs_code_extension_collection/markdown/move_json_file.gif)
 
+### 4. Json文件支持伪语法高亮
+
+语法高亮的规则大部分都是正则去匹配，有些常用的语言都有写好的高亮匹配规则，想要自定义语法规则只需要在当前语言的配置文件上，添加自己的规则就好了，反正多试试就好了也不难，如下:
+
+![Json Syntaxe](https://raw.githubusercontent.com/Nomeleel/Assets/master/vs_code_extension_collection/markdown/json_syntaxe.png)
+
+### 5. Json文件也可以寻找定义啦
+
+Json这种配置语言，平时也就当个文本文件了来读读，毫无上下文可言，看到隔壁语言的功能直痒痒，没办法自力更生。
+目前给json文件的一些特殊位置添加了寻找定义的功能，就是常用的F12那个功能，举个例子，某个特殊位置的字符串是个文件名，按下F12可以跳转到那个文件名对应的文件中。
+目前主要实现了通过文件名去调转文件。
+
+![Json Definition](https://raw.githubusercontent.com/Nomeleel/Assets/master/vs_code_extension_collection/markdown/json_definition.gif)
