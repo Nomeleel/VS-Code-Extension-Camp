@@ -8,13 +8,15 @@ export class SymbolProvider implements WorkspaceSymbolProvider {
   // 每次查询通过查找文件名或许不会太慢
   public async provideWorkspaceSymbols(query: string, token: CancellationToken): Promise<SymbolInformation[] | undefined> {
     if (/[a-z]\S*/.test(query)) {
-      let uris = await workspace.findFiles(`**/*${query}.json`);
-      if (uris) {
-        if (uris.length === 1) {
+      let uris = await workspace.findFiles(`**/${query}.json`);
+      // findFiles为模糊查询，进一步通过相同文件名筛选
+      let filterUris = uris?.filter((e) => path.parse(e.fsPath).name === query);
+      if (filterUris) {
+        if (filterUris.length === 1) {
           return [new SymbolInformation(query, SymbolKind.Key, query, new Location(uris[0], await this.getFillRange(uris[0])))];
         } else {
           // 在containerName中添加标识
-          let uriList = uris.map((e) => e.fsPath.split(path.sep));
+          let uriList = filterUris.map((e) => e.fsPath.split(path.sep));
           let symbolList: SymbolInformation[] = new Array<SymbolInformation>();
           for (let index = 0; index < uriList.length; index++) {
             let bIndex = index + 1 < uriList.length ? index + 1 : 0;
