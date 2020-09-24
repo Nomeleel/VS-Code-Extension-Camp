@@ -36,7 +36,7 @@
 									"name": "keyword.control"
 								}
 							},
-							"end": "(,)|(?=\\})",
+							"end": ",",
 							"name": "punctuation.separator.dictionary.key-value.json",
 							"patterns": [
 								{
@@ -50,7 +50,7 @@
 									"name": "support.class"
 								},
 								{
-									"match": "[^\\s,]",
+									"match": "[^$\\{\\}\\s,]",
 									"name": "entity.name.function.json"
 								}
 							]
@@ -79,12 +79,7 @@
 								}
 							},
 							"end": ",",
-							"endCaptures": {
-								"0": {
-									"name": "punctuation.separator.dictionary.key-value.json"
-								}
-							},
-							"name": "entity.name.function.json",
+							"name": "punctuation.separator.dictionary.key-value.json",
 							"patterns": [
 								{
 									"match": "[^$\\{\\}\\s,]",
