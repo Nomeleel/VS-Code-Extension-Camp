@@ -15,9 +15,6 @@ export class JsonFileListener implements vs.Disposable {
 		this.subscriptions.push(vs.workspace.onDidRenameFiles((e) => this.jsonFileChangedHandle(e, OperationType.Updated)));
 
 		this.subscriptions.push(vs.workspace.onDidDeleteFiles((e) => this.jsonFileChangedHandle(e, OperationType.Deleted)));
-
-		// 点击type 后面字符串 找到文件后 ctrl 左键 可打开 对应文件
-		// 点击ref 后面字符串 找到文件后 ctrl 左键 可打开 对应文件
 	}
 
 	private jsonFileChangedHandle(event: any, operationType: OperationType) {
