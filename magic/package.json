@@ -37,6 +37,11 @@
 			{
 				"command": "magic.showTime",
 				"title": "Show Time ^_^"
+			},
+			{
+				"command": "magic.addScript",
+				"title": "Add Script",
+				"category": "Dart"
 			}
 		],
 		"grammars": [
@@ -45,7 +50,16 @@
 				"scopeName": "source.json",
 				"path": "./syntaxes/JSON.tmLanguage.json"
 			}
-		]
+		],
+		"menus": {
+			"explorer/context": [
+				{
+					"command": "magic.addScript",
+					"when": "explorerResourceIsFolder && resourceFilename == test",
+					"group": "0_add_file"
+				}
+			]
+		}
 	},
 	"scripts": {
 		"start": "npm run compile",
