@@ -42,6 +42,11 @@
 				"command": "magic.addScript",
 				"title": "Add Script",
 				"category": "Dart"
+			},
+			{
+				"command": "magic.addInInitScript",
+				"title": "Add in InitScript",
+				"category": "Dart"
 			}
 		],
 		"grammars": [
@@ -57,6 +62,13 @@
 					"command": "magic.addScript",
 					"when": "explorerResourceIsFolder && resourceFilename == test",
 					"group": "0_add_file"
+				}
+			],
+			"editor/context": [
+				{
+					"command": "magic.addInInitScript",
+					"when": "resourceLangId == dart && resourceScheme == file && resource =~ /\\/mgr_script\\// && resourceFilename != InitScript.dart",
+					"group": "0_script_follow_up"
 				}
 			]
 		}

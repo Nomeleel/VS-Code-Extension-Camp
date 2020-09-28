@@ -1,16 +1,16 @@
 import * as vs from "vscode";
 
-export class AddScriptCommand implements vs.Disposable {
+export class AddInInitScriptCommand implements vs.Disposable {
 	private disposables: vs.Disposable[] = [];
 
 	constructor() {
 		this.disposables.push(
-			vs.commands.registerCommand("flutter.addScript", this.addScript, this),
+			vs.commands.registerCommand("flutter.addInInitScript", this.addInInitScript, this),
 		);
   }
 
-  private addScript() {
-
+  private addInInitScript() {
+    
   }
 
   public dispose(): any {

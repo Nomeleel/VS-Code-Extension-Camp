@@ -6,6 +6,7 @@ import { SymbolProvider } from "./provider/SymbolProvider";
 import { JsonReferenceProvider } from "./provider/JsonReferenceProvider";
 import { ScriptFileListener } from "./listener/ScriptFileListener";
 import { AddScriptCommand } from "./command/AddScriptCommand";
+import { AddInInitScriptCommand } from "./command/AddInInitScriptCommand";
 
 const JSON_MODE = { language: "json", scheme: "file" };
 
@@ -16,6 +17,7 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 	context.subscriptions.push(disposable);
 	context.subscriptions.push(new AddScriptCommand());
+	context.subscriptions.push(new AddInInitScriptCommand());
 
 	context.subscriptions.push(new ColorDecorations(path.join(context.globalStoragePath, "colors")));
 	
