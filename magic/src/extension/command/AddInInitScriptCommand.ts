@@ -1,19 +1,63 @@
-import * as vs from "vscode";
+import * as path from "path";
+import { commands, CommentThreadCollapsibleState, Disposable, Position, TextEdit, Uri, window, workspace, WorkspaceEdit } from "vscode";
 
-export class AddInInitScriptCommand implements vs.Disposable {
-	private disposables: vs.Disposable[] = [];
+export class AddInInitScriptCommand implements Disposable {
+  private disposables: Disposable[] = [];
 
-	constructor() {
-		this.disposables.push(
-			vs.commands.registerCommand("flutter.addInInitScript", this.addInInitScript, this),
-		);
+  constructor() {
+    this.disposables.push(
+      commands.registerCommand("magic.addInInitScript", AddInInitScriptCommand.addInInitScript, this),
+    );
   }
 
-  private addInInitScript() {
+  public static async addInInitScript(scriptPath: string) {
+    if (scriptPath) {
+      let currentScriptPath = AddInInitScriptCommand.currentScriptPath();
+      if (currentScriptPath) {
+        scriptPath = currentScriptPath;
+      } else {
+        return;
+      }
+    }
+
+    let name = path.parse(scriptPath).name;
+
+    let workspaceEdit = new WorkspaceEdit();
+    let textEdits = Array<TextEdit>();
     
+    let initScriptPath = path.resolve(scriptPath, '../InitScript.dart');
+    let lineCount = await AddInInitScriptCommand.realLineCount(initScriptPath);
+
+    textEdits.push(TextEdit.insert(new Position(lineCount - 1, 0), `  dynamicCodeMap['${name}'] = init${name};\n`));
+    textEdits.push(TextEdit.insert(new Position(0, 0), `import '${name}.dart';\n`));
+
+    workspaceEdit.set(Uri.file(initScriptPath), textEdits);
+    await workspace.applyEdit(workspaceEdit);
+    await workspace.saveAll();
+
+    await AddInInitScriptCommand.organizeImports(initScriptPath);
+  }
+
+  private static currentScriptPath() : string | undefined{
+    let currentScript = workspace.textDocuments.find((e) => e.languageId === 'dart');
+    return currentScript?.uri.fsPath;
+  }
+
+  private static async realLineCount(path: string) : Promise<number> {
+    let textDocument = await workspace.openTextDocument(path);
+    let lineCount: number = textDocument.lineCount;
+    console.log(lineCount);
+    while(textDocument.lineAt(lineCount - 1).isEmptyOrWhitespace) {
+      lineCount--;
+    }
+    return lineCount;
+  }
+
+  private static async organizeImports(path: string) {
+    await commands.executeCommand('_dart.organizeImports', await workspace.openTextDocument(path));
   }
 
   public dispose(): any {
-		this.disposables.forEach((e) => e.dispose());
-	}
+    this.disposables.forEach((e) => e.dispose());
+  }
 }
