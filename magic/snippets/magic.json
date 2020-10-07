@@ -369,9 +369,9 @@
             "\t\t\"physics\": \"${6|bounce,clamp,always,never|}\",",
             "\t\t\"listKey\": \"$7\"",
             "\t},",
-            "\t\"gridDelegate\": ${7:{}},",
-            "\t\"itemBuilder\": ${8:{}},",
-            "\t\"addItem\": ${9:{}},",
+            "\t\"gridDelegate\": ${8:{}},",
+            "\t\"itemBuilder\": ${9:{}},",
+            "\t\"addItem\": ${10:{}},",
             "\t\"children\": ${0:[]}",
             "}"
         ],
