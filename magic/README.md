@@ -9,6 +9,7 @@ Magic project vs code extension.
 + APP Json File Auto Update
 + Json Syntaxe Highlight
 + Support Definition For Json
++ Quick Action
 
 ### Snippets
 
@@ -71,4 +72,9 @@ Magic project vs code extension.
 
 ![Json Definition](https://raw.githubusercontent.com/Nomeleel/Assets/master/vs_code_extension_collection/markdown/json_definition.gif)
 
+### Quick Action
+
+文件中右键菜单中添加快捷Action，添加脚本注册信息到initScript中。
+
+![Add In Init Script](https://raw.githubusercontent.com/Nomeleel/Assets/master/vs_code_extension_collection/markdown/add_in_init_script.png)
 **Enjoy!**

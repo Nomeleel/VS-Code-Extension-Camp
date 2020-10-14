@@ -65,3 +65,9 @@ Json这种配置语言，平时也就当个文本文件了来读读，毫无上�
 目前主要实现了通过文件名去调转文件。
 
 ![Json Definition](https://raw.githubusercontent.com/Nomeleel/Assets/master/vs_code_extension_collection/markdown/json_definition.gif)
+
+### 5. Json文件也可以寻找定义啦
+
+文件中右键菜单中添加快捷Action，添加脚本注册信息到initScript中。
+
+![Add In Init Script](https://raw.githubusercontent.com/Nomeleel/Assets/master/vs_code_extension_collection/markdown/add_in_init_script.png)
