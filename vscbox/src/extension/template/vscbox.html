@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #container {
+            border: 1px dashed gray;
+            margin: 10px;
+            width: 500px;
+            min-height: 300px;
+        }
+    </style>
+</head>
+
+<body>
+    <h3>请拖拽文件到下方区域</h3>
+    <div id="container"></div>
+    <script>
+        document.ondragover = function (e) {
+            e.preventDefault();
+        };
+
+        document.ondrop = function (e) {
+            e.preventDefault();
+        };
+
+        container.ondragover = function (e) {
+            e.preventDefault();
+        };
+
+        container.ondrop = function (e) {
+            let list = e.dataTransfer.files;
+            for (var i = 0; i < list.length; i++) {
+                var f = list[i];
+                console.log(f.name);
+                reader(f);
+            }
+        };
+        function reader(f) {
+            var reader = new FileReader();
+            reader.readAsDataURL(f);
+            reader.onload = function () {
+                var img = new Image();
+                img.src = reader.result;
+                container.appendChild(img);
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,6 +1,6 @@
-# vsbox README
+# vscbox README
 
-This is the README for your extension "vsbox". After writing up a brief description, we recommend including the following sections.
+This is the README for your extension "vscbox". After writing up a brief description, we recommend including the following sections.
 
 ## Features
 
