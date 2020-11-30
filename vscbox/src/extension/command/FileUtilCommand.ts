@@ -4,10 +4,10 @@ import { commands, Disposable, ExtensionContext, ViewColumn, window} from "vscod
 
 export class FileUtilCommand implements Disposable {
   private disposables: Disposable[] = [];
-  private currentPath: string;
+  private context: ExtensionContext;
 
   constructor(context: ExtensionContext) {
-    this.currentPath = context.extensionPath;
+    this.context = context;
     this.disposables.push(
       commands.registerCommand("vscbox.openBox", this.openBox, this),
     );
@@ -23,7 +23,28 @@ export class FileUtilCommand implements Disposable {
       }
     );
 
-    panel.webview.html = await this.getBoxContext();
+    panel.webview.html = this.getBoxContext();
+
+    panel.webview.onDidReceiveMessage(
+      message => {
+        switch (message.command) {
+          case 'context':
+            window.showInformationMessage(message.context);
+            console.log('----------');
+            console.log(message.context);
+            console.log('----------');
+            break;
+          case 'url':
+            window.showInformationMessage(message.url);
+            console.log('-----url-----');
+            console.log(message.url);
+            console.log('----------');
+            break;
+        }
+      },
+      undefined,
+      this.context.subscriptions
+    );
 
     panel.onDidDispose(
       () => {
@@ -33,7 +54,7 @@ export class FileUtilCommand implements Disposable {
   }
 
   public getBoxContext() : string {
-    let context = fs.readFileSync(path.join(this.currentPath, 'dist/template/vscbox.html'), 'utf-8');
+    let context = fs.readFileSync(path.join(this.context.extensionPath, 'dist/template/vscbox.html'), 'utf-8');
     return context;
   }
 

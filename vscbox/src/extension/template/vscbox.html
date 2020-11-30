@@ -7,7 +7,6 @@
     <style>
         #container {
             border: 1px dashed gray;
-            margin: 10px;
             width: 500px;
             min-height: 300px;
         }
@@ -18,6 +17,8 @@
     <h3>请拖拽文件到下方区域</h3>
     <div id="container"></div>
     <script>
+        const vscode = acquireVsCodeApi();
+
         document.ondragover = function (e) {
             e.preventDefault();
         };
@@ -31,20 +32,29 @@
         };
 
         container.ondrop = function (e) {
-            let list = e.dataTransfer.files;
-            for (var i = 0; i < list.length; i++) {
-                var f = list[i];
-                console.log(f.name);
-                reader(f);
+            let files = e.dataTransfer.files;
+            for (let i = 0; i < files.length; i++) {
+                let file = files.item(i);
+                vscode.postMessage({
+                    command: 'url',
+                    url: URL.createObjectURL(file)
+                })
+                reader(file);
+                container.innerText += file.name;
             }
         };
-        function reader(f) {
+
+        function reader(file) {
             var reader = new FileReader();
-            reader.readAsDataURL(f);
+            reader.readAsArrayBuffer(file);
             reader.onload = function () {
-                var img = new Image();
-                img.src = reader.result;
-                container.appendChild(img);
+                console.log('-----result-----');
+                console.log(reader.result);
+                console.log('----------');
+                vscode.postMessage({
+                    command: 'context',
+                    context: reader.result
+                })
             }
         }
     </script>
