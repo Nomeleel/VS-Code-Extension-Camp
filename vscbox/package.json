@@ -40,6 +40,8 @@
 				"vscbox.keyString": {
 					"type": "string",
 					"default": "",
+					"pattern": "^(\\d+,)*\\d+$",
+					"patternErrorMessage": "Example: 1,2,3,4,5,6,7",
 					"description": "Key for string",
 					"scope": "resource"
 				}

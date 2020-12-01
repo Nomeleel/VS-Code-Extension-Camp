@@ -63,7 +63,7 @@ export class FileUtilCommand implements Disposable {
     if (keyArray.length === 0) {
       let keyStr: string|undefined = configuration.get('vscbox.keyString');
       if (keyStr) {
-        keyArray = keyStr.split(',').map((e) => int.pre);
+        keyArray = keyStr.split(',').map((e) => parseInt(e));
       }
     }
 
