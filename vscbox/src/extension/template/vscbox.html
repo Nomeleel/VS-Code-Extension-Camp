@@ -35,10 +35,10 @@
             let files = e.dataTransfer.files;
             for (let i = 0; i < files.length; i++) {
                 let file = files.item(i);
-                vscode.postMessage({
-                    command: 'url',
-                    url: URL.createObjectURL(file)
-                })
+                // vscode.postMessage({
+                //     command: 'url',
+                //     url: URL.createObjectURL(file)
+                // })
                 reader(file);
                 container.innerText += file.name;
             }
@@ -46,7 +46,7 @@
 
         function reader(file) {
             var reader = new FileReader();
-            reader.readAsArrayBuffer(file);
+            reader.readAsBinaryString(file);
             reader.onload = function () {
                 console.log('-----result-----');
                 console.log(reader.result);

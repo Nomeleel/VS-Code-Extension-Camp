@@ -10,7 +10,7 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:vscbox.openBox"
+		"*"
 	],
 	"main": "./dist/extension.js",
 	"contributes": {
@@ -23,7 +23,28 @@
 				"command": "vscbox.openBox",
 				"title": "Open VSCBox"
 			}
-		]
+		],
+		"configuration": {
+			"type": "object",
+			"title": "VSCBox",
+			"properties": {
+				"vscbox.keyArray": {
+					"type": "array",
+					"default": [],
+					"markdownDescription": "Key for array, ***priority use***",
+					"items": {
+						"type": "integer"
+					},
+					"scope": "resource"
+				},
+				"vscbox.keyString": {
+					"type": "string",
+					"default": "",
+					"description": "Key for string",
+					"scope": "resource"
+				}
+			}
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run package",

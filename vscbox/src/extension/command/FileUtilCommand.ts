@@ -1,6 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
-import { commands, Disposable, ExtensionContext, ViewColumn, window} from "vscode";
+import * as http from "http";
+import { commands, Disposable, ExtensionContext, ViewColumn, window, workspace} from "vscode";
 
 export class FileUtilCommand implements Disposable {
   private disposables: Disposable[] = [];
@@ -23,6 +24,8 @@ export class FileUtilCommand implements Disposable {
       }
     );
 
+    this.getKey();
+
     panel.webview.html = this.getBoxContext();
 
     panel.webview.onDidReceiveMessage(
@@ -38,6 +41,7 @@ export class FileUtilCommand implements Disposable {
             window.showInformationMessage(message.url);
             console.log('-----url-----');
             console.log(message.url);
+            //this.get(message.url);
             console.log('----------');
             break;
         }
@@ -51,6 +55,32 @@ export class FileUtilCommand implements Disposable {
         console.log('Panel dispose');
       }
     );
+  }
+
+  public getKey() : Array<number>{
+    let configuration = workspace.getConfiguration();
+    let keyArray = configuration.get('vscbox.keyArray') as Array<number>;
+    if (keyArray.length === 0) {
+      let keyStr: string|undefined = configuration.get('vscbox.keyString');
+      if (keyStr) {
+        keyArray = keyStr.split(',').map((e) => int.pre);
+      }
+    }
+
+    console.log(keyArray);
+    return keyArray;
+  }
+
+  public get(url: string) {
+    http.get(url ,(req: any) => {
+      let html='';
+      req.on('data',function(data: any){
+        html+=data;
+      });
+      req.on('end',function(){
+        console.info(html);
+      });
+    });
   }
 
   public getBoxContext() : string {
