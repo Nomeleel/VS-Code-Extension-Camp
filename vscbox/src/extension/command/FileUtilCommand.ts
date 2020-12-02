@@ -31,18 +31,8 @@ export class FileUtilCommand implements Disposable {
     panel.webview.onDidReceiveMessage(
       message => {
         switch (message.command) {
-          case 'context':
-            window.showInformationMessage(message.context);
-            console.log('----------');
-            console.log(message.context);
-            console.log('----------');
-            break;
-          case 'url':
-            window.showInformationMessage(message.url);
-            console.log('-----url-----');
-            console.log(message.url);
-            //this.get(message.url);
-            console.log('----------');
+          case 'file':
+            window.showInformationMessage(message.path);
             break;
         }
       },
@@ -69,18 +59,6 @@ export class FileUtilCommand implements Disposable {
 
     console.log(keyArray);
     return keyArray;
-  }
-
-  public get(url: string) {
-    http.get(url ,(req: any) => {
-      let html='';
-      req.on('data',function(data: any){
-        html+=data;
-      });
-      req.on('end',function(){
-        console.info(html);
-      });
-    });
   }
 
   public getBoxContext() : string {

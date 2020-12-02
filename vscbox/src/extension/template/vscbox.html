@@ -3,58 +3,37 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>VSC Box</title>
     <style>
-        #container {
-            border: 1px dashed gray;
+        .drop-box {
             width: 500px;
             min-height: 300px;
+            cursor: pointer;
+            border: 1px dashed gray;
+        }
+
+        .transparent {
+            opacity: 0;
         }
     </style>
 </head>
 
 <body>
     <h3>请拖拽文件到下方区域</h3>
-    <div id="container"></div>
+    <div id="container" class="drop-box">
+        <span id="fileNameSpan"></span>
+        <input type="file" class="drop-box transparent" onChange="dropedFile(this.value)" />
+    </div>
     <script>
         const vscode = acquireVsCodeApi();
 
-        document.ondragover = function (e) {
-            e.preventDefault();
-        };
-
-        document.ondrop = function (e) {
-            e.preventDefault();
-        };
-
-        container.ondragover = function (e) {
-            e.preventDefault();
-        };
-
-        container.ondrop = function (e) {
-            let files = e.dataTransfer.files;
-            for (let i = 0; i < files.length; i++) {
-                let file = files.item(i);
-                // vscode.postMessage({
-                //     command: 'url',
-                //     url: URL.createObjectURL(file)
-                // })
-                reader(file);
-                container.innerText += file.name;
-            }
-        };
-
-        function reader(file) {
-            var reader = new FileReader();
-            reader.readAsBinaryString(file);
-            reader.onload = function () {
-                console.log('-----result-----');
-                console.log(reader.result);
-                console.log('----------');
+        function dropedFile(path) {
+            if (path) {
                 vscode.postMessage({
-                    command: 'context',
-                    context: reader.result
+                    command: 'file',
+                    path: path
                 })
+                fileNameSpan.innerText = path;
             }
         }
     </script>
