@@ -43,5 +43,72 @@
             "print('---------------------------');"
         ],
         "description": "Print..."
+    },
+    "PrintMap": {
+        "prefix": ["sprintMap", "xprintmap", "printMap", "printmap"],
+        "scope": "dart",
+        "body": [
+            "print('------------$0------------');",
+            "$0.forEach((k, v) {",
+            "\tprint(k);",
+            "\tprint(v);",
+            "});",
+            "print('---------------------------');"
+        ],
+        "description": "Print Map..."
+    },
+    "PrintList": {
+        "prefix": ["sprintList", "xprintlist", "printList", "printlist"],
+        "scope": "dart",
+        "body": [
+            "print('------------$0------------');",
+            "$0.forEach(print);",
+            "print('---------------------------');"
+        ],
+        "description": "Print List..."
+    },
+    "post": {
+        "prefix": ["post", "postApi", "postapi"],
+        "scope": "dart",
+        "body": [
+            "final Map responseMap = await apiService.post(",
+            "\tapiPath: \"$1\",",
+            "\tpostData: {",
+            "\t\t\"$2\": \"\",",
+            "\t\t\"$3\": \"\"",
+            "\t},",
+            "\tdesc: \"$4\",",
+            ");"
+        ],
+        "description": "Post Api..."
+    },
+    "postCheck": {
+        "prefix": ["postCheck", "postcheck"],
+        "scope": "dart",
+        "body": [
+            "if (responseMap[\"code\"] == 0) {",
+            "\t$0",
+            "}"
+        ],
+        "description": "Post Result Check..."
+    },
+    "listenerMethod": {
+        "prefix": ["listenerMethod", "listener"],
+        "scope": "dart",
+        "body": [
+            "void $1Listener(Map sender, String fieldName, dynamic fieldValue) {",
+            "\t$0",
+            "}"
+        ],
+        "description": "Listener Method..."
+    },
+    "addListener": {
+        "prefix": ["addListener", "addlistener"],
+        "scope": "dart",
+        "body": [
+            "$1..offFieldChanged('$2', $3)",
+            "\t..onFieldChanged('$2', $3);"
+        ],
+        "description": "Add Listener..."
     }
 }
