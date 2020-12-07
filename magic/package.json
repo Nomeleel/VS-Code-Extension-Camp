@@ -56,6 +56,24 @@
 				"path": "./syntaxes/JSON.tmLanguage.json"
 			}
 		],
+		"views": {
+      "json": [
+        {
+          "id": "jsonOutline",
+					"name": "Json Outline",
+					"when": "resourceLangId == json && resourceScheme == file"
+        }
+			]
+		},
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "json",
+					"title": "Json",
+					"icon": "resources/json.png"
+				}
+			]
+		},
 		"menus": {
 			"explorer/context": [
 				{
@@ -67,7 +85,7 @@
 			"editor/context": [
 				{
 					"command": "magic.addInInitScript",
-					"when": "resourceLangId == dart && resourceScheme == file && resource =~ /\\/mgr_script\\// && resourceFilename != InitScript.dart",
+					"when": "resourceLangId == dart && resourceScheme == file && resource =~ /\\/lib\\// && resourceFilename != InitScript.dart",
 					"group": "0_script_follow_up"
 				}
 			]
