@@ -7,6 +7,7 @@ import { JsonReferenceProvider } from "./provider/JsonReferenceProvider";
 import { ScriptFileListener } from "./listener/ScriptFileListener";
 import { AddScriptCommand } from "./command/AddScriptCommand";
 import { AddInInitScriptCommand } from "./command/AddInInitScriptCommand";
+import { JsonOutlineProvider } from "./provider/JsonOutlineProvider";
 
 const JSON_MODE = { language: "json", scheme: "file" };
 
@@ -27,6 +28,7 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.languages.registerWorkspaceSymbolProvider(new SymbolProvider()));
 	context.subscriptions.push(vscode.languages.registerDefinitionProvider(JSON_MODE, new JsonReferenceProvider()));
 	context.subscriptions.push(vscode.languages.registerReferenceProvider(JSON_MODE, new JsonReferenceProvider()));
+	context.subscriptions.push(vscode.window.createTreeView("jsonOutline", { treeDataProvider: new JsonOutlineProvider(), showCollapseAll: true }));
 }
 
 // this method is called when your extension is deactivated
