@@ -62,6 +62,11 @@
           "id": "jsonOutline",
 					"name": "Json Outline",
 					"when": "resourceLangId == json && resourceScheme == file"
+				},
+				{
+          "id": "fieldOutline",
+					"name": "Field Outline",
+					"when": "resourceLangId == json && resourceScheme == file"
         }
 			]
 		},
@@ -89,6 +94,21 @@
 					"group": "0_script_follow_up"
 				}
 			]
+		},
+		"configuration": {
+			"type": "object",
+			"title": "Magic",
+			"properties": {
+				"magic.outline.fieldArray": {
+					"type": "array",
+					"default": [],
+					"markdownDescription": "Field for array, ***priority use***",
+					"items": {
+						"type": "string"
+					},
+					"scope": "resource"
+				}
+			}
 		}
 	},
 	"scripts": {
