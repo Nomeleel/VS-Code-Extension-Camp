@@ -1,22 +1,49 @@
-import { Disposable, Position, Range, TextEditor, TreeDataProvider, TreeItem, window, workspace } from "vscode";
+import { Disposable, Position, Range, TextEditor, TreeDataProvider, TreeItem, TreeItemCollapsibleState, window, workspace } from "vscode";
 
 
-export class FieldOutlineProvider implements TreeDataProvider<JsonItem>, Disposable {
+export class FieldOutlineProvider implements TreeDataProvider<FieldItem>, Disposable {
 
 	protected subscriptions: Disposable[] = [];
 
   protected activeEditor: TextEditor | undefined;
 
-  public getTreeItem(element: JsonItem): TreeItem {
+	protected rootNode: FieldItem | undefined;
+
+	constructor() {
+		this.rootNode = new FieldItem('ABC');
+		let abcFieldItem = new FieldItem('abc');
+		abcFieldItem.setChildren([
+			new FieldItem('a'),
+			new FieldItem('b'),
+			new FieldItem('c'),
+		]);
+		//abcFieldItem.parent = this.rootNode;
+		this.rootNode.setChildren([
+			abcFieldItem,
+			new FieldItem('def'),
+			new FieldItem('ght')
+		]);
+	}
+
+  public getTreeItem(element: FieldItem): TreeItem {
 		return element;
   }
   
-  public getChildren(element: JsonItem): JsonItem[] {
-		let fieldArray = this.getFieldArray();
-		console.log(fieldArray);
-		return this.rangesOf('type').map<JsonItem>((e) => new JsonItem(e.start.line.toString()));
+  public getChildren(element: FieldItem): FieldItem[] {
+		if (element) {
+			return element.children;
+		}
+		if (this.rootNode) {
+			return this.rootNode.children;
+		}
+		return [];
+		//return this.rangesOf('type').map<FieldItem>((e) => new FieldItem(e.start.line.toString()));
 	}
 	
+	// public getParent(element: FieldItem): FieldItem | undefined {
+	// 	return element.parent;
+	// }
+
 	public rangesOf(searchText: string): Range[] {
 		const doc = window.activeTextEditor?.document;
 		const results: Range[] = [];
@@ -43,6 +70,12 @@ export class FieldOutlineProvider implements TreeDataProvider<JsonItem>, Disposa
 	}
 }
 
-export class JsonItem extends TreeItem {
+export class FieldItem extends TreeItem {
+	public parent: FieldItem | undefined;
+	public children: FieldItem[] = [];
 
+	public setChildren(children: FieldItem[]) {
+		this.children = children;
+		this.collapsibleState = children ? TreeItemCollapsibleState.Expanded : TreeItemCollapsibleState.None;
+	}
 }
