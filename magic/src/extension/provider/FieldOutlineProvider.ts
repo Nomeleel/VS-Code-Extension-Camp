@@ -1,5 +1,5 @@
-import { Disposable, Position, Range, TextEditor, TreeDataProvider, TreeItem, TreeItemCollapsibleState, window, workspace } from "vscode";
-
+import * as path from "path";
+import { Disposable, Position, Range, TextEditor, TreeDataProvider, TreeItem, TreeItemCollapsibleState, Uri, window, workspace } from "vscode";
 
 export class FieldOutlineProvider implements TreeDataProvider<FieldItem>, Disposable {
 
@@ -10,19 +10,10 @@ export class FieldOutlineProvider implements TreeDataProvider<FieldItem>, Dispos
 	protected rootNode: FieldItem | undefined;
 
 	constructor() {
-		this.rootNode = new FieldItem('ABC');
-		let abcFieldItem = new FieldItem('abc');
-		abcFieldItem.setChildren([
-			new FieldItem('a'),
-			new FieldItem('b'),
-			new FieldItem('c'),
-		]);
-		//abcFieldItem.parent = this.rootNode;
-		this.rootNode.setChildren([
-			abcFieldItem,
-			new FieldItem('def'),
-			new FieldItem('ght')
-		]);
+		this.subscriptions.push(window.onDidChangeActiveTextEditor((e) => this.listenerJsonFile(e)));
+		if (window.activeTextEditor) {
+			this.listenerJsonFile(window.activeTextEditor);
+		}
 	}
 
   public getTreeItem(element: FieldItem): TreeItem {
@@ -43,6 +34,30 @@ export class FieldOutlineProvider implements TreeDataProvider<FieldItem>, Dispos
 	// public getParent(element: FieldItem): FieldItem | undefined {
 	// 	return element.parent;
 	// }
+
+	public listenerJsonFile(textEditor: TextEditor | undefined) {
+		if (textEditor && this.isTargerJsonFile(textEditor)) {
+			let fieldArray = this.getFieldArray();
+			if (fieldArray.length > 0) {
+				console.log('----------------------------');
+				this.rootNode = new FieldItem('Field Outline');
+				let children = new Array<FieldItem>();
+				fieldArray.forEach((e) => {
+					let fieldItem = new FieldItem(e);
+					fieldItem.setChildren(this.rangesOf(e).map((r) => new FieldItem(r.start.line.toString())));
+					children.push(fieldItem);
+				});
+				this.rootNode.setChildren(children);
+			}
+		} else {
+			this.rootNode = undefined;
+		}
+	}
+
+	public isTargerJsonFile(textEditor: TextEditor) : boolean{
+		let uri: Uri = textEditor.document.uri;
+		return uri.scheme === "file" && path.parse(uri.fsPath).ext === ".json";
+	}
 
 	public rangesOf(searchText: string): Range[] {
 		const doc = window.activeTextEditor?.document;
@@ -76,6 +91,7 @@ export class FieldItem extends TreeItem {
 
 	public setChildren(children: FieldItem[]) {
 		this.children = children;
-		this.collapsibleState = children ? TreeItemCollapsibleState.Expanded : TreeItemCollapsibleState.None;
+		this.collapsibleState = (children && children.length > 0) ? 
+			TreeItemCollapsibleState.Expanded : TreeItemCollapsibleState.None;
 	}
 }
