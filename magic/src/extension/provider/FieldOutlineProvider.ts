@@ -1,5 +1,5 @@
 import * as path from "path";
-import { Disposable, Position, Range, TextEditor, TreeDataProvider, TreeItem, TreeItemCollapsibleState, Uri, window, workspace } from "vscode";
+import { Disposable, Event, EventEmitter, Position, Range, Selection, TextEditor, TextEditorRevealType, TreeDataProvider, TreeItem, TreeItemCollapsibleState, Uri, window, workspace } from "vscode";
 
 export class FieldOutlineProvider implements TreeDataProvider<FieldItem>, Disposable {
 
@@ -8,6 +8,9 @@ export class FieldOutlineProvider implements TreeDataProvider<FieldItem>, Dispos
   protected activeEditor: TextEditor | undefined;
 
 	protected rootNode: FieldItem | undefined;
+
+	protected onDidChangeTreeDataEmitter: EventEmitter<FieldItem | undefined> = new EventEmitter<FieldItem | undefined>();
+	public readonly onDidChangeTreeData: Event<FieldItem | undefined> = this.onDidChangeTreeDataEmitter.event;
 
 	constructor() {
 		this.subscriptions.push(window.onDidChangeActiveTextEditor((e) => this.listenerJsonFile(e)));
@@ -28,7 +31,6 @@ export class FieldOutlineProvider implements TreeDataProvider<FieldItem>, Dispos
 			return this.rootNode.children;
 		}
 		return [];
-		//return this.rangesOf('type').map<FieldItem>((e) => new FieldItem(e.start.line.toString()));
 	}
 	
 	// public getParent(element: FieldItem): FieldItem | undefined {
@@ -36,15 +38,15 @@ export class FieldOutlineProvider implements TreeDataProvider<FieldItem>, Dispos
 	// }
 
 	public listenerJsonFile(textEditor: TextEditor | undefined) {
+		this.onDidChangeTreeDataEmitter.fire(undefined);
 		if (textEditor && this.isTargerJsonFile(textEditor)) {
 			let fieldArray = this.getFieldArray();
 			if (fieldArray.length > 0) {
-				console.log('----------------------------');
 				this.rootNode = new FieldItem('Field Outline');
 				let children = new Array<FieldItem>();
 				fieldArray.forEach((e) => {
 					let fieldItem = new FieldItem(e);
-					fieldItem.setChildren(this.rangesOf(e).map((r) => new FieldItem(r.start.line.toString())));
+					fieldItem.setChildren(this.rangesOf(textEditor, e).map((r) => new FieldItem(r.start.line.toString())));
 					children.push(fieldItem);
 				});
 				this.rootNode.setChildren(children);
@@ -52,6 +54,7 @@ export class FieldOutlineProvider implements TreeDataProvider<FieldItem>, Dispos
 		} else {
 			this.rootNode = undefined;
 		}
+		this.onDidChangeTreeDataEmitter.fire(this.rootNode);
 	}
 
 	public isTargerJsonFile(textEditor: TextEditor) : boolean{
@@ -59,8 +62,8 @@ export class FieldOutlineProvider implements TreeDataProvider<FieldItem>, Dispos
 		return uri.scheme === "file" && path.parse(uri.fsPath).ext === ".json";
 	}
 
-	public rangesOf(searchText: string): Range[] {
-		const doc = window.activeTextEditor?.document;
+	public rangesOf(textEditor: TextEditor, searchText: string): Range[] {
+		const doc = textEditor.document;
 		const results: Range[] = [];
 		if (doc) {
 			for (let index = 0; index < doc.lineCount; index++) {
@@ -91,7 +94,19 @@ export class FieldItem extends TreeItem {
 
 	public setChildren(children: FieldItem[]) {
 		this.children = children;
+		this.children[0].command = {
+			command: "magic.showTime",
+			title: "Test",
+		};
 		this.collapsibleState = (children && children.length > 0) ? 
 			TreeItemCollapsibleState.Expanded : TreeItemCollapsibleState.None;
 	}
+}
+
+export function JumpToEditor(editor: TextEditor, displayRange: Range, selectionRange?: Range): void {
+	if (selectionRange) {
+		editor.selection = new Selection(selectionRange.start, selectionRange.end);
+	}
+
+	editor.revealRange(displayRange, TextEditorRevealType.InCenterIfOutsideViewport);
 }
