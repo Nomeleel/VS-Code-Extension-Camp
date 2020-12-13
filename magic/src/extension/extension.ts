@@ -9,6 +9,7 @@ import { AddScriptCommand } from "./command/AddScriptCommand";
 import { AddInInitScriptCommand } from "./command/AddInInitScriptCommand";
 import { JsonOutlineProvider } from "./provider/JsonOutlineProvider";
 import { FieldOutlineProvider } from "./provider/FieldOutlineProvider";
+import { JumpToEditorCommand } from "./command/JumpToEditorCommand";
 
 const JSON_MODE = { language: "json", scheme: "file" };
 
@@ -20,6 +21,7 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(disposable);
 	context.subscriptions.push(new AddScriptCommand());
 	context.subscriptions.push(new AddInInitScriptCommand());
+	context.subscriptions.push(new JumpToEditorCommand());
 
 	context.subscriptions.push(new ColorDecorations(path.join(context.globalStoragePath, "colors")));
 	
