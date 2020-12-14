@@ -1,5 +1,5 @@
 import * as path from "path";
-import { Disposable, Event, EventEmitter, Position, Range, Selection, TextEditor, TextEditorRevealType, TreeDataProvider, TreeItem, TreeItemCollapsibleState, Uri, window, workspace } from "vscode";
+import { Command, Disposable, Event, EventEmitter, extensions, Position, Range, TextEditor, TreeDataProvider, TreeItem, TreeItemCollapsibleState, Uri, window, workspace } from "vscode";
 
 export class FieldOutlineProvider implements TreeDataProvider<FieldItem>, Disposable {
 
@@ -9,15 +9,17 @@ export class FieldOutlineProvider implements TreeDataProvider<FieldItem>, Dispos
 
   protected rootNode: FieldItem | undefined;
 
+  protected extensionPath : string = extensions.getExtension('Nomeleel.magic')!.extensionPath;
+
   protected onDidChangeTreeDataEmitter: EventEmitter<FieldItem | undefined> = new EventEmitter<FieldItem | undefined>();
   public readonly onDidChangeTreeData: Event<FieldItem | undefined> = this.onDidChangeTreeDataEmitter.event;
 
   constructor() {
     this.subscriptions.push(window.onDidChangeActiveTextEditor((e) => this.listenerJsonFile(e)));
+    this.subscriptions.push(workspace.onDidChangeTextDocument((e) => this.listenerJsonFile(window.activeTextEditor)));
     if (window.activeTextEditor) {
       this.listenerJsonFile(window.activeTextEditor);
     }
-    //setInterval(() => this.listenerJsonFile(window.activeTextEditor), 200);
   }
 
   public getTreeItem(element: FieldItem): TreeItem {
@@ -39,7 +41,6 @@ export class FieldOutlineProvider implements TreeDataProvider<FieldItem>, Dispos
   // }
 
   public listenerJsonFile(textEditor: TextEditor | undefined) {
-    console.log('-----');
     this.onDidChangeTreeDataEmitter.fire(undefined);
     if (textEditor && this.isTargerJsonFile(textEditor)) {
       let fieldArray = this.getFieldArray();
@@ -47,19 +48,9 @@ export class FieldOutlineProvider implements TreeDataProvider<FieldItem>, Dispos
         this.rootNode = new FieldItem('Field Outline');
         let children = new Array<FieldItem>();
         fieldArray.forEach((e) => {
-          let fieldItem = new FieldItem(e);
+          let fieldItem = new FieldItem(e, this.getUri('constant-light.svg'));
           fieldItem.setChildren(this.rangesOf(textEditor, e).map((range) => {
-            let item = new FieldItem(textEditor.document.getText(range));
-            item.command = {
-              command: "magic.jumpToEditor",
-              arguments: [
-                textEditor,
-                range,
-                range,
-              ],
-              title: "Jump To",
-            };
-            return item;
+            return new FieldItem(textEditor.document.getText(range), this.getUri('method-light.svg'), this.jumpToCommand(range));
           }));
           children.push(fieldItem);
         });
@@ -69,6 +60,22 @@ export class FieldOutlineProvider implements TreeDataProvider<FieldItem>, Dispos
       this.rootNode = undefined;
     }
     this.onDidChangeTreeDataEmitter.fire(this.rootNode);
+  }
+
+  public getUri(filePath: string) : Uri {
+    return Uri.file(path.join(this.extensionPath, `resources\\icons\\${filePath}`));
+  }
+
+  public jumpToCommand(range: Range) : Command {
+    return {
+      command: "magic.jumpToEditor",
+      arguments: [
+        window.activeTextEditor,
+        range,
+        range,
+      ],
+      title: "Jump To",
+    };
   }
 
   public isTargerJsonFile(textEditor: TextEditor) : boolean{
@@ -83,7 +90,7 @@ export class FieldOutlineProvider implements TreeDataProvider<FieldItem>, Dispos
       for (let index = 0; index < doc.lineCount; index++) {
         let findIndex = doc.lineAt(index).text.indexOf(searchText);
         if (findIndex !== -1) {
-          let textRange = doc.getWordRangeAtPosition(new Position(index, findIndex + searchText.length + 4), /([^\"\s]+)/g);
+          let textRange = doc.getWordRangeAtPosition(new Position(index, findIndex + searchText.length + 4), /([^\"]+)/g);
           if (textRange) {
             results.push(textRange);
           }
@@ -108,6 +115,12 @@ export class FieldOutlineProvider implements TreeDataProvider<FieldItem>, Dispos
 export class FieldItem extends TreeItem {
   public parent: FieldItem | undefined;
   public children: FieldItem[] = [];
+
+  constructor(title: string, iconPath?: Uri, command?: Command) {
+    super(title);
+    this.iconPath = iconPath;
+    this.command = command;
+  }
 
   public setChildren(children: FieldItem[]) {
     this.children = children;
