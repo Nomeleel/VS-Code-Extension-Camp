@@ -31,8 +31,8 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.languages.registerWorkspaceSymbolProvider(new SymbolProvider()));
 	context.subscriptions.push(vscode.languages.registerDefinitionProvider(JSON_MODE, new JsonReferenceProvider()));
 	context.subscriptions.push(vscode.languages.registerReferenceProvider(JSON_MODE, new JsonReferenceProvider()));
-	context.subscriptions.push(vscode.window.createTreeView("jsonOutline", { treeDataProvider: new JsonOutlineProvider(), showCollapseAll: true }));
-	context.subscriptions.push(vscode.window.createTreeView("fieldOutline", { treeDataProvider: new FieldOutlineProvider(), showCollapseAll: true }));
+	context.subscriptions.push(vscode.window.createTreeView("outline.json", { treeDataProvider: new JsonOutlineProvider(), showCollapseAll: true }));
+	context.subscriptions.push(vscode.window.createTreeView("outline.field", { treeDataProvider: new FieldOutlineProvider(), showCollapseAll: true }));
 }
 
 // this method is called when your extension is deactivated

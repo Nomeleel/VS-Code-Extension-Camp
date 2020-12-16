@@ -57,14 +57,14 @@
 			}
 		],
 		"views": {
-      "json": [
+      "outline": [
         {
-          "id": "jsonOutline",
+          "id": "outline.json",
 					"name": "Json Outline",
 					"when": "resourceLangId == json && resourceScheme == file"
 				},
 				{
-          "id": "fieldOutline",
+          "id": "outline.field",
 					"name": "Field Outline",
 					"when": "resourceLangId == json && resourceScheme == file"
         }
@@ -73,8 +73,8 @@
 		"viewsContainers": {
 			"activitybar": [
 				{
-					"id": "json",
-					"title": "Json",
+					"id": "outline",
+					"title": "Magic Outline",
 					"icon": "resources/json.png"
 				}
 			]
@@ -102,7 +102,7 @@
 				"magic.outline.fieldArray": {
 					"type": "array",
 					"default": [],
-					"markdownDescription": "Field for array, ***priority use***",
+					"markdownDescription": "Array of fields that ***Field Outline*** view focuses on.",
 					"items": {
 						"type": "string"
 					},

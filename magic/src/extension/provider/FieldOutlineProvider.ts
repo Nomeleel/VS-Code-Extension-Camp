@@ -63,7 +63,7 @@ export class FieldOutlineProvider implements TreeDataProvider<FieldItem>, Dispos
   }
 
   public getUri(filePath: string) : Uri {
-    return Uri.file(path.join(this.extensionPath, `resources\\icons\\${filePath}`));
+    return Uri.file(path.join(this.extensionPath, 'resources', 'icons', filePath));
   }
 
   public jumpToCommand(range: Range) : Command {
