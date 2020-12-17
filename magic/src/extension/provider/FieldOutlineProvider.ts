@@ -9,6 +9,7 @@ export class FieldOutlineProvider implements TreeDataProvider<FieldItem>, Dispos
 
   protected rootNode: FieldItem | undefined;
 
+  // TODO(Nomeleel): 当作常量提取出去
   protected extensionPath : string = extensions.getExtension('Nomeleel.magic')!.extensionPath;
 
   protected onDidChangeTreeDataEmitter: EventEmitter<FieldItem | undefined> = new EventEmitter<FieldItem | undefined>();

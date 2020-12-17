@@ -47,6 +47,11 @@
 				"command": "magic.addInInitScript",
 				"title": "Add in InitScript",
 				"category": "Dart"
+			},
+			{
+				"command": "magic.openSettings",
+				"icon": "resources/icons/field-dark.svg",
+				"title": "Open Settings for Magic"
 			}
 		],
 		"grammars": [
@@ -79,12 +84,25 @@
 				}
 			]
 		},
+		"viewsWelcome": [
+			{
+				"view": "outline.field",
+				"contents": "No fields are configured. Please configure in Magic settings.\n[Open Settings](command:magic.openSettings)"
+			}
+		],
 		"menus": {
 			"explorer/context": [
 				{
 					"command": "magic.addScript",
 					"when": "explorerResourceIsFolder && resourceFilename == test",
 					"group": "0_add_file"
+				}
+			],
+			"view/title": [
+				{
+					"command": "magic.openSettings",
+					"when": "view == outline.field",
+					"group": "navigation"
 				}
 			],
 			"editor/context": [

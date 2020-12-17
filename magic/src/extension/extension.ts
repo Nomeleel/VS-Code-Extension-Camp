@@ -1,15 +1,16 @@
 import * as path from "path";
 import * as vscode from 'vscode';
+import { AddInInitScriptCommand } from "./command/AddInInitScriptCommand";
+import { AddScriptCommand } from "./command/AddScriptCommand";
+import { JumpToEditorCommand } from "./command/JumpToEditorCommand";
+import { OpenSettingsCommand } from "./command/OpenSettingsCommand";
 import { ColorDecorations } from "./decorations/color_decorations";
 import { JsonFileListener } from "./listener/JsonFileListener";
-import { SymbolProvider } from "./provider/SymbolProvider";
-import { JsonReferenceProvider } from "./provider/JsonReferenceProvider";
 import { ScriptFileListener } from "./listener/ScriptFileListener";
-import { AddScriptCommand } from "./command/AddScriptCommand";
-import { AddInInitScriptCommand } from "./command/AddInInitScriptCommand";
-import { JsonOutlineProvider } from "./provider/JsonOutlineProvider";
 import { FieldOutlineProvider } from "./provider/FieldOutlineProvider";
-import { JumpToEditorCommand } from "./command/JumpToEditorCommand";
+import { JsonOutlineProvider } from "./provider/JsonOutlineProvider";
+import { JsonReferenceProvider } from "./provider/JsonReferenceProvider";
+import { SymbolProvider } from "./provider/SymbolProvider";
 
 const JSON_MODE = { language: "json", scheme: "file" };
 
@@ -22,6 +23,7 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(new AddScriptCommand());
 	context.subscriptions.push(new AddInInitScriptCommand());
 	context.subscriptions.push(new JumpToEditorCommand());
+	context.subscriptions.push(new OpenSettingsCommand());
 
 	context.subscriptions.push(new ColorDecorations(path.join(context.globalStoragePath, "colors")));
 	
