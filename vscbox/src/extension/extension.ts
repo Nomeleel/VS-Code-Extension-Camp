@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import { FileCommand } from './command/FileCommand';
 import { FileUtilCommand } from "./command/FileUtilCommand";
 
 export function activate(context: vscode.ExtensionContext) {
@@ -9,6 +10,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	context.subscriptions.push(disposable);
 	context.subscriptions.push(new FileUtilCommand(context));
+	context.subscriptions.push(new FileCommand());
 }
 
 export function deactivate() {}

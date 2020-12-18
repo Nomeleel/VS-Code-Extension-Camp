@@ -22,8 +22,28 @@
 			{
 				"command": "vscbox.openBox",
 				"title": "Open VSCBox"
+			},
+			{
+				"command": "vscbox.fileEncrypt",
+				"title": "File Encrypt"
+			},
+			{
+				"command": "vscbox.fileDecrypt",
+				"title": "File Decrypt"
 			}
 		],
+		"menus": {
+			"editor/context": [
+				{
+					"command": "vscbox.fileEncrypt",
+					"group": "0_vscbox_file_command"
+				},
+				{
+					"command": "vscbox.fileDecrypt",
+					"group": "0_vscbox_file_command"
+				}
+			]
+		},
 		"configuration": {
 			"type": "object",
 			"title": "VSCBox",
