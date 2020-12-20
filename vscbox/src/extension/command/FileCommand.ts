@@ -1,6 +1,8 @@
 import * as fs from "fs";
-import { commands, Disposable, Uri, window, workspace } from "vscode";
-import { addDateSuffixForFilePath, getOrSetKey } from "../util/util";
+import * as JSZip from "jszip";
+import * as path from "path";
+import { commands, Disposable, Uri } from "vscode";
+import { addDateSuffixForFilePath, getOrSetKey, getZipDirPath, mkdirSync, openFile } from "../util/util";
 
 export class FileCommand implements Disposable {
   private disposables: Disposable[] = [];
@@ -20,11 +22,9 @@ export class FileCommand implements Disposable {
         if (error) {
           console.log('Error!');
         } else {
-          let targetFilePath = addDateSuffixForFilePath(currentFilePath);
-          fs.writeFileSync(targetFilePath, this.xor(data, xorKey ?? []));
-          workspace.openTextDocument(targetFilePath).then((textDocument) => {
-            window.showTextDocument(textDocument);
-          });
+          let xorBuffer = this.xor(data, xorKey ?? []);
+          this.writeThenOpenFileSync(addDateSuffixForFilePath(currentFilePath), xorBuffer);
+          this.tryUnZip(xorBuffer, currentFilePath);
         }
       });
     }
@@ -40,6 +40,33 @@ export class FileCommand implements Disposable {
       }
     }
     return buffer;
+  }
+
+  private writeThenOpenFileSync(filePath: string, buffer: Buffer) {
+    fs.writeFileSync(filePath, buffer);
+    openFile(filePath);
+  }
+
+  private tryUnZip(buffer: Buffer, sourcePath: string) {
+    let jsZip = new JSZip();
+    jsZip.loadAsync(buffer).then((zip) => {
+      let zipDirPath = getZipDirPath(sourcePath);
+      mkdirSync(zipDirPath);
+      for (const file in zip!.files) {
+        let fileItem = zip.file(file);
+        if (fileItem) {
+          if (!fileItem.dir) {
+            fileItem!.async('nodebuffer').then((content) => {
+              this.writeThenOpenFileSync(path.join(zipDirPath, fileItem!.name), content);
+            });
+          } else {
+            // TODO(Nomeleel): 处理文件夹的情况
+          }
+        }
+      }
+    }).catch((error) => {
+      console.log(error);
+    });
   }
 
   public dispose(): any {
