@@ -1,5 +1,6 @@
 import * as fs from "fs";
-import { commands, Disposable, window, workspace } from "vscode";
+import { commands, Disposable, Uri, window, workspace } from "vscode";
+import { addDateSuffixForFilePath, getOrSetKey } from "../util/util";
 
 export class FileCommand implements Disposable {
   private disposables: Disposable[] = [];
@@ -11,16 +12,16 @@ export class FileCommand implements Disposable {
     );
   }
 
-  private fileXOR() {
-    if (window.activeTextEditor) {
-      let xorKey: Array<number> = [];
-      let currentFilePath = window.activeTextEditor.document.uri.fsPath;
+  private fileXOR(fileUri: Uri) {
+    let xorKey: Array<number> | undefined = getOrSetKey();
+    if (xorKey) {
+      let currentFilePath = fileUri.fsPath;
       fs.readFile(currentFilePath, (error, data) => {
         if (error) {
           console.log('Error!');
         } else {
-          let targetFilePath = currentFilePath + 'test.txt';
-          fs.writeFileSync(targetFilePath, this.xor(data, xorKey));
+          let targetFilePath = addDateSuffixForFilePath(currentFilePath);
+          fs.writeFileSync(targetFilePath, this.xor(data, xorKey ?? []));
           workspace.openTextDocument(targetFilePath).then((textDocument) => {
             window.showTextDocument(textDocument);
           });
@@ -29,12 +30,14 @@ export class FileCommand implements Disposable {
     }
   }
 
-  private xor(buffer: Buffer, xorKey: Array<number>) : Buffer{
+  private xor(buffer: Buffer, xorKey: Array<number>) : Buffer {
     let bytesLength = buffer.length;
     let keyBytesLength = xorKey.length;
-    for (let i = 0, startIndex = 0; i < bytesLength; i++, startIndex++) {
-      startIndex %= keyBytesLength;
-      buffer[i] ^= xorKey[startIndex];
+    if(bytesLength > 0 && keyBytesLength > 0) {
+      for (let i = 0, startIndex = 0; i < bytesLength; i++, startIndex++) {
+        startIndex %= keyBytesLength;
+        buffer[i] ^= xorKey[startIndex];
+      }
     }
     return buffer;
   }

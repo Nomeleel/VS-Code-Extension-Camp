@@ -1,8 +1,13 @@
 {
 	"name": "vscbox",
 	"displayName": "vscbox",
-	"description": "",
+	"description": "vscbox",
 	"version": "0.0.1",
+	"publisher": "Nomeleel",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Nomeleel/VS-Code-Extension-Collection.git"
+	},
 	"engines": {
 		"vscode": "^1.51.0"
 	},
@@ -30,9 +35,23 @@
 			{
 				"command": "vscbox.fileDecrypt",
 				"title": "File Decrypt"
+			},
+			{
+				"command": "vscbox.openKeyArraySettings",
+				"title": "Open Settings to config KeyArray"
 			}
 		],
 		"menus": {
+			"explorer/context": [
+				{
+					"command": "vscbox.fileEncrypt",
+					"group": "0_vscbox_file_command"
+				},
+				{
+					"command": "vscbox.fileDecrypt",
+					"group": "0_vscbox_file_command"
+				}
+			],
 			"editor/context": [
 				{
 					"command": "vscbox.fileEncrypt",
