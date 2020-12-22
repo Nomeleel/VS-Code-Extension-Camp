@@ -52,6 +52,11 @@
 				"command": "magic.openSettings",
 				"icon": "resources/icons/field-dark.svg",
 				"title": "Open Settings for Magic"
+			},
+			{
+				"command": "magic.openOutlineFieldArraySettings",
+				"icon": "resources/icons/field-dark.svg",
+				"title": "Open Settings for Magic"
 			}
 		],
 		"grammars": [
@@ -87,7 +92,7 @@
 		"viewsWelcome": [
 			{
 				"view": "outline.field",
-				"contents": "No fields are configured. Please configure in Magic settings.\n[Open Settings](command:magic.openSettings)"
+				"contents": "No fields are configured. Please configure in Magic settings.\n[Add Field](command:magic.openOutlineFieldArraySettings)"
 			}
 		],
 		"menus": {
@@ -100,7 +105,7 @@
 			],
 			"view/title": [
 				{
-					"command": "magic.openSettings",
+					"command": "magic.openOutlineFieldArraySettings",
 					"when": "view == outline.field",
 					"group": "navigation"
 				}
