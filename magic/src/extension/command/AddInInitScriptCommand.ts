@@ -1,5 +1,6 @@
 import * as path from "path";
-import { commands, CommentThreadCollapsibleState, Disposable, Position, TextEdit, Uri, window, workspace, WorkspaceEdit } from "vscode";
+import { commands, Disposable, Position, TextEdit, Uri, workspace, WorkspaceEdit } from "vscode";
+import { dartOrganizeImports } from "../util/util";
 
 export class AddInInitScriptCommand implements Disposable {
   private disposables: Disposable[] = [];
@@ -35,7 +36,7 @@ export class AddInInitScriptCommand implements Disposable {
     await workspace.applyEdit(workspaceEdit);
     await workspace.saveAll();
 
-    await AddInInitScriptCommand.organizeImports(initScriptPath);
+    await dartOrganizeImports(initScriptPath);
   }
 
   private static currentScriptPath() : string | undefined{
@@ -51,10 +52,6 @@ export class AddInInitScriptCommand implements Disposable {
       lineCount--;
     }
     return lineCount;
-  }
-
-  private static async organizeImports(path: string) {
-    await commands.executeCommand('_dart.organizeImports', await workspace.openTextDocument(path));
   }
 
   public dispose(): any {

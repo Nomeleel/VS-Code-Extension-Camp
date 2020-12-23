@@ -1,5 +1,6 @@
 import * as path from "path";
 import * as vscode from 'vscode';
+import { AddImportCommand } from "./command/AddImportCommand";
 import { AddInInitScriptCommand } from "./command/AddInInitScriptCommand";
 import { AddScriptCommand } from "./command/AddScriptCommand";
 import { JumpToEditorCommand } from "./command/JumpToEditorCommand";
@@ -22,6 +23,7 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(disposable);
 	context.subscriptions.push(new AddScriptCommand());
 	context.subscriptions.push(new AddInInitScriptCommand());
+	context.subscriptions.push(new AddImportCommand());
 	context.subscriptions.push(new JumpToEditorCommand());
 	context.subscriptions.push(new OpenSettingsCommand());
 

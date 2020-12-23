@@ -49,6 +49,11 @@
 				"category": "Dart"
 			},
 			{
+				"command": "magic.addImport",
+				"title": "Add Customize Import",
+				"category": "Dart"
+			},
+			{
 				"command": "magic.openSettings",
 				"icon": "resources/icons/field-dark.svg",
 				"title": "Open Settings for Magic"
@@ -114,7 +119,12 @@
 				{
 					"command": "magic.addInInitScript",
 					"when": "resourceLangId == dart && resourceScheme == file && resource =~ /\\/lib\\// && resourceFilename != InitScript.dart",
-					"group": "0_script_follow_up"
+					"group": "0_add_script"
+				},
+				{
+					"command": "magic.addImport",
+					"when": "resourceLangId == dart && resourceScheme == file",
+					"group": "0_add_import"
 				}
 			]
 		},
@@ -128,6 +138,17 @@
 					"markdownDescription": "Array of fields that ***Field Outline*** view focuses on.",
 					"items": {
 						"type": "string"
+					},
+					"scope": "resource"
+				},
+				"magic.customize.importArray": {
+					"type": "array",
+					"default": [],
+					"markdownDescription": "You can add import string for IDE cannot be automatically import library.\nThe prefix and suffix will be automatically added. The format is as follows: ```import 'package:{}.dart';```",
+					"items": {
+						"type": "string",
+						"pattern": "^(\\S+/)*\\S+$",
+						"patternErrorMessage": "Example: flutter/material"
 					},
 					"scope": "resource"
 				}
