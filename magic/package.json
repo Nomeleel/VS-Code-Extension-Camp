@@ -61,7 +61,11 @@
 			{
 				"command": "magic.openOutlineFieldArraySettings",
 				"icon": "resources/icons/field-dark.svg",
-				"title": "Open Settings for Magic"
+				"title": "Open Settings for Magic Outline FieldArray"
+			},
+			{
+				"command": "magic.openCustomizeImportArraySettings",
+				"title": "Open Settings for Magic Customize ImportArray"
 			}
 		],
 		"grammars": [

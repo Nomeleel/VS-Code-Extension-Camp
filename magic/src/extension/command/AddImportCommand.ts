@@ -17,7 +17,8 @@ export class AddImportCommand implements Disposable {
       if (importText) {
         this.addImportToDoc(importText);
       } else {
-        // TODO(Nomeleel): Nav to settings
+        commands.executeCommand(`magic.openCustomizeImportArraySettings`);
+        window.showInformationMessage('No suggest import found, please add it yourself');
       }
     }
   }
