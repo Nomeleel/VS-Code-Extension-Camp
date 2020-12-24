@@ -5,7 +5,7 @@ export class AddScriptCommand implements vs.Disposable {
 
 	constructor() {
 		this.disposables.push(
-			vs.commands.registerCommand("flutter.addScript", this.addScript, this),
+			vs.commands.registerCommand("magic.addScript", this.addScript, this),
 		);
   }
 
