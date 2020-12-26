@@ -155,6 +155,17 @@
 						"patternErrorMessage": "Example: flutter/material"
 					},
 					"scope": "resource"
+				},
+				"magic.uri.mark": {
+					"type": "array",
+					"default": [],
+					"markdownDescription": "File path uri common mark.",
+					"items": {
+						"type": "string",
+						"pattern": "^(\\S+/)*",
+						"patternErrorMessage": "Example: abc"
+					},
+					"scope": "resource"
 				}
 			}
 		}

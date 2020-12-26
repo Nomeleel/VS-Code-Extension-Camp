@@ -1,6 +1,7 @@
-import * as path from "path";
-import {CancellationToken, LocationLink, DefinitionProvider, Location, Position, Range, ReferenceContext, 
-  ReferenceProvider, TextDocument, Uri, workspace, SymbolInformation, commands, SymbolKind} from "vscode";
+import {
+  CancellationToken, commands, DefinitionProvider, Location, LocationLink, Position, Range, ReferenceContext,
+  ReferenceProvider, SymbolInformation, SymbolKind, TextDocument, workspace
+} from "vscode";
 
 export class JsonReferenceProvider implements DefinitionProvider, ReferenceProvider {
 
@@ -32,24 +33,36 @@ export class JsonReferenceProvider implements DefinitionProvider, ReferenceProvi
   // 大写kind搜索Class 小写搜索File
   // 小写的File可能会有很多 需要根据当前document uri中关键字 选取最接近的一个
   private async getSymbol(query: string, textDocument: TextDocument ) : Promise<SymbolInformation | undefined> {
+    if (/[A-Z]\S*/.test(query)) {
+      return this.getDartSymbol(query);
+    } else {
+      return this.getFileSymbol(query, textDocument);
+    }
+  }
+
+  private async getDartSymbol(query: string) : Promise<SymbolInformation | undefined> {
     let symbolsList = await getWorkspaceSymbols(query);
-    symbolsList.forEach(console.log);
-    if (symbolsList) {
-      if (/[A-Z]\S*/.test(query)) {
-        return symbolsList.find((e) => e.kind === SymbolKind.Class && e.name === query);
+    return symbolsList?.find((e) => e.kind === SymbolKind.Class && e.name === query);
+  }
+
+  private async getFileSymbol(query: string, textDocument: TextDocument ) : Promise<SymbolInformation | undefined> {
+    let uriKey = this.getUriKey(textDocument.uri.fsPath);
+    let queryEnhance = [query, uriKey].join('.');
+    let symbolsList = await getWorkspaceSymbols(queryEnhance);
+    let symbols = symbolsList?.filter((e) => e.kind === SymbolKind.Key);
+    if (symbols) {
+      if (symbols.length === 1) {
+        return symbols[0];
       } else {
-        let symbols = symbolsList.filter((e) => e.kind === SymbolKind.Key);
-        if (symbols) {
-          if (symbols.length === 1) {
-            return symbols[0];
-          } else {
-            let paths = textDocument.uri.fsPath.split(path.sep);
-            let uriKey = paths[paths.length - 5];
-            return symbols.find((e) => e.containerName === uriKey);
-          }
-        }
+        return symbols.find((e) => e.containerName === uriKey);
       }
     }
+  }
+
+  private getUriKey(uriPath: string) : string {
+    let keyArray = workspace.getConfiguration('magic.uri').get('mark') as Array<string>;
+    let matchArray = uriPath.match(new RegExp(keyArray.join('|')));
+    return (matchArray && matchArray[0]) ? matchArray[0] : '**';
   }
 
   public async provideReferences(document: TextDocument, position: Position, context: ReferenceContext, token: CancellationToken): Promise<Location[] | undefined> {

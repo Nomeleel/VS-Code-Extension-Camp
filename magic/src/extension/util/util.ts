@@ -1,4 +1,4 @@
-import { commands, TextEdit, Uri, window, workspace, WorkspaceEdit } from "vscode";
+import { commands, Position, Range, TextEdit, Uri, window, workspace, WorkspaceEdit } from "vscode";
 
 export function activePositionText() : string | undefined {
     if (window.activeTextEditor) {
@@ -32,4 +32,9 @@ export async function realLineCount(uri: Uri) : Promise<number> {
     lineCount--;
   }
   return lineCount;
+}
+
+export async function getFillRange(uri: Uri) : Promise<Range>{
+  let textDocument = await workspace.openTextDocument(uri);
+  return new Range(new Position(0, 0), new Position(textDocument.lineCount + 1, 0));
 }
