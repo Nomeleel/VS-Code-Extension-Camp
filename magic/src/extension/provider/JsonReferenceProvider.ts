@@ -33,7 +33,7 @@ export class JsonReferenceProvider implements DefinitionProvider, ReferenceProvi
   // 大写kind搜索Class 小写搜索File
   // 小写的File可能会有很多 需要根据当前document uri中关键字 选取最接近的一个
   private async getSymbol(query: string, textDocument: TextDocument ) : Promise<SymbolInformation | undefined> {
-    if (/[A-Z]\S*/.test(query)) {
+    if (/^[A-Z]\S*/.test(query)) {
       return this.getDartSymbol(query);
     } else {
       return this.getFileSymbol(query, textDocument);

@@ -8,7 +8,7 @@ export class SymbolProvider implements WorkspaceSymbolProvider {
   // 文件在不断变化，如果一开始就把映射建立好，后期就要监听文件的变化，并维护映射
   // 每次查询通过查找文件名或许不会太慢
   public async provideWorkspaceSymbols(query: string, token: CancellationToken): Promise<SymbolInformation[] | undefined> {
-    if (/[a-z]\S*/.test(query)) {
+    if (/^[a-z]\S*/.test(query)) {
       let queryParse = query.split('.');
       if (queryParse.length === 2) {
         let subQuery = queryParse[0];
