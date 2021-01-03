@@ -2,6 +2,8 @@ import * as fs from "fs";
 import * as path from "path";
 import * as vs from "vscode";
 import { Uri } from "vscode";
+import { JumpToEditorCommand } from "../command/JumpToEditorCommand";
+import { first, openTextDocument } from "../util/util";
 
 export class JsonFileListener implements vs.Disposable {
 	private readonly subscriptions: vs.Disposable[] = [];
@@ -76,7 +78,7 @@ export class JsonFileListener implements vs.Disposable {
 					'Copy And Manual', 'Cancel').then((select) => {
 						if (select === 'Copy And Manual') {
 							// TODO 复制到剪切板
-							this.openAppJson(targetFiles.AppJsonPath);
+							this.openAppJson(targetFiles);
 						}
 					});
 				return;
@@ -85,7 +87,7 @@ export class JsonFileListener implements vs.Disposable {
 			vs.window.showInformationMessage('😊 😊 😊 Successfully operation! Whether to check?😊 😊 😊',
 				'Double Check', 'I Believe You').then((select) => {
 					if (select === 'Double Check') {
-						this.openAppJson(targetFiles.AppJsonPath);
+						this.openAppJson(targetFiles);
 					}
 				});;
 
@@ -152,11 +154,9 @@ export class JsonFileListener implements vs.Disposable {
 		return targetFiles;
 	}
 
-	private openAppJson(appJsonPath: string): void {
-		vs.workspace.openTextDocument(appJsonPath).then((textDocument) => {
-			// TODO 定位到添加的地方
-			vs.window.showTextDocument(textDocument);
-		});
+	private async openAppJson(targetFiles: TargetFiles): Promise<void> {
+		await openTextDocument(targetFiles.AppJsonPath);
+		JumpToEditorCommand.jumpToEditor(vs.window.activeTextEditor, targetFiles.activeText());
 	}
 
 	public dispose() {
@@ -204,6 +204,24 @@ class TargetFiles {
 			this.UpdatedFileMap.set(dir, new Array<{ old: string, new: string }>());
 		}
 		this.UpdatedFileMap.get(dir)?.push({ old: oldAnalysisFileUri.Name, new: newAnalysisFileUri.Name });
+	}
+
+	public activeText() : String | undefined {
+		let firstList;
+		firstList = first(this.AddedFileMap);
+		if (firstList) {
+			return firstList[0];
+		}
+
+		firstList = first(this.UpdatedFileMap);
+		if (firstList) {
+			return firstList[0].new;
+		}
+		
+		firstList = first(this.DeletedFileMap);
+		if (firstList) {
+			return firstList[0];
+		}
 	}
 
 	public isNotEmpty(): boolean {

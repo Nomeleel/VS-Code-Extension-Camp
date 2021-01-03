@@ -1,4 +1,10 @@
-import { commands, Position, Range, TextEdit, Uri, window, workspace, WorkspaceEdit } from "vscode";
+import { commands, Position, Range, TextEdit, TextEditor, Uri, window, workspace, WorkspaceEdit } from "vscode";
+
+
+export async function openTextDocument(path: string) {
+  let textDocument = await workspace.openTextDocument(path);
+  await window.showTextDocument(textDocument);
+}
 
 export function activePositionText() : string | undefined {
     if (window.activeTextEditor) {
@@ -37,4 +43,30 @@ export async function realLineCount(uri: Uri) : Promise<number> {
 export async function getFillRange(uri: Uri) : Promise<Range>{
   let textDocument = await workspace.openTextDocument(uri);
   return new Range(new Position(0, 0), new Position(textDocument.lineCount + 1, 0));
+}
+
+export function rangesOfOne(textEditor: TextEditor, searchText: string): Range | undefined {
+  const doc = textEditor.document;
+  if (doc) {
+    for (let index = 0; index < doc.lineCount; index++) {
+      let findIndex = doc.lineAt(index).text.indexOf(searchText);
+      if (findIndex !== -1) {
+        return doc.getWordRangeAtPosition(new Position(index, findIndex + searchText.length), /([^\"]+)/g);
+      }
+    }
+  }
+}
+
+export function isString(string: any) : boolean {
+  // return Object.prototype.toString.call(string) === '[object String]';
+  return typeof(string) === 'string';
+}
+
+export function first(map: Map<any, any>) : any | undefined {
+  let first;
+  map?.forEach((v, k) => {
+    first = v;
+    return;
+  });
+  return first;
 }
