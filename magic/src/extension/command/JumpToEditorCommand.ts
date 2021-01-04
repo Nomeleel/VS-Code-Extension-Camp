@@ -17,15 +17,19 @@ export class JumpToEditorCommand implements Disposable {
       await openTextDocument(editor.document.uri.fsPath);
     }
 
-    let displayRange;
+    let displayRange : Range | undefined;
     
-    if (target && isString(target)) {
-      console.log(target.toString());
-      displayRange = rangesOfOne(editor, target.toString());
-      console.log(displayRange);
-      console.log(displayRange);
-      selectionRange = displayRange;
-    }
+    if (target) {
+      if (isString(target)) {
+        console.log(target.toString());
+        displayRange = rangesOfOne(editor, target.toString());
+        selectionRange = displayRange;
+      } else if (target instanceof Range) {
+        displayRange = target;
+      } else {
+        // Nothing to do.
+      }
+    } 
 
     if (!displayRange) {
       displayRange = new Range(new Position(0, 0), new Position(0, 0));
