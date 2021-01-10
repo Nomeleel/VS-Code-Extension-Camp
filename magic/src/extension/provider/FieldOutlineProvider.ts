@@ -46,12 +46,13 @@ export class FieldOutlineProvider implements TreeDataProvider<FieldItem>, Dispos
     if (textEditor && this.isTargerJsonFile(textEditor)) {
       let fieldArray = this.getFieldArray();
       if (fieldArray.length > 0) {
+        let pageSize = this.getPageSize();
         this.rootNode = new FieldItem('Field Outline');
         let children = new Array<FieldItem>();
         fieldArray.forEach((e) => {
           let ePlus = this.parseField(e);
           let fieldItem = new FieldItem(ePlus.field, this.getUri('constant-light.svg'), ePlus.regExp);
-          fieldItem.setChildren(this.rangesTo(textEditor, ePlus));
+          fieldItem.setChildren(this.pagination(this.rangesTo(textEditor, ePlus), pageSize));
           children.push(fieldItem);
         });
         this.rootNode.setChildren(children);
@@ -60,6 +61,27 @@ export class FieldOutlineProvider implements TreeDataProvider<FieldItem>, Dispos
       this.rootNode = undefined;
     }
     this.onDidChangeTreeDataEmitter.fire(this.rootNode);
+  }
+
+  public pagination(fieldItemArray: Array<FieldItem>, pageSize: number) : Array<FieldItem>{
+    if (fieldItemArray.length > pageSize) {
+      let fieldItemPageArray = new Array<FieldItem>();
+      let totalPage = Math.ceil(fieldItemArray.length / pageSize);
+      for (let page = 1; page <= totalPage; page++ ) {
+        let fieldItemPage = new FieldItem('', this.getUri('constant-light.svg'), `Page: ${totalPage}/${page}`);
+        fieldItemPage.setChildren(fieldItemArray.slice((page - 1) * pageSize, page * pageSize));
+        fieldItemPageArray.push(fieldItemPage);
+      }
+      return fieldItemPageArray;
+    } else {
+      return fieldItemArray;
+    }
+  }
+
+  public getPageSize(): number {
+    let configuration = workspace.getConfiguration();
+    let pageSize = configuration.get('magic.outline.pageSize') as number;
+    return pageSize ?? 20;
   }
 
   public getUri(filePath: string): Uri {

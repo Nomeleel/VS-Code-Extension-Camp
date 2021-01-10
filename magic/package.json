@@ -64,6 +64,11 @@
 				"title": "Open Settings for Magic Outline FieldArray"
 			},
 			{
+				"command": "magic.openOutlinePageSizeSettings",
+				"icon": "resources/icons/pages.svg",
+				"title": "Open Settings for Magic Outline PageSize"
+			},
+			{
 				"command": "magic.openCustomizeImportArraySettings",
 				"title": "Open Settings for Magic Customize ImportArray"
 			}
@@ -94,7 +99,7 @@
 				{
 					"id": "outline",
 					"title": "Magic Outline",
-					"icon": "resources/json.png"
+					"icon": "resources/icons/magic.svg"
 				}
 			]
 		},
@@ -115,6 +120,11 @@
 			"view/title": [
 				{
 					"command": "magic.openOutlineFieldArraySettings",
+					"when": "view == outline.field",
+					"group": "navigation"
+				},
+				{
+					"command": "magic.openOutlinePageSizeSettings",
 					"when": "view == outline.field",
 					"group": "navigation"
 				}
@@ -143,6 +153,12 @@
 					"items": {
 						"type": "string"
 					},
+					"scope": "resource"
+				},
+				"magic.outline.pageSize": {
+					"type": "number",
+					"default": 20,
+					"markdownDescription": "The size of the page number displayed by each sub-item in the outline view",
 					"scope": "resource"
 				},
 				"magic.customize.importArray": {
