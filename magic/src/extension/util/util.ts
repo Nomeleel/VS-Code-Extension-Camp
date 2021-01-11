@@ -70,3 +70,7 @@ export function first(map: Map<any, any>) : any | undefined {
   });
   return first;
 }
+
+export function getConfiguration<T>(key : string) : T {
+  return workspace.getConfiguration().get(key) as T;
+}

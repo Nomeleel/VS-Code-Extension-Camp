@@ -1,5 +1,5 @@
 import { commands, Disposable, Position, TextEdit, window, workspace} from "vscode";
-import { activePositionText, dartFileEdit} from "../util/util";
+import { activePositionText, dartFileEdit, getConfiguration} from "../util/util";
 
 export class AddImportCommand implements Disposable {
   private disposables: Disposable[] = [];
@@ -24,7 +24,7 @@ export class AddImportCommand implements Disposable {
   }
   
   public getImportArray() : Array<string> {
-    return workspace.getConfiguration('magic.customize').get('importArray') as Array<string>;
+    return getConfiguration<Array<string>>('magic.customize.importArray');
   }
 
   public findImport(text: string) : string | undefined {

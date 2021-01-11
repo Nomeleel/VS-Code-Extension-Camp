@@ -1,7 +1,8 @@
 import {
   CancellationToken, commands, DefinitionProvider, Location, LocationLink, Position, Range, ReferenceContext,
-  ReferenceProvider, SymbolInformation, SymbolKind, TextDocument, workspace
+  ReferenceProvider, SymbolInformation, SymbolKind, TextDocument
 } from "vscode";
+import { getConfiguration } from "../util/util";
 
 export class JsonReferenceProvider implements DefinitionProvider, ReferenceProvider {
 
@@ -60,7 +61,7 @@ export class JsonReferenceProvider implements DefinitionProvider, ReferenceProvi
   }
 
   private getUriKey(uriPath: string) : string {
-    let keyArray = workspace.getConfiguration('magic.uri').get('mark') as Array<string>;
+    let keyArray = getConfiguration<Array<string>>('magic.uri.mark');
     let matchArray = uriPath.match(new RegExp(keyArray.join('|')));
     return (matchArray && matchArray[0]) ? matchArray[0] : '**';
   }

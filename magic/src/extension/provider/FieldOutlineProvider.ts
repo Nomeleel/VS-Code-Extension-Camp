@@ -1,5 +1,6 @@
 import * as path from "path";
 import { Command, Disposable, Event, EventEmitter, extensions, Position, Range, TextEditor, TreeDataProvider, TreeItem, TreeItemCollapsibleState, Uri, window, workspace } from "vscode";
+import { getConfiguration } from "../util/util";
 
 export class FieldOutlineProvider implements TreeDataProvider<FieldItem>, Disposable {
 
@@ -79,9 +80,7 @@ export class FieldOutlineProvider implements TreeDataProvider<FieldItem>, Dispos
   }
 
   public getPageSize(): number {
-    let configuration = workspace.getConfiguration();
-    let pageSize = configuration.get('magic.outline.pageSize') as number;
-    return pageSize ?? 20;
+    return getConfiguration<number>('magic.outline.pageSize') ?? 20;
   }
 
   public getUri(filePath: string): Uri {
@@ -90,7 +89,7 @@ export class FieldOutlineProvider implements TreeDataProvider<FieldItem>, Dispos
 
   public parseField(field: string): { field: string, regExp: string } {
     let fieldPlus = field.split('/');
-    return { field: fieldPlus[0], regExp: fieldPlus.length === 2 ? fieldPlus[1] : '' }
+    return { field: fieldPlus[0], regExp: fieldPlus.length === 2 ? fieldPlus[1] : '' };
   }
 
   public jumpToCommand(range: Range): Command {
@@ -132,9 +131,7 @@ export class FieldOutlineProvider implements TreeDataProvider<FieldItem>, Dispos
   }
 
   public getFieldArray(): Array<string> {
-    let configuration = workspace.getConfiguration();
-    let fieldArray = configuration.get('magic.outline.fieldArray') as Array<string>;
-    return fieldArray;
+    return getConfiguration<Array<string>>('magic.outline.fieldArray');
   }
 
   public dispose() {
