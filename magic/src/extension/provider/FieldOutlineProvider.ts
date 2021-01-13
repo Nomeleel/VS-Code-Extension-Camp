@@ -1,5 +1,5 @@
 import * as path from "path";
-import { Command, Disposable, Event, EventEmitter, extensions, Position, Range, TextEditor, TreeDataProvider, TreeItem, TreeItemCollapsibleState, Uri, window, workspace } from "vscode";
+import { Command, commands, Disposable, Event, EventEmitter, extensions, Position, Range, TextEditor, TreeDataProvider, TreeItem, TreeItemCollapsibleState, Uri, window, workspace } from "vscode";
 import { getConfiguration } from "../util/util";
 
 export class FieldOutlineProvider implements TreeDataProvider<FieldItem>, Disposable {
@@ -45,6 +45,7 @@ export class FieldOutlineProvider implements TreeDataProvider<FieldItem>, Dispos
   public listenerJsonFile(textEditor: TextEditor | undefined) {
     this.onDidChangeTreeDataEmitter.fire(undefined);
     if (textEditor && this.isTargerJsonFile(textEditor)) {
+      this.switchOutlineView(true);
       let fieldArray = this.getFieldArray();
       if (fieldArray.length > 0) {
         let pageSize = this.getPageSize();
@@ -59,10 +60,15 @@ export class FieldOutlineProvider implements TreeDataProvider<FieldItem>, Dispos
         this.rootNode.setChildren(children);
       }
     } else {
+      this.switchOutlineView(false);
       this.rootNode = undefined;
     }
     this.onDidChangeTreeDataEmitter.fire(this.rootNode);
   }
+
+	private switchOutlineView(visible: boolean) {
+		commands.executeCommand("setContext", 'magic.showOutline', visible);
+	}
 
   public pagination(fieldItemArray: Array<FieldItem>, pageSize: number) : Array<FieldItem>{
     if (fieldItemArray.length > pageSize) {

@@ -81,17 +81,17 @@
 			}
 		],
 		"views": {
-      "outline": [
-        {
-          "id": "outline.json",
+			"outline": [
+				{
+					"id": "outline.json",
 					"name": "Json Outline",
-					"when": "resourceLangId == json && resourceScheme == file"
+					"when": "magic.showOutline"
 				},
 				{
-          "id": "outline.field",
+					"id": "outline.field",
 					"name": "Field Outline",
-					"when": "resourceLangId == json && resourceScheme == file"
-        }
+					"when": "magic.showOutline"
+				}
 			]
 		},
 		"viewsContainers": {
