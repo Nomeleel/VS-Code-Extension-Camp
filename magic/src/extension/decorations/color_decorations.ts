@@ -21,7 +21,7 @@ export class ColorDecorations implements vs.Disposable {
 					clearTimeout(this.updateTimeout);
 				}
 
-				this.updateTimeout = setTimeout(() => this.update(), 1000);
+				this.updateTimeout = setTimeout(() => this.update(), 300);
 			}
 		}));
 
