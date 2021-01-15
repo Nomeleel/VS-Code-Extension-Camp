@@ -9,31 +9,48 @@ export class FileCommand implements Disposable {
 
   constructor() {
     this.disposables.push(
-      commands.registerCommand("vscbox.fileEncrypt", this.fileXOR, this),
-      commands.registerCommand("vscbox.fileDecrypt", this.fileXOR, this),
+      commands.registerCommand("vscbox.fileEncrypt", this.fileOperate, this),
+      commands.registerCommand("vscbox.fileDecrypt", this.fileOperate, this),
     );
   }
 
-  private fileXOR(fileUri: Uri) {
+  private fileOperate(fileUri: Uri) {
     let xorKey: Array<number> | undefined = getOrSetKey();
     if (xorKey) {
-      let currentFilePath = fileUri.fsPath;
-      fs.readFile(currentFilePath, (error, data) => {
-        if (error) {
-          console.log('Error!');
+      let fileXOR = (currentFilePath: string, targetFilePath?: string) => {
+        if (fs.lstatSync(currentFilePath).isDirectory()) {
+          fs.readdir(currentFilePath, (error, files) => {
+            if (error) {
+              console.log(`Error: ${currentFilePath}`);
+            } else {
+              let dirPath = targetFilePath ?? addDateSuffixForFilePath(currentFilePath);
+              mkdirSync(dirPath);
+              files.forEach((filePath) => {
+                fileXOR(path.join(currentFilePath, filePath), path.join(dirPath, filePath));
+              });
+            }
+          });
         } else {
-          let xorBuffer = this.xor(data, xorKey ?? []);
-          this.writeThenOpenFileSync(addDateSuffixForFilePath(currentFilePath), xorBuffer);
-          this.tryUnZip(xorBuffer, currentFilePath);
+          fs.readFile(currentFilePath, (error, data) => {
+            if (error) {
+              console.log(`Error: ${currentFilePath}`);
+            } else {
+              let xorBuffer = this.xor(data, xorKey ?? []);
+              this.writeThenOpenFileSync(targetFilePath ?? addDateSuffixForFilePath(currentFilePath), xorBuffer);
+              this.tryUnZip(xorBuffer, currentFilePath);
+            }
+          });
         }
-      });
+      };
+
+      fileXOR(fileUri.fsPath);
     }
   }
 
-  private xor(buffer: Buffer, xorKey: Array<number>) : Buffer {
+  private xor(buffer: Buffer, xorKey: Array<number>): Buffer {
     let bytesLength = buffer.length;
     let keyBytesLength = xorKey.length;
-    if(bytesLength > 0 && keyBytesLength > 0) {
+    if (bytesLength > 0 && keyBytesLength > 0) {
       for (let i = 0, startIndex = 0; i < bytesLength; i++, startIndex++) {
         startIndex %= keyBytesLength;
         buffer[i] ^= xorKey[startIndex];
