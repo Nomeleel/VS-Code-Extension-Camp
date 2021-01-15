@@ -49,7 +49,7 @@ export class ColorDecorations implements vs.Disposable {
 			const filePath = this.createImageFile(colorHex);
 			if (filePath && !this.decorationTypes[colorHex]) {
 				this.decorationTypes[colorHex] = vs.window.createTextEditorDecorationType({
-					backgroundColor: `#${colorHex.substring(2)}`,
+					backgroundColor: `#${colorHex.substring(2)}#${colorHex.substring(0, 2)}`,
 					gutterIconPath: vs.Uri.file(filePath),
 					gutterIconSize: "50%",
 				});
