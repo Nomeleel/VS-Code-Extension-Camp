@@ -1,7 +1,7 @@
 import { commands, Uri, window, workspace } from "vscode";
 import * as fs from "fs";
 
-export function getOrSetConfig(configKey: string) : Array<number> | undefined{
+export function getOrSetConfig(configKey: string): Array<number> | undefined {
   let key = getKey();
   if (isNullOrEmpty(key)) {
     commands.executeCommand(`vscbox.open${firstCaseToUpper(configKey)}Settings`);
@@ -11,15 +11,14 @@ export function getOrSetConfig(configKey: string) : Array<number> | undefined{
   }
 }
 
-export function getOrSetKey() : Array<number> | undefined{
+export function getOrSetKey(): Array<number> | undefined {
   return getOrSetConfig('keyArray');
 }
 
-export function getKey() : Array<number>{
-  let configuration = workspace.getConfiguration();
-  let keyArray = configuration.get('vscbox.keyArray') as Array<number>;
+export function getKey(): Array<number> {
+  let keyArray = getConfiguration<Array<number>>('vscbox.keyArray');
   if (keyArray.length === 0) {
-    let keyStr: string|undefined = configuration.get('vscbox.keyString');
+    let keyStr: string | undefined = getConfiguration('vscbox.keyString');
     if (keyStr) {
       keyArray = keyStr.split(',').map((e) => parseInt(e));
     }
@@ -28,7 +27,12 @@ export function getKey() : Array<number>{
   return keyArray;
 }
 
-export function isNullOrEmpty(value: Array<any> | undefined) : boolean {
+export function getConfiguration<T>(configKey: string): T {
+  let configuration = workspace.getConfiguration();
+  return configuration.get(configKey) as T;
+}
+
+export function isNullOrEmpty(value: Array<any> | undefined): boolean {
   return value ? value.length === 0 : true;
 }
 
@@ -42,7 +46,7 @@ export function addDateSuffixForFilePath(filePath: string): string {
   if (dotIndex === -1) {
     dotIndex = filePath.length;
   }
-  
+
   return `${filePath.substring(0, dotIndex)}_${dateTimeNowStr}${filePath.substring(dotIndex)}`;
 }
 
@@ -55,7 +59,7 @@ export function getZipDirPath(zipFilePath: string): string {
   return zipFilePath.substring(0, dotIndex);
 }
 
-export function dateTimeNowString() : string {
+export function dateTimeNowString(): string {
   return new Date().toJSON().replace(/\D/g, '');
 }
 
