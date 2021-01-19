@@ -54,6 +54,14 @@
 				"category": "Dart"
 			},
 			{
+				"command": "magic.outlineFieldUp",
+				"title": "Outline Field Up"
+			},
+			{
+				"command": "magic.outlineFieldDown",
+				"title": "Outline Field Down"
+			},
+			{
 				"command": "magic.openSettings",
 				"icon": "resources/icons/field-dark.svg",
 				"title": "Open Settings for Magic"
@@ -127,6 +135,18 @@
 					"command": "magic.openOutlinePageSizeSettings",
 					"when": "view == outline.field",
 					"group": "navigation"
+				}
+			],
+			"view/item/context": [
+				{
+					"command": "magic.outlineFieldUp",
+					"when": "magic.showOutline",
+					"group": "sort1"
+				},
+				{
+					"command": "magic.outlineFieldDown",
+					"when": "magic.showOutline",
+					"group": "sort2"
 				}
 			],
 			"editor/context": [

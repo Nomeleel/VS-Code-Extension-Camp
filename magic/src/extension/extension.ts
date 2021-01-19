@@ -5,6 +5,7 @@ import { AddInInitScriptCommand } from "./command/AddInInitScriptCommand";
 import { AddScriptCommand } from "./command/AddScriptCommand";
 import { JumpToEditorCommand } from "./command/JumpToEditorCommand";
 import { OpenSettingsCommand } from "./command/OpenSettingsCommand";
+import { OutlineFieldSortCommand } from "./command/OutlineFieldSortCommand";
 import { ColorDecorations } from "./decorations/color_decorations";
 import { JsonFileListener } from "./listener/JsonFileListener";
 import { ScriptFileListener } from "./listener/ScriptFileListener";
@@ -26,6 +27,7 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(new AddImportCommand());
 	context.subscriptions.push(new JumpToEditorCommand());
 	context.subscriptions.push(new OpenSettingsCommand());
+	context.subscriptions.push(new OutlineFieldSortCommand());
 
 	context.subscriptions.push(new ColorDecorations(path.join(context.globalStoragePath, "colors")));
 	

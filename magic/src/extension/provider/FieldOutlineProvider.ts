@@ -19,6 +19,12 @@ export class FieldOutlineProvider implements TreeDataProvider<FieldItem>, Dispos
   constructor() {
     this.subscriptions.push(window.onDidChangeActiveTextEditor((e) => this.listenerJsonFile(e)));
     this.subscriptions.push(workspace.onDidChangeTextDocument((e) => this.listenerJsonFile(window.activeTextEditor)));
+    this.subscriptions.push(workspace.onDidChangeConfiguration((e) => {
+      if (e.affectsConfiguration('magic.outline.fieldArray')) {
+        this.listenerJsonFile(window.activeTextEditor);
+      }
+    }));
+
     if (window.activeTextEditor) {
       this.listenerJsonFile(window.activeTextEditor);
     }

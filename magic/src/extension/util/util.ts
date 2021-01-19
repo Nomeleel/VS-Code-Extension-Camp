@@ -74,3 +74,7 @@ export function first(map: Map<any, any>) : any | undefined {
 export function getConfiguration<T>(key : string) : T {
   return workspace.getConfiguration().get(key) as T;
 }
+
+export function setConfiguration<T>(key : string, value: T) {
+  return workspace.getConfiguration().update(key, value);
+}
