@@ -75,6 +75,6 @@ export function getConfiguration<T>(key : string) : T {
   return workspace.getConfiguration().get(key) as T;
 }
 
-export function setConfiguration<T>(key : string, value: T) {
-  return workspace.getConfiguration().update(key, value);
+export function setGlobalConfiguration<T>(key : string, value: T) {
+  return workspace.getConfiguration().update(key, value, true);
 }

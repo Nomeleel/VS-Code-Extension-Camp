@@ -1,6 +1,6 @@
 import * as vs from "vscode";
 import { FieldItem } from "../provider/FieldOutlineProvider";
-import { getConfiguration, setConfiguration } from "../util/util";
+import { getConfiguration, setGlobalConfiguration } from "../util/util";
 
 export class OutlineFieldSortCommand implements vs.Disposable {
 	private disposables: vs.Disposable[] = [];
@@ -35,7 +35,7 @@ export class OutlineFieldSortCommand implements vs.Disposable {
 				let target = fieldArray[index];
 				fieldArray[index] = fieldArray[index - moveLength];
 				fieldArray[index - moveLength] = target;
-				setConfiguration<Array<string>>(this.configKey, fieldArray);
+				setGlobalConfiguration<Array<string>>(this.configKey, fieldArray);
 			}
 		}
   }
