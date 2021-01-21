@@ -12,8 +12,8 @@ export class JsonOutlineProvider implements TreeDataProvider<JsonItem>, Disposab
   }
   
   public getChildren(element: JsonItem): JsonItem[] {
-		console.log(window.activeTextEditor?.document.getText());
-    console.log(window.activeTextEditor?.selections);
+		//console.log(window.activeTextEditor?.document.getText());
+    //console.log(window.activeTextEditor?.selections);
 		return this.rangesOf('type').map<JsonItem>((e) => new JsonItem(e.start.line.toString()));
 	}
 	

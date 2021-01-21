@@ -10,6 +10,7 @@ import { ColorDecorations } from "./decorations/color_decorations";
 import { JsonFileListener } from "./listener/JsonFileListener";
 import { ScriptFileListener } from "./listener/ScriptFileListener";
 import { FieldOutlineProvider } from "./provider/FieldOutlineProvider";
+import { JsonCompletionItemProvider } from "./provider/JsonCompletionItemProvider";
 import { JsonOutlineProvider } from "./provider/JsonOutlineProvider";
 import { JsonReferenceProvider } from "./provider/JsonReferenceProvider";
 import { SymbolProvider } from "./provider/SymbolProvider";
@@ -37,6 +38,7 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.languages.registerWorkspaceSymbolProvider(new SymbolProvider()));
 	context.subscriptions.push(vscode.languages.registerDefinitionProvider(JSON_MODE, new JsonReferenceProvider()));
 	context.subscriptions.push(vscode.languages.registerReferenceProvider(JSON_MODE, new JsonReferenceProvider()));
+	context.subscriptions.push(vscode.languages.registerCompletionItemProvider(JSON_MODE, new JsonCompletionItemProvider(), '"'));
 	context.subscriptions.push(vscode.window.createTreeView("outline.json", { treeDataProvider: new JsonOutlineProvider(), showCollapseAll: true }));
 	context.subscriptions.push(vscode.window.createTreeView("outline.field", { treeDataProvider: new FieldOutlineProvider(), showCollapseAll: true }));
 }
