@@ -1,10 +1,11 @@
-import { commands, Disposable, Position, Range, Selection, TextEditor, TextEditorRevealType, window } from "vscode";
+import { commands, Position, Range, Selection, TextEditor, TextEditorRevealType, window } from "vscode";
+import { BaseDisposable } from "../BaseDisposable";
 import { isString, openTextDocument, rangesOfOne } from "../util/util";
 
-export class JumpToEditorCommand implements Disposable {
-	private disposables: Disposable[] = [];
+export class JumpToEditorCommand extends BaseDisposable  {
 
 	constructor() {
+    super();
 		this.disposables.push(
 			commands.registerCommand("magic.jumpToEditor", JumpToEditorCommand.jumpToEditor, this),
 		);
@@ -41,8 +42,4 @@ export class JumpToEditorCommand implements Disposable {
 
     editor.revealRange(displayRange, TextEditorRevealType.InCenterIfOutsideViewport);
   }
-
-  public dispose(): any {
-		this.disposables.forEach((e) => e.dispose());
-	}
 }

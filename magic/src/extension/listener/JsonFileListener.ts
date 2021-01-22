@@ -1,22 +1,21 @@
 import * as fs from "fs";
 import * as path from "path";
-import * as vs from "vscode";
-import { Uri } from "vscode";
+import { Uri, window, workspace } from "vscode";
+import { BaseDisposable } from "../BaseDisposable";
 import { JumpToEditorCommand } from "../command/JumpToEditorCommand";
 import { first, openTextDocument } from "../util/util";
 
-export class JsonFileListener implements vs.Disposable {
-	private readonly subscriptions: vs.Disposable[] = [];
-
+export class JsonFileListener extends BaseDisposable {
 	constructor() {
-		this.subscriptions.push(vs.workspace.onDidCreateFiles((e) => this.jsonFileChangedHandle(e, OperationType.Added)));
+		super();
+		this.disposables.push(workspace.onDidCreateFiles((e) => this.jsonFileChangedHandle(e, OperationType.Added)));
 
 		// 文件移动也算Rename 先删除老的 在增加新的
 		// 同路径改名字
 		// 文件夹修改 先不考虑
-		this.subscriptions.push(vs.workspace.onDidRenameFiles((e) => this.jsonFileChangedHandle(e, OperationType.Updated)));
+		this.disposables.push(workspace.onDidRenameFiles((e) => this.jsonFileChangedHandle(e, OperationType.Updated)));
 
-		this.subscriptions.push(vs.workspace.onDidDeleteFiles((e) => this.jsonFileChangedHandle(e, OperationType.Deleted)));
+		this.disposables.push(workspace.onDidDeleteFiles((e) => this.jsonFileChangedHandle(e, OperationType.Deleted)));
 	}
 
 	private jsonFileChangedHandle(event: any, operationType: OperationType) {
@@ -24,7 +23,7 @@ export class JsonFileListener implements vs.Disposable {
 		console.log(getTargetFile);
 		console.log(getTargetFile.isNotEmpty());
 		if (getTargetFile.isNotEmpty()) {
-			vs.window.showInformationMessage('😊 😊 😊 Whether to update app.json based on your changes? 😊 😊 😊',
+			window.showInformationMessage('😊 😊 😊 Whether to update app.json based on your changes? 😊 😊 😊',
 				'Sure', 'No, Thanks').then((select) => {
 					if (select === 'Sure') {
 						this.updateAppJson(getTargetFile);
@@ -74,7 +73,7 @@ export class JsonFileListener implements vs.Disposable {
 
 		fs.writeFile(targetFiles.AppJsonPath, newAppJson, (err) => {
 			if (err) {
-				vs.window.showErrorMessage('😂 😂 😂 Failed operation, please do it manually. 😂 😂 😂',
+				window.showErrorMessage('😂 😂 😂 Failed operation, please do it manually. 😂 😂 😂',
 					'Copy And Manual', 'Cancel').then((select) => {
 						if (select === 'Copy And Manual') {
 							// TODO 复制到剪切板
@@ -84,7 +83,7 @@ export class JsonFileListener implements vs.Disposable {
 				return;
 			}
 
-			vs.window.showInformationMessage('😊 😊 😊 Successfully operation! Whether to check?😊 😊 😊',
+			window.showInformationMessage('😊 😊 😊 Successfully operation! Whether to check?😊 😊 😊',
 				'Double Check', 'I Believe You').then((select) => {
 					if (select === 'Double Check') {
 						this.openAppJson(targetFiles);
@@ -156,12 +155,9 @@ export class JsonFileListener implements vs.Disposable {
 
 	private async openAppJson(targetFiles: TargetFiles): Promise<void> {
 		await openTextDocument(targetFiles.AppJsonPath);
-		JumpToEditorCommand.jumpToEditor(vs.window.activeTextEditor, targetFiles.activeText());
+		JumpToEditorCommand.jumpToEditor(window.activeTextEditor, targetFiles.activeText());
 	}
 
-	public dispose() {
-		this.subscriptions.forEach((s) => s.dispose());
-	}
 }
 
 class TargetFiles {

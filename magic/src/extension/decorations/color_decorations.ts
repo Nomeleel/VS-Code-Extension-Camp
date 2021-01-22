@@ -1,20 +1,21 @@
 import * as fs from "fs";
 import * as path from "path";
-import * as vs from "vscode";
+import { TextEditor, TextEditorDecorationType, Uri, window, workspace } from "vscode";
+import { BaseDisposable } from "../BaseDisposable";
 import { ColorRangeComputer } from "../color_range_computer";
 import { isAnalyzable } from "../utils";
 
-export class ColorDecorations implements vs.Disposable {
-	private readonly subscriptions: vs.Disposable[] = [];
+export class ColorDecorations extends BaseDisposable {
 	private readonly computer: ColorRangeComputer;
-	private activeEditor?: vs.TextEditor;
+	private activeEditor?: TextEditor;
 	private updateTimeout?: NodeJS.Timeout;
 
-	private readonly decorationTypes: { [key: string]: vs.TextEditorDecorationType } = {};
+	private readonly decorationTypes: { [key: string]: TextEditorDecorationType } = {};
 
 	constructor(private readonly imageStoragePath: string) {
+		super();
 		this.computer = new ColorRangeComputer();
-		this.subscriptions.push(vs.workspace.onDidChangeTextDocument((e) => {
+		this.disposables.push(workspace.onDidChangeTextDocument((e) => {
 			if (this.activeEditor && e.document === this.activeEditor.document) {
 				// Delay this so if we're getting lots of updates we don't flicker.
 				if (this.updateTimeout) {
@@ -25,13 +26,13 @@ export class ColorDecorations implements vs.Disposable {
 			}
 		}));
 
-		this.subscriptions.push(vs.window.onDidChangeActiveTextEditor((e) => {
+		this.disposables.push(window.onDidChangeActiveTextEditor((e) => {
 			this.setTrackingFile(e);
 			this.update();
 		}));
 
-		if (vs.window.activeTextEditor) {
-			this.setTrackingFile(vs.window.activeTextEditor);
+		if (window.activeTextEditor) {
+			this.setTrackingFile(window.activeTextEditor);
 			this.update();
 		}
 	}
@@ -48,9 +49,9 @@ export class ColorDecorations implements vs.Disposable {
 		for (const colorHex of Object.keys(results)) {
 			const filePath = this.createImageFile(colorHex);
 			if (filePath && !this.decorationTypes[colorHex]) {
-				this.decorationTypes[colorHex] = vs.window.createTextEditorDecorationType({
+				this.decorationTypes[colorHex] = window.createTextEditorDecorationType({
 					backgroundColor: `#${colorHex.substring(2)}${colorHex.substring(0, 2)}`,
-					gutterIconPath: vs.Uri.file(filePath),
+					gutterIconPath: Uri.file(filePath),
 					gutterIconSize: "50%",
 				});
 			}
@@ -64,7 +65,7 @@ export class ColorDecorations implements vs.Disposable {
 		}
 	}
 
-	private setTrackingFile(editor: vs.TextEditor | undefined) {
+	private setTrackingFile(editor: TextEditor | undefined) {
 		if (editor && isAnalyzable(editor.document)) {
 			this.activeEditor = editor;
 		} else {
@@ -75,7 +76,7 @@ export class ColorDecorations implements vs.Disposable {
 	private createImageFile(hex: string): string | undefined {
 		// Add a version number to the folder in case we need to change these
 		// and invalidate the old ones.
-		const imageFolder = path.join(this.imageStoragePath, "v1");
+		const imageFolder = path.join(this.imageStoragePath, "colors", "v1");
 		mkDirRecursive(imageFolder);
 		const file = path.join(imageFolder, `${hex}.svg`);
 		if (fs.existsSync(file)) {
@@ -96,8 +97,8 @@ export class ColorDecorations implements vs.Disposable {
 	}
 
 	public dispose() {
+		super.dispose();
 		this.activeEditor = undefined;
-		this.subscriptions.forEach((s) => s.dispose());
 	}
 }
 

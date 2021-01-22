@@ -1,11 +1,11 @@
-import * as vs from "vscode";
+import { commands } from "vscode";
+import { BaseDisposable } from "../BaseDisposable";
 
-export class AddScriptCommand implements vs.Disposable {
-	private disposables: vs.Disposable[] = [];
-
+export class AddScriptCommand extends BaseDisposable {
 	constructor() {
+		super();
 		this.disposables.push(
-			vs.commands.registerCommand("magic.addScript", this.addScript, this),
+			commands.registerCommand("magic.addScript", this.addScript, this),
 		);
   }
 
@@ -13,7 +13,4 @@ export class AddScriptCommand implements vs.Disposable {
 
   }
 
-  public dispose(): any {
-		this.disposables.forEach((e) => e.dispose());
-	}
 }

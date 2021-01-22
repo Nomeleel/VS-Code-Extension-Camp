@@ -1,10 +1,17 @@
 import {
-  CancellationToken, commands, DefinitionProvider, Location, LocationLink, Position, Range, ReferenceContext,
+  CancellationToken, commands, DefinitionProvider, Disposable, languages, Location, LocationLink, Position, Range, ReferenceContext,
   ReferenceProvider, SymbolInformation, SymbolKind, TextDocument
 } from "vscode";
+import { JSON_MODE } from "../constant/constant";
 import { getConfiguration } from "../util/util";
 
-export class JsonReferenceProvider implements DefinitionProvider, ReferenceProvider {
+export class JsonReferenceProvider implements DefinitionProvider, ReferenceProvider, Disposable {
+	public disposables: Disposable[] = [];
+
+  constructor() {
+    this.disposables.push(languages.registerDefinitionProvider(JSON_MODE, this));
+    this.disposables.push(languages.registerReferenceProvider(JSON_MODE, this));
+  }
 
   public async provideDefinition(document: TextDocument, position: Position, token: CancellationToken): Promise<LocationLink[] | undefined> {
     let textRange = document.getWordRangeAtPosition(position, /([^\"\s]+)/g);
@@ -69,6 +76,10 @@ export class JsonReferenceProvider implements DefinitionProvider, ReferenceProvi
   public async provideReferences(document: TextDocument, position: Position, context: ReferenceContext, token: CancellationToken): Promise<Location[] | undefined> {
     return undefined;
   }
+
+  public dispose(): any {
+		this.disposables.forEach((e) => e.dispose());
+	}
 }
 
 export async function getWorkspaceSymbols(query: string): Promise<SymbolInformation[]> {

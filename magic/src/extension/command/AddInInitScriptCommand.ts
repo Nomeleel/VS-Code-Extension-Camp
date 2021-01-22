@@ -1,11 +1,12 @@
 import * as path from "path";
-import { commands, Disposable, Position, TextEdit, Uri, workspace } from "vscode";
+import { commands, Position, TextEdit, Uri, workspace } from "vscode";
+import { BaseDisposable } from "../BaseDisposable";
 import { dartFileEdit, realLineCount } from "../util/util";
 
-export class AddInInitScriptCommand implements Disposable {
-  private disposables: Disposable[] = [];
+export class AddInInitScriptCommand extends BaseDisposable {
 
   constructor() {
+    super();
     this.disposables.push(
       commands.registerCommand("magic.addInInitScript", this.addInInitScript, this),
     );
@@ -32,14 +33,8 @@ export class AddInInitScriptCommand implements Disposable {
     await dartFileEdit(textEdits, initScriptUri);
   }
 
-  private currentScriptPath() : string | undefined{
+  private currentScriptPath(): string | undefined {
     let currentScript = workspace.textDocuments.find((e) => e.languageId === 'dart');
     return currentScript?.uri.fsPath;
-  }
-
-
-
-  public dispose(): any {
-    this.disposables.forEach((e) => e.dispose());
   }
 }

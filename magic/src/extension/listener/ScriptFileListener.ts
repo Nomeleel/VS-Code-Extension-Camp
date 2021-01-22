@@ -1,22 +1,21 @@
 import * as fs from "fs";
 import * as path from "path";
-import * as vs from "vscode";
-import { Position, TextDocument, TextEdit, Uri, window, workspace, WorkspaceEdit } from "vscode";
+import { commands, Position, TextEdit, Uri, window, workspace, WorkspaceEdit } from "vscode";
+import { BaseDisposable } from "../BaseDisposable";
 
-export class ScriptFileListener implements vs.Disposable {
-	private readonly subscriptions: vs.Disposable[] = [];
-
+export class ScriptFileListener extends BaseDisposable {
 	constructor() {
+		super();
 		/// 开始位置插入import文件 结束位置替换} 为代码片段加}
 		/// 利用的Dart在Source Action中的提供的Organize Imports 对import相关进行处理
 		/// Sort Members貌似不会对方法中内容进行排序 对于我所要处理的文件 实际效果同Organize Imports
-		this.subscriptions.push(vs.workspace.onDidCreateFiles((e) => this.scriptFileChangedHandle(e, OperationType.Added)));
+		this.disposables.push(workspace.onDidCreateFiles((e) => this.scriptFileChangedHandle(e, OperationType.Added)));
 
 		/// 全部替换即可 考虑Abc 替换可能会影响到Abcd的问题
-		this.subscriptions.push(vs.workspace.onDidRenameFiles((e) => this.scriptFileChangedHandle(e, OperationType.Updated)));
+		this.disposables.push(workspace.onDidRenameFiles((e) => this.scriptFileChangedHandle(e, OperationType.Updated)));
 
 		/// 关键字所在行删除 对于import如果失去引用 利用Organize Imports 也可将对应import删除掉
-		this.subscriptions.push(vs.workspace.onDidDeleteFiles((e) => this.scriptFileChangedHandle(e, OperationType.Deleted)));
+		this.disposables.push(workspace.onDidDeleteFiles((e) => this.scriptFileChangedHandle(e, OperationType.Deleted)));
 	}
 
 	private scriptFileChangedHandle(event: any, operationType: OperationType) {
@@ -24,7 +23,7 @@ export class ScriptFileListener implements vs.Disposable {
 		console.log(getTargetFile);
 		console.log(getTargetFile.isNotEmpty());
 		if (getTargetFile.isNotEmpty()) {
-			vs.window.showInformationMessage('😊 😊 😊 Whether to update InitScript.dart based on your changes? 😊 😊 😊',
+			window.showInformationMessage('😊 😊 😊 Whether to update InitScript.dart based on your changes? 😊 😊 😊',
 				'Sure', 'No, Thanks').then((select) => {
 					if (select === 'Sure') {
 						this.updateInitScript(getTargetFile);
@@ -75,7 +74,7 @@ export class ScriptFileListener implements vs.Disposable {
 	}
 
 	private async organizeImports(path: string) {
-		await vs.commands.executeCommand('_dart.organizeImports', await workspace.openTextDocument(path));
+		await commands.executeCommand('_dart.organizeImports', await workspace.openTextDocument(path));
 	}
 
 	private async realLineCount(path: string) : Promise<number> {
@@ -98,10 +97,6 @@ export class ScriptFileListener implements vs.Disposable {
 					parsedPath.dir.split(path.sep).pop() ?? '', parsedPath.name);
 			}
 		}
-	}
-
-	public dispose() {
-		this.subscriptions.forEach((s) => s.dispose());
 	}
 }
 

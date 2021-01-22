@@ -4,7 +4,7 @@ import { getConfiguration } from "../util/util";
 
 export class FieldOutlineProvider implements TreeDataProvider<FieldItem>, Disposable {
 
-  protected subscriptions: Disposable[] = [];
+  protected disposables: Disposable[] = [];
 
   protected activeEditor: TextEditor | undefined;
 
@@ -17,9 +17,13 @@ export class FieldOutlineProvider implements TreeDataProvider<FieldItem>, Dispos
   public readonly onDidChangeTreeData: Event<FieldItem | undefined> = this.onDidChangeTreeDataEmitter.event;
 
   constructor() {
-    this.subscriptions.push(window.onDidChangeActiveTextEditor((e) => this.listenerJsonFile(e)));
-    this.subscriptions.push(workspace.onDidChangeTextDocument((e) => this.listenerJsonFile(window.activeTextEditor)));
-    this.subscriptions.push(workspace.onDidChangeConfiguration((e) => {
+    this.disposables.push(
+      window.createTreeView("outline.field", { treeDataProvider: this, showCollapseAll: true })
+    );
+
+    this.disposables.push(window.onDidChangeActiveTextEditor((e) => this.listenerJsonFile(e)));
+    this.disposables.push(workspace.onDidChangeTextDocument((e) => this.listenerJsonFile(window.activeTextEditor)));
+    this.disposables.push(workspace.onDidChangeConfiguration((e) => {
       if (e.affectsConfiguration('magic.outline.fieldArray')) {
         this.listenerJsonFile(window.activeTextEditor);
       }
@@ -148,7 +152,7 @@ export class FieldOutlineProvider implements TreeDataProvider<FieldItem>, Dispos
 
   public dispose() {
     this.activeEditor = undefined;
-    this.subscriptions.forEach((s) => s.dispose());
+    this.disposables.forEach((d) => d.dispose());
   }
 }
 

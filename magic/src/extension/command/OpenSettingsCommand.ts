@@ -1,15 +1,20 @@
-import { commands, Disposable, workspace } from "vscode";
+import { commands, workspace } from "vscode";
+import { BaseDisposable } from "../BaseDisposable";
 
-export class OpenSettingsCommand implements Disposable {
-	private disposables: Disposable[] = [];
+export class OpenSettingsCommand extends BaseDisposable {
 
 	constructor() {
+		super();
 		let settingsKeyArray = this.settingsKeyArray();
 		settingsKeyArray.forEach((e) => {
 			this.disposables.push(
 				commands.registerCommand(`magic.open${e}Settings`, () => this.openSettings(e)),
 			);
 		});
+
+		this.disposables.push(
+			commands.registerCommand(`magic.openSettingsByKey`, this.openSettings),
+		);
   }
 
   private openSettings(key: string) {
@@ -37,9 +42,5 @@ export class OpenSettingsCommand implements Disposable {
 
 	public firstCaseToUpper(str: string) : string {
 		return str ? str.replace(str[0], str[0].toUpperCase()) : '';
-	}
-
-  public dispose(): any {
-		this.disposables.forEach((e) => e.dispose());
 	}
 }

@@ -1,9 +1,14 @@
 import * as path from "path";
-import { CancellationToken, Location, SymbolInformation, SymbolKind, Uri, workspace, WorkspaceSymbolProvider } from "vscode";
+import { CancellationToken, Disposable, languages, Location, SymbolInformation, SymbolKind, Uri, workspace, WorkspaceSymbolProvider } from "vscode";
 import { getFillRange } from "../util/util";
 
-export class SymbolProvider implements WorkspaceSymbolProvider {
-  
+export class SymbolProvider implements WorkspaceSymbolProvider, Disposable {
+	public disposables: Disposable[] = [];
+
+  constructor() {
+    this.disposables.push(languages.registerWorkspaceSymbolProvider(this));
+  }
+
   // 动态的去查 大写搜索dart（这个可以交给Dart插件去做） 小写搜索json
   // 文件在不断变化，如果一开始就把映射建立好，后期就要监听文件的变化，并维护映射
   // 每次查询通过查找文件名或许不会太慢
@@ -41,4 +46,7 @@ export class SymbolProvider implements WorkspaceSymbolProvider {
       new Location(uri, await getFillRange(uri)));
   }
 
+  public dispose(): any {
+		this.disposables.forEach((e) => e.dispose());
+	}
 }

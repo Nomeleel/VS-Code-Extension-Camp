@@ -1,15 +1,16 @@
-import * as vs from "vscode";
+import { commands } from "vscode";
+import { BaseDisposable } from "../BaseDisposable";
 import { FieldItem } from "../provider/FieldOutlineProvider";
 import { getConfiguration, setGlobalConfiguration } from "../util/util";
 
-export class OutlineFieldSortCommand implements vs.Disposable {
-	private disposables: vs.Disposable[] = [];
+export class OutlineFieldSortCommand extends BaseDisposable {
 	private configKey: string = 'magic.outline.fieldArray';
 
 	constructor() {
+		super();
 		this.disposables.push(
-			vs.commands.registerCommand("magic.outlineFieldUp", this.up, this),
-			vs.commands.registerCommand("magic.outlineFieldDown", this.down, this),
+			commands.registerCommand("magic.outlineFieldUp", this.up, this),
+			commands.registerCommand("magic.outlineFieldDown", this.down, this),
 		);
   }
 
@@ -39,8 +40,4 @@ export class OutlineFieldSortCommand implements vs.Disposable {
 			}
 		}
   }
-
-  public dispose(): any {
-		this.disposables.forEach((e) => e.dispose());
-	}
 }

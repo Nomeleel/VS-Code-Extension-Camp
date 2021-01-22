@@ -1,22 +1,26 @@
-import { Disposable, Position, Range, TextEditor, TreeDataProvider, TreeItem, window } from "vscode";
+import { Disposable, languages, Position, Range, TextEditor, TreeDataProvider, TreeItem, window } from "vscode";
 
 
 export class JsonOutlineProvider implements TreeDataProvider<JsonItem>, Disposable {
 
-	protected subscriptions: Disposable[] = [];
+	protected activeEditor: TextEditor | undefined;
 
-  protected activeEditor: TextEditor | undefined;
+	public disposables: Disposable[] = [];
 
-  public getTreeItem(element: JsonItem): TreeItem {
+	constructor() {
+		this.disposables.push(window.createTreeView("outline.json", { treeDataProvider: this, showCollapseAll: true }));
+	}
+
+	public getTreeItem(element: JsonItem): TreeItem {
 		return element;
-  }
-  
-  public getChildren(element: JsonItem): JsonItem[] {
+	}
+
+	public getChildren(element: JsonItem): JsonItem[] {
 		//console.log(window.activeTextEditor?.document.getText());
-    //console.log(window.activeTextEditor?.selections);
+		//console.log(window.activeTextEditor?.selections);
 		return this.rangesOf('type').map<JsonItem>((e) => new JsonItem(e.start.line.toString()));
 	}
-	
+
 	public rangesOf(searchText: string): Range[] {
 		const doc = window.activeTextEditor?.document;
 		const results: Range[] = [];
@@ -33,7 +37,7 @@ export class JsonOutlineProvider implements TreeDataProvider<JsonItem>, Disposab
 
 	public dispose() {
 		this.activeEditor = undefined;
-		this.subscriptions.forEach((s) => s.dispose());
+		this.disposables.forEach((d) => d.dispose());
 	}
 }
 

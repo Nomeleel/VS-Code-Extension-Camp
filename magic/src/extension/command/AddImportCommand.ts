@@ -1,10 +1,11 @@
-import { commands, Disposable, Position, TextEdit, window, workspace} from "vscode";
+import { commands, Position, TextEdit, window, workspace} from "vscode";
+import { BaseDisposable } from "../BaseDisposable";
 import { activePositionText, dartFileEdit, getConfiguration} from "../util/util";
 
-export class AddImportCommand implements Disposable {
-  private disposables: Disposable[] = [];
+export class AddImportCommand extends BaseDisposable {
 
   constructor() {
+    super();
     this.disposables.push(
       commands.registerCommand("magic.addImport", this.addImport, this),
     );
@@ -40,9 +41,5 @@ export class AddImportCommand implements Disposable {
       textEdits.push(TextEdit.insert(new Position(0, 0), `import 'package:${importText}.dart';\n`));
       await dartFileEdit(textEdits);
     }
-  }
-
-  public dispose(): any {
-    this.disposables.forEach((e) => e.dispose());
   }
 }
