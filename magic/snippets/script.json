@@ -92,6 +92,16 @@
         ],
         "description": "Post Result Check..."
     },
+    "postCheckSuccess": {
+        "prefix": ["postCheckSucess", "postchecksuccess", "checksuccess"],
+        "scope": "dart",
+        "body": [
+            "if (responseMap[\"code\"] == 0 && responseMap[\"data\"][\"isSuccess\"]) {",
+            "\t$0",
+            "}"
+        ],
+        "description": "Post Result Check Success..."
+    },
     "listenerMethod": {
         "prefix": ["listenerMethod", "listener"],
         "scope": "dart",
@@ -110,5 +120,17 @@
             "\t..onFieldChanged('$2', $3);"
         ],
         "description": "Add Listener..."
+    },
+    "?.isEmpty": {
+        "prefix": ["?.isEmpty", "?.isempty", "isempty"],
+        "scope": "dart",
+        "body": "$1?.isEmpty ?? true",
+        "description": "IsEmpty With Null..."
+    },
+    "?.isNotEmpty": {
+        "prefix": ["?.isNotEmpty", "?.isnotempty", "isnotempty"],
+        "scope": "dart",
+        "body": "$1?.isNotEmpty ?? false",
+        "description": "IsNotEmpty With Null..."
     }
 }
