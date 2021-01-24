@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Snippet</title>
+  <style>
+    .box {
+      width: 500px;
+      min-height: 300px;
+      cursor: pointer;
+      border: 1px dashed gray;
+    }
+  </style>
+</head>
+
+<body>
+  <h3>请输入模版</h3>
+  <div id="container" class="box">
+    <textarea class="box" />
+  </div>
+  <script>
+    const vscode = acquireVsCodeApi();
+
+    function post(str) {
+      if (str) {
+        vscode.postMessage({
+          command: 'snippet',
+          path: path
+        })
+      }
+    }
+  </script>
+</body>
+
+</html>
