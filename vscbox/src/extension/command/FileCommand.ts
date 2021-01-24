@@ -11,6 +11,7 @@ export class FileCommand implements Disposable {
     this.disposables.push(
       commands.registerCommand("vscbox.fileEncrypt", this.fileOperate, this),
       commands.registerCommand("vscbox.fileDecrypt", this.fileOperate, this),
+      commands.registerCommand("vscbox.mergeFile", this.mergeFile, this),
     );
   }
 
@@ -45,6 +46,33 @@ export class FileCommand implements Disposable {
 
       fileXOR(fileUri.fsPath);
     }
+  }
+
+  private mergeFile(fileUri: Uri) {
+    let fileMap: Map<string, string> = new Map<string, string>();
+    let merge = (currentFilePath: string) => {
+      if (fs.lstatSync(currentFilePath).isDirectory()) {
+        let files = fs.readdirSync(currentFilePath);
+        files?.forEach((filePath) => {
+          merge(path.join(currentFilePath, filePath));
+        });
+      } else {
+        let fileStr = fs.readFileSync(currentFilePath, 'utf-8');
+        let fileName = path.parse(currentFilePath).name;
+        fileMap.set(fileName, fileStr);
+      }
+    };
+
+    merge(fileUri.fsPath);
+    let fileMapStr = JSON.stringify(fileMap, null, '');
+    console.log(path.join(fileUri.fsPath, 'merge'));
+    fs.writeFile(path.join(fileUri.fsPath, 'merge'), fileMapStr, (err) => {
+      if (err) {
+        console.log(`Merge Error`);
+      } else {
+
+      }
+    });
   }
 
   private xor(buffer: Buffer, xorKey: Array<number>): Buffer {

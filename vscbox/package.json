@@ -37,6 +37,10 @@
 				"title": "File Decrypt"
 			},
 			{
+				"command": "vscbox.mergeFile",
+				"title": "Merge File"
+			},
+			{
 				"command": "vscbox.openKeyArraySettings",
 				"title": "Open Settings to config KeyArray"
 			}
@@ -49,6 +53,10 @@
 				},
 				{
 					"command": "vscbox.fileDecrypt",
+					"group": "0_vscbox_file_command"
+				},
+				{
+					"command": "vscbox.mergeFile",
 					"group": "0_vscbox_file_command"
 				}
 			],
