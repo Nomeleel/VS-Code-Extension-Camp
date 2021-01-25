@@ -49,7 +49,7 @@ export class FileCommand implements Disposable {
   }
 
   private mergeFile(fileUri: Uri) {
-    let fileMap: Map<string, string> = new Map<string, string>();
+    let fileObj = Object.create(null);
     let merge = (currentFilePath: string) => {
       if (fs.lstatSync(currentFilePath).isDirectory()) {
         let files = fs.readdirSync(currentFilePath);
@@ -59,14 +59,13 @@ export class FileCommand implements Disposable {
       } else {
         let fileStr = fs.readFileSync(currentFilePath, 'utf-8');
         let fileName = path.parse(currentFilePath).name;
-        fileMap.set(fileName, fileStr);
+        fileObj[fileName] = fileStr;
       }
     };
 
     merge(fileUri.fsPath);
-    let fileMapStr = JSON.stringify(fileMap, null, '');
-    console.log(path.join(fileUri.fsPath, 'merge'));
-    fs.writeFile(path.join(fileUri.fsPath, 'merge'), fileMapStr, (err) => {
+    let fileMapStr = JSON.stringify(fileObj, null, '');
+    fs.writeFile(path.join(fileUri.fsPath, 'merge.json'), fileMapStr, (err) => {
       if (err) {
         console.log(`Merge Error`);
       } else {
