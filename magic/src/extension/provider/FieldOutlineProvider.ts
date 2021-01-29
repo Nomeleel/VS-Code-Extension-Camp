@@ -48,9 +48,9 @@ export class FieldOutlineProvider implements TreeDataProvider<FieldItem>, Dispos
     return [];
   }
 
-  // public getParent(element: FieldItem): FieldItem | undefined {
-  //   return element.parent;
-  // }
+  public getParent(element: FieldItem): FieldItem | undefined {
+    return element.parent;
+  }
 
   public listenerJsonFile(textEditor: TextEditor | undefined) {
     this.onDidChangeTreeDataEmitter.fire(undefined);
