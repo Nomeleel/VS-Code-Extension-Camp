@@ -61,12 +61,40 @@ export class FieldOutlineProvider implements TreeDataProvider<FieldItem>, Dispos
         let pageSize = this.getPageSize();
         this.rootNode = new FieldItem('Field Outline');
         let children = new Array<FieldItem>();
-        fieldArray.forEach((e) => {
-          let ePlus = this.parseField(e);
-          let fieldItem = new FieldItem(ePlus.field, this.getUri('constant-light.svg'), ePlus.regExp);
-          fieldItem.setChildren(this.pagination(this.rangesTo(textEditor, ePlus), pageSize));
-          children.push(fieldItem);
-        });
+        let ePlusList = fieldArray.map(e => this.parseField(e));
+        // ePlusList.forEach((e) => {
+        //   let fieldItem = new FieldItem(e.field, this.getUri('constant-light.svg'), e.regExp);
+        //   fieldItem.setChildren(this.pagination(this.rangesTo(textEditor, e), pageSize));
+        //   children.push(fieldItem);
+        // });
+
+        const doc = textEditor.document;
+        if (doc) {
+          for (let index = 0; index < doc.lineCount; index++) {
+            ePlusList.forEach(e => {
+              let findIndex = doc.lineAt(index).text.indexOf(e.field);
+              if (findIndex !== -1) {
+                let textRange = doc.getWordRangeAtPosition(new Position(index, findIndex + e.field.length + 4), /([^\"]+)/g);
+                if (textRange) {
+                  let valueText = textEditor.document.getText(textRange);
+                  if (!e.regExp || new RegExp(e.regExp).test(valueText)) {
+                    let last = children.length > 0 ? children[children.length - 1] : undefined;
+                    let parentItem = new FieldItem(e.field, this.getUri('constant-light.svg'), e.regExp);
+                    let childItem = new FieldItem(valueText, this.getUri('method-light.svg'),
+                      (textRange.start.line + 1).toString(), this.jumpToCommand(textRange));
+                    if (last && last.equal(parentItem)) {
+                      last.children.push(childItem);
+                    } else {
+                      parentItem.setChildren([childItem]);
+                      children.push(parentItem);
+                    }
+                  }
+                }
+              }
+            });
+          }
+        }
+
         this.rootNode.setChildren(children);
       }
     } else {
@@ -76,15 +104,15 @@ export class FieldOutlineProvider implements TreeDataProvider<FieldItem>, Dispos
     this.onDidChangeTreeDataEmitter.fire(this.rootNode);
   }
 
-	private switchOutlineView(visible: boolean) {
-		commands.executeCommand("setContext", 'magic.showOutline', visible);
-	}
+  private switchOutlineView(visible: boolean) {
+    commands.executeCommand("setContext", 'magic.showOutline', visible);
+  }
 
-  public pagination(fieldItemArray: Array<FieldItem>, pageSize: number) : Array<FieldItem>{
+  public pagination(fieldItemArray: Array<FieldItem>, pageSize: number): Array<FieldItem> {
     if (fieldItemArray.length > pageSize) {
       let fieldItemPageArray = new Array<FieldItem>();
       let totalPage = Math.ceil(fieldItemArray.length / pageSize);
-      for (let page = 1; page <= totalPage; page++ ) {
+      for (let page = 1; page <= totalPage; page++) {
         let fieldItemPage = new FieldItem('', this.getUri('constant-light.svg'), `Page: ${totalPage}/${page}`);
         fieldItemPage.setChildren(fieldItemArray.slice((page - 1) * pageSize, page * pageSize));
         fieldItemPageArray.push(fieldItemPage);
@@ -171,5 +199,9 @@ export class FieldItem extends TreeItem {
     this.children = children;
     this.collapsibleState = (children && children.length > 0) ?
       TreeItemCollapsibleState.Expanded : TreeItemCollapsibleState.None;
+  }
+
+  public equal(fieldItem: FieldItem): boolean {
+    return this.label === fieldItem.label && this.description === fieldItem.description;
   }
 }
