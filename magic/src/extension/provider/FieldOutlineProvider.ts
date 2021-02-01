@@ -1,5 +1,5 @@
 import * as path from "path";
-import { Command, commands, Disposable, Event, EventEmitter, extensions, Position, Range, TextEditor, TreeDataProvider, TreeItem, TreeItemCollapsibleState, Uri, window, workspace } from "vscode";
+import { Command, commands, Disposable, Event, EventEmitter, extensions, Position, Range, TextDocument, TextEditor, TreeDataProvider, TreeItem, TreeItemCollapsibleState, Uri, window, workspace } from "vscode";
 import { getConfiguration } from "../util/util";
 
 export class FieldOutlineProvider implements TreeDataProvider<FieldItem>, Disposable {
@@ -58,43 +58,13 @@ export class FieldOutlineProvider implements TreeDataProvider<FieldItem>, Dispos
       this.switchOutlineView(true);
       let fieldArray = this.getFieldArray();
       if (fieldArray.length > 0) {
-        let pageSize = this.getPageSize();
         this.rootNode = new FieldItem('Field Outline');
         let children = new Array<FieldItem>();
         let ePlusList = fieldArray.map(e => this.parseField(e));
-        // ePlusList.forEach((e) => {
-        //   let fieldItem = new FieldItem(e.field, this.getUri('constant-light.svg'), e.regExp);
-        //   fieldItem.setChildren(this.pagination(this.rangesTo(textEditor, e), pageSize));
-        //   children.push(fieldItem);
-        // });
-
         const doc = textEditor.document;
         if (doc) {
-          for (let index = 0; index < doc.lineCount; index++) {
-            ePlusList.forEach(e => {
-              let findIndex = doc.lineAt(index).text.indexOf(e.field);
-              if (findIndex !== -1) {
-                let textRange = doc.getWordRangeAtPosition(new Position(index, findIndex + e.field.length + 4), /([^\"]+)/g);
-                if (textRange) {
-                  let valueText = textEditor.document.getText(textRange);
-                  if (!e.regExp || new RegExp(e.regExp).test(valueText)) {
-                    let last = children.length > 0 ? children[children.length - 1] : undefined;
-                    let parentItem = new FieldItem(e.field, this.getUri('constant-light.svg'), e.regExp);
-                    let childItem = new FieldItem(valueText, this.getUri('method-light.svg'),
-                      (textRange.start.line + 1).toString(), this.jumpToCommand(textRange));
-                    if (last && last.equal(parentItem)) {
-                      last.children.push(childItem);
-                    } else {
-                      parentItem.setChildren([childItem]);
-                      children.push(parentItem);
-                    }
-                  }
-                }
-              }
-            });
-          }
+          this.rangesByField(doc, ePlusList, children);
         }
-
         this.rootNode.setChildren(children);
       }
     } else {
@@ -153,22 +123,56 @@ export class FieldOutlineProvider implements TreeDataProvider<FieldItem>, Dispos
     return uri.scheme === "file" && path.parse(uri.fsPath).ext === ".json";
   }
 
-  public rangesTo(textEditor: TextEditor, search: { field: string, regExp: string }): FieldItem[] {
-    const doc = textEditor.document;
-    const results: FieldItem[] = [];
-    if (doc) {
-      for (let index = 0; index < doc.lineCount; index++) {
-        let findIndex = doc.lineAt(index).text.indexOf(search.field);
-        if (findIndex !== -1) {
-          let textRange = doc.getWordRangeAtPosition(new Position(index, findIndex + search.field.length + 4), /([^\"]+)/g);
-          if (textRange) {
-            let valueText = textEditor.document.getText(textRange);
-            if (!search.regExp || new RegExp(search.regExp).test(valueText)) {
-              results.push(new FieldItem(valueText, this.getUri('method-light.svg'),
-                (textRange.start.line + 1).toString(), this.jumpToCommand(textRange)));
-            }
+  public findFieldItem(textDocument: TextDocument, lineIndex: number, search: { field: string, regExp: string }): FieldItem | undefined {
+    if (textDocument) {
+      let findIndex = textDocument.lineAt(lineIndex).text.indexOf(search.field);
+      if (findIndex !== -1) {
+        let textRange = textDocument.getWordRangeAtPosition(new Position(lineIndex, findIndex + search.field.length + 4), /([^\"]+)/g);
+        if (textRange) {
+          let valueText = textDocument.getText(textRange);
+          if (!search.regExp || new RegExp(search.regExp).test(valueText)) {
+            return new FieldItem(valueText, this.getUri('method-light.svg'),
+              (textRange.start.line + 1).toString(), this.jumpToCommand(textRange));
           }
         }
+      }
+    }
+  }
+
+  public rangesByOrder(textDocument: TextDocument, searchArray: Array<{ field: string, regExp: string }>, children: Array<FieldItem>) {
+    for (let index = 0; index < textDocument?.lineCount ?? 0; index++) {
+      searchArray.forEach(e => {
+        let fieldItem = this.findFieldItem(textDocument, index, e);
+        if (fieldItem) {
+          let last = children.length > 0 ? children[children.length - 1] : undefined;
+          let parentItem = new FieldItem(e.field, this.getUri('constant-light.svg'), e.regExp);
+          // 临近相同的进行合并
+          if (last && last.equal(parentItem)) {
+            last.children.push(fieldItem);
+          } else {
+            parentItem.setChildren([fieldItem]);
+            children.push(parentItem);
+          }
+        }
+      });
+    }
+  }
+
+  public rangesByField(textDocument: TextDocument, searchArray: Array<{ field: string, regExp: string }>, children: Array<FieldItem>) {
+    let pageSize = this.getPageSize();
+    searchArray.forEach((e) => {
+      let fieldItem = new FieldItem(e.field, this.getUri('constant-light.svg'), e.regExp);
+      fieldItem.setChildren(this.pagination(this.rangesTo(textDocument, e), pageSize));
+      children.push(fieldItem);
+    });
+  }
+
+  public rangesTo(textDocument: TextDocument, search: { field: string, regExp: string }): FieldItem[] {
+    const results: FieldItem[] = [];
+    for (let index = 0; index < textDocument?.lineCount ?? 0; index++) {
+      let fieldItem = this.findFieldItem(textDocument, index, search);
+      if (fieldItem) {
+        results.push(fieldItem);
       }
     }
     return results;
