@@ -62,6 +62,11 @@
 				"title": "Outline Field Down"
 			},
 			{
+				"command": "magic.outlineFieldOrderBy",
+				"icon": "resources/icons/sort.svg",
+				"title": "Change Outline Field Order By"
+			},
+			{
 				"command": "magic.openSettings",
 				"icon": "resources/icons/field-dark.svg",
 				"title": "Open Settings for Magic"
@@ -132,6 +137,11 @@
 					"group": "navigation"
 				},
 				{
+					"command": "magic.outlineFieldOrderBy",
+					"when": "view == outline.field",
+					"group": "navigation"
+				},
+				{
 					"command": "magic.openOutlinePageSizeSettings",
 					"when": "view == outline.field",
 					"group": "navigation"
@@ -179,6 +189,12 @@
 					"type": "number",
 					"default": 20,
 					"markdownDescription": "The size of the page number displayed by each sub-item in the outline view",
+					"scope": "resource"
+				},
+				"magic.outline.orderBy": {
+					"type": "boolean",
+					"default": true,
+					"markdownDescription": "The field outline view order by field.",
 					"scope": "resource"
 				},
 				"magic.customize.importArray": {

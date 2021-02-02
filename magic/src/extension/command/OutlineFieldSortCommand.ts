@@ -11,6 +11,7 @@ export class OutlineFieldSortCommand extends BaseDisposable {
 		this.disposables.push(
 			commands.registerCommand("magic.outlineFieldUp", this.up, this),
 			commands.registerCommand("magic.outlineFieldDown", this.down, this),
+			commands.registerCommand("magic.outlineFieldOrderBy", this.orderBy, this),
 		);
   }
 
@@ -20,6 +21,11 @@ export class OutlineFieldSortCommand extends BaseDisposable {
 
   private down(fieldItem: FieldItem) {
 		this.move(fieldItem, 1);
+  }
+
+  private orderBy() {
+		let isByField = getConfiguration<boolean>('magic.outline.orderBy');
+		setGlobalConfiguration('magic.outline.orderBy', !isByField);
   }
 
 	private indexOf(fieldItem: FieldItem, fieldArray: Array<string>) : number {

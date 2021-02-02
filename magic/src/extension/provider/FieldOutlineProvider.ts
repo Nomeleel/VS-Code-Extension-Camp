@@ -27,6 +27,9 @@ export class FieldOutlineProvider implements TreeDataProvider<FieldItem>, Dispos
       if (e.affectsConfiguration('magic.outline.fieldArray')) {
         this.listenerJsonFile(window.activeTextEditor);
       }
+      if (e.affectsConfiguration('magic.outline.orderBy')) {
+        this.listenerJsonFile(window.activeTextEditor);
+      }
     }));
 
     if (window.activeTextEditor) {
@@ -63,7 +66,12 @@ export class FieldOutlineProvider implements TreeDataProvider<FieldItem>, Dispos
         let ePlusList = fieldArray.map(e => this.parseField(e));
         const doc = textEditor.document;
         if (doc) {
-          this.rangesByField(doc, ePlusList, children);
+          let isByField = getConfiguration<boolean>('magic.outline.orderBy');
+          if (isByField) {
+            this.rangesByField(doc, ePlusList, children);
+          } else {
+            this.rangesByOrder(doc, ePlusList, children);
+          }
         }
         this.rootNode.setChildren(children);
       }
