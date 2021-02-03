@@ -150,12 +150,12 @@
 			"view/item/context": [
 				{
 					"command": "magic.outlineFieldUp",
-					"when": "magic.showOutline",
+					"when": "magic.showOutline && magic.isByField",
 					"group": "sort1"
 				},
 				{
 					"command": "magic.outlineFieldDown",
-					"when": "magic.showOutline",
+					"when": "magic.showOutline && magic.isByField",
 					"group": "sort2"
 				}
 			],

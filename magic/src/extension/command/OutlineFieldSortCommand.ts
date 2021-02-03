@@ -13,6 +13,7 @@ export class OutlineFieldSortCommand extends BaseDisposable {
 			commands.registerCommand("magic.outlineFieldDown", this.down, this),
 			commands.registerCommand("magic.outlineFieldOrderBy", this.orderBy, this),
 		);
+		this.initOrderBy();
   }
 
   private up(fieldItem: FieldItem) {
@@ -23,10 +24,23 @@ export class OutlineFieldSortCommand extends BaseDisposable {
 		this.move(fieldItem, 1);
   }
 
-  private orderBy() {
-		let isByField = getConfiguration<boolean>('magic.outline.orderBy');
-		setGlobalConfiguration('magic.outline.orderBy', !isByField);
+  private initOrderBy() {
+		this.setOrderByContext(this.getOrderBy());
   }
+
+  private orderBy() {
+		let isByField = !this.getOrderBy();
+		setGlobalConfiguration('magic.outline.orderBy', isByField);
+		this.setOrderByContext(isByField);
+  }
+
+	private getOrderBy() : boolean{
+		return getConfiguration<boolean>('magic.outline.orderBy');
+	}
+
+	private setOrderByContext(isByField: boolean) {
+		commands.executeCommand("setContext", 'magic.isByField', isByField);
+	}
 
 	private indexOf(fieldItem: FieldItem, fieldArray: Array<string>) : number {
 		let field = [fieldItem.label, fieldItem.description].filter(e => e).join('/');
