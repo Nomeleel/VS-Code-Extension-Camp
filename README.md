@@ -71,3 +71,27 @@ Json这种配置语言，平时也就当个文本文件了来读读，毫无上�
 文件中右键菜单中添加快捷Action，添加脚本注册信息到initScript中。
 
 ![Add In Init Script](https://raw.githubusercontent.com/Nomeleel/Assets/master/vs_code_extension_collection/markdown/add_in_init_script.png)
+
+### 6. 扩展大纲面板
+
+这是针对Json文件的大纲副视图面板，茫茫文件中，可以一眼找到关注的字段，你只要把字段配置出来，剩下的就交给时间。
+
+***字段对应的值支持正则***
+
+![Magic Field Outline RegExp](https://raw.githubusercontent.com/Nomeleel/Assets/master/vs_code_extension_collection/markdown/magic_field_outline_reg_exp.gif)
+
+***面板结果支持定位跳转***
+
+![Magic Field Outline Jump](https://raw.githubusercontent.com/Nomeleel/Assets/master/vs_code_extension_collection/markdown/magic_field_outline_jump.gif)
+
+***结果支持分页，并可以调整每页长度***
+
+![Magic Field Outline Page Size](https://raw.githubusercontent.com/Nomeleel/Assets/master/vs_code_extension_collection/markdown/magic_field_outline_page_size.gif)
+
+***配置的字段支持调整顺序***
+
+![Magic Field Outline Field Sort](https://raw.githubusercontent.com/Nomeleel/Assets/master/vs_code_extension_collection/markdown/magic_field_outline_field_sort.gif)
+
+***支持按行排序或者默认按字段分组显示***
+
+![Magic Field Outline Sort By](https://raw.githubusercontent.com/Nomeleel/Assets/master/vs_code_extension_collection/markdown/magic_field_outline_sort_by.gif)
