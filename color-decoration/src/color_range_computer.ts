@@ -5,7 +5,7 @@ import { ColorRangeComputerProvider } from "./color_range_computer_provider";
 export class ColorRangeComputer {
   private allColorsPattern: RegExp;
   constructor(private readonly provider: ColorRangeComputerProvider){
-    this.allColorsPattern = new RegExp(`(\"|,)(?<range>${this.provider.colorPatterns.join("|")})`, "gm");
+    this.allColorsPattern = new RegExp(`^.*?(?<range>${this.provider.colorPatterns.join("|")})`, "gm");
   };
 
   public compute(document: vs.TextDocument): { [key: string]: vs.Range[] } {
