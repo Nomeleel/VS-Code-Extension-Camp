@@ -1,6 +1,8 @@
-import { CancellationToken, CustomDocumentBackup, CustomDocumentBackupContext, CustomDocumentEditEvent, CustomDocumentOpenContext, CustomEditorProvider, Disposable, EventEmitter, Uri, Webview, WebviewPanel, window } from "vscode";
-import { SvgaDocument } from "./SvgaDocument";
-
+import * as fs from "fs";
+import path = require("path");
+import { CancellationToken, CustomDocumentBackup, CustomDocumentBackupContext, CustomDocumentEditEvent, CustomDocumentOpenContext, CustomEditorProvider, Disposable, EventEmitter, extensions, Uri, Webview, WebviewPanel, window } from "vscode";
+import { SvgaDocument } from "./svgaDocument";
+import { getExtensionPath, getExtensionUri } from "./util/util";
 export class SvgaEditorProvider implements CustomEditorProvider<SvgaDocument>, Disposable {
 
   private static readonly viewType = 'svga.preview';
@@ -55,7 +57,8 @@ export class SvgaEditorProvider implements CustomEditorProvider<SvgaDocument>, D
   }
 
   private getHtmlForWebview(webview: Webview): string {
-    return 'Svga';
+    let content = fs.readFileSync(path.resolve(getExtensionPath(), 'out', 'webview', 'index.html'), 'utf-8');
+    return content;
   }
 
   dispose() {
