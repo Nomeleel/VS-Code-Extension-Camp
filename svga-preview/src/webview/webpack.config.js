@@ -11,24 +11,19 @@ module.exports = {
   entry: './src/webview/index.ts',
   output: {
     path: path.resolve(__dirname, '..', '..', 'out', 'webview'),
-    filename: 'index.js',
-    libraryTarget: 'commonjs2',
-    devtoolModuleFilenameTemplate: '../[resource-path]'
-  },
-  devtool: 'source-map',
-  resolve: {
-    extensions: ['.ts']
+    filename: 'index.js'
   },
   module: {
     rules: [
       {
         test: /\.ts$/,
         exclude: /node_modules/,
-        use: [
-          {
-            loader: 'ts-loader'
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-typescript']
           }
-        ]
+        }
       }
     ]
   },
