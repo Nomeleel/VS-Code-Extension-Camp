@@ -59,7 +59,7 @@ export class SvgaEditorProvider implements CustomEditorProvider<SvgaDocument>, D
   private getHtmlForWebview(webview: Webview): string {
     let webviewUri = Uri.joinPath(getExtensionUri(), 'out', 'webview');
     let content = fs.readFileSync(path.resolve(webviewUri.path, 'index.html'), 'utf-8');
-    return content.replace('${WEBVIEWURI}', webview.asWebviewUri(webviewUri).toString());
+    return content.replace(/\${WEBVIEWURI}/gm, webview.asWebviewUri(webviewUri).toString());
   }
 
   dispose() {
