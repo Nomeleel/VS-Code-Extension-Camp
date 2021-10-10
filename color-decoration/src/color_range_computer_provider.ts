@@ -1,6 +1,3 @@
-import * as vs from "vscode";
-import { Range, TextDocument } from "vscode";
-
 export interface ColorRangeComputerProvider {
 
   readonly colorPatterns: Array<String>;

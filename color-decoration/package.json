@@ -2,6 +2,7 @@
 	"name": "color-decoration",
 	"displayName": "color decoration",
 	"description": "Color Decorations.",
+	"publisher": "Nomeleel",
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.46.0"
@@ -12,7 +13,7 @@
 	"activationEvents": [
 		"*"
 	],
-	"main": "./out/extension.js",
+	"main": "./dist/extension.js",
 	"contributes": {
 		"commands": [
 		]
