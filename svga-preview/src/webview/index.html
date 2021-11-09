@@ -6,14 +6,12 @@
   <style>
     .center {
       display: flex;
-      align-items: center;
+      justify-content: space-evenly;
     }
 
     .box {
-      width: 500px;
+      width: 50%;
       min-height: 300px;
-      cursor: pointer;
-      border: 1px dashed gray;
     }
 
     .color {
@@ -26,12 +24,7 @@
 <body>
   <h2>Svga Preview</h2>
   <div class="center">
-    <div>
-      <canvas id="canvas" class="box color"></canvas>
-    </div>
-  </div>
-  <div class="center">
-      <h3>Detail</h3>
+    <canvas id="canvas" class="box"></canvas>
   </div>
 </body>
 
