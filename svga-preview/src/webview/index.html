@@ -4,18 +4,68 @@
   <meta charset="UTF-8">
   <title>Svga Preview</title>
   <style>
-    .center {
+    .content {
       display: flex;
-      justify-content: space-evenly;
+      justify-content: center;
     }
 
     .box {
-      width: 50%;
-      min-height: 300px;
+      width: 42%;
+      margin-top: 7%;
+      margin-left: 5%;
     }
 
-    .color {
-      background-color: blueviolet;
+    .canvas {
+      width: 90%;
+      border: gray 0.5px solid;
+      border-radius: 7px;
+    }
+
+    .color-box {
+      background-color: transparent;
+    }
+
+    .detail {
+      height: 45px;
+      width: 100%;
+      background-color: rgba(77, 77, 77, .5);
+      border-radius: 7px;
+      font-size: 1.5em;
+      text-align: center;
+      line-height: 2.2;
+    }
+
+    .center-left {
+      width: 50%;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .grid {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .item {
+      width: 20%;
+      max-height: 100px;
+      position: relative;
+      margin-right: 15px;
+      margin-bottom: 15px;
+      border: gray 1px solid;
+      border-radius: 7px;
+    }
+
+    .item-label {
+      height: 25px;
+      width: 100%;
+      position: absolute;
+      bottom: 0px;
+      background-color: rgba(77, 77, 77, .5);
+      border-radius: 0px 0px 7px 7px;
+      text-align: center;
+      line-height: 1.8;
     }
   </style>
   <script src='${WEBVIEWURI}/index.js'></script>
@@ -23,8 +73,18 @@
 
 <body>
   <h2>Svga Preview</h2>
-  <div class="center">
-    <canvas id="canvas" class="box"></canvas>
+  <div class="content">
+    <div class="box">
+      <canvas id="canvas" class="canvas color-box"></canvas>
+    </div>
+    <div class="box">
+      <div class="detail">Detail</div>
+      <div class="center-left">
+        <h3 id="size">Size: </h3>
+        <h3 id="frame">Frame:</h3>
+      </div>
+      <div class="grid" id="grid"></div>
+    </div>
   </div>
 </body>
 
