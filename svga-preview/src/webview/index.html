@@ -48,24 +48,59 @@
     }
 
     .item {
-      width: 20%;
-      max-height: 100px;
-      position: relative;
+      width: 22%;
       margin-right: 15px;
-      margin-bottom: 15px;
-      border: gray 1px solid;
-      border-radius: 7px;
+      margin-bottom: 10px;
     }
 
-    .item-label {
-      height: 25px;
+    .item-image {
       width: 100%;
+      height: 100px;
+      border: gray 1px solid;
+      border-radius: 7px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .item-image img {
+      max-width: 95%;
+      max-height: 95%;
+    }
+
+    .item div {
+      width: 100%;
+      padding: 3px 0px 1px 1px;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .key-label {
       position: absolute;
       bottom: 0px;
       background-color: rgba(77, 77, 77, .5);
       border-radius: 0px 0px 7px 7px;
-      text-align: center;
       line-height: 1.8;
+    }
+
+    #itemPreview {
+      width: 300px;
+      height: 300px;
+      border: gray 1px solid;
+      border-radius: 7px;
+      background-color: rgba(77, 77, 77, .5);
+      position: absolute;
+      justify-content: center;
+      align-items: center;
+      display: none;
+    }
+
+    #itemPreview img {
+      max-width: 95%;
+      max-height: 95%;
     }
   </style>
   <script src='${WEBVIEWURI}/index.js'></script>
@@ -81,10 +116,11 @@
       <div class="detail">Detail</div>
       <div class="center-left">
         <h3 id="size">Size: </h3>
-        <h3 id="frame">Frame:</h3>
+        <h3 id="count">Count: </h3>
       </div>
       <div class="grid" id="grid"></div>
     </div>
+    <div id="itemPreview"></div>
   </div>
 </body>
 
