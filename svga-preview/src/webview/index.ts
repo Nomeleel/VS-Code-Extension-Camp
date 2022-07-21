@@ -16,9 +16,35 @@ async function load(svgaBuffer: ArrayBuffer) {
   let videoItem: VideoEntity = player.videoItem;
   if (videoItem) {
     let videoSize = videoItem.videoSize;
-    let sizeElement: HTMLHRElement = document.getElementById('size') as HTMLHRElement;
-    sizeElement.innerText += `    ${videoSize.width}  ×  ${videoSize.height}`;
 
+    // Info
+    let infoElement: HTMLDivElement = document.getElementById('info') as HTMLDivElement;
+    
+    function infoAppendChild(label: string, value: string) {
+      let labelElement: HTMLDivElement = document.createElement('div');
+      labelElement.innerText = `${label}:`;
+      let spaceElement: HTMLDivElement = document.createElement('div');
+      spaceElement.innerText = 'sp';
+      spaceElement.setAttribute('class', 'space');
+      let valueElement: HTMLSpanElement = document.createElement('span');
+      valueElement.innerText = value;
+      
+      let entryElement: HTMLDivElement = document.createElement('div');
+      entryElement.setAttribute('class', 'info-entry');
+      entryElement.appendChild(labelElement);
+      entryElement.appendChild(spaceElement);
+      entryElement.appendChild(valueElement);
+
+      infoElement.appendChild(entryElement);
+    }
+
+    infoAppendChild('Size', `${videoSize.width}  ×  ${videoSize.height}`);
+    infoAppendChild('Frame', `${videoItem.frames}`);
+    infoAppendChild('FPS', `${videoItem.FPS}`);
+    infoAppendChild('Duration', `${videoItem.frames / videoItem.FPS} s`);
+    infoAppendChild('Version', `${videoItem.version}`);
+
+    // Image
     let gridElement = document.getElementById('grid');
     let imageCount = 0;
     for (const key in videoItem.images) {
@@ -34,7 +60,7 @@ async function load(svgaBuffer: ArrayBuffer) {
       image.src = `data:image/png;base64,${base64}`;
 
       // Preview
-      let itemPreview = document.getElementById('itemPreview');
+      let itemPreview = document.getElementById('item-preview');
       let previewImage: HTMLImageElement = document.createElement('img') as HTMLImageElement;
       previewImage.src = image.src;
 
@@ -76,8 +102,10 @@ async function load(svgaBuffer: ArrayBuffer) {
       gridElement.appendChild(item);
     }
 
-    let countElement: HTMLHRElement = document.getElementById('count') as HTMLHRElement;
-    countElement.innerText += '   ' + imageCount;
+    let countElement: HTMLDivElement = document.getElementById('count') as HTMLDivElement;
+    let numElement: HTMLSpanElement = document.createElement('span');
+    numElement.innerText = `(${imageCount})`;
+    countElement.appendChild(numElement);
   }
 }
 
