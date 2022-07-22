@@ -41,7 +41,7 @@ async function load(svgaBuffer: ArrayBuffer) {
     infoAppendChild('Size', `${videoSize.width}  ×  ${videoSize.height}`);
     infoAppendChild('Frame', `${videoItem.frames}`);
     infoAppendChild('FPS', `${videoItem.FPS}`);
-    infoAppendChild('Duration', `${videoItem.frames / videoItem.FPS} s`);
+    infoAppendChild('Duration', `${(videoItem.frames / videoItem.FPS).toFixed(1)} s`);
     infoAppendChild('Version', `${videoItem.version}`);
 
     // Image
