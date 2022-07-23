@@ -2,10 +2,10 @@
 	"name": "svga-preview",
 	"displayName": "svga-preview",
 	"description": "Svga preview extension for VS Code.",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"publisher": "Nomeleel",
 	"homepage": "https://github.com/Nomeleel",
-  "repository": {
+	"repository": {
 		"type": "git",
 		"url": "https://github.com/Nomeleel/VS-Code-Extension-Collection/tree/master/svga-preview"
 	},
@@ -19,7 +19,7 @@
 		"onCustomEditor:svga.preview"
 	],
 	"main": "./out/extension.js",
-  "icon": "resource/icon/svga.png",
+	"icon": "resource/icon/svga.png",
 	"contributes": {
 		"customEditors": [
 			{
@@ -55,8 +55,7 @@
 		"copy-webpack-plugin": "^9.0.1",
 		"eslint": "^6.8.0",
 		"glob": "^7.1.6",
-		"mocha": "^7.1.2",
-    "svga.lite": "^1.6.1",
+		"svga.lite": "^1.6.1",
 		"typescript": "^3.8.3",
 		"vscode-test": "^1.3.0",
 		"webpack": "^5.54.0",
