@@ -1,26 +1,18 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
-import * as vscode from 'vscode';
+import { ExtensionContext } from 'vscode';
+import { DeleteFileCommand } from './command/delete_file_command';
+import { ShowTextDocumentCommand } from './command/show_text_document_command';
+import { DuplicateProvider } from './duplicate/duplicate_provider';
+import UnusedCodeProvider from './unused/unused_code_provider';
+import UnusedFileProvider from './unused/unused_file_provider';
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
-export function activate(context: vscode.ExtensionContext) {
-
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "report-view" is now active!');
-
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('report-view.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from report-view!');
-	});
-
-	context.subscriptions.push(disposable);
+export function activate(context: ExtensionContext) {
+  context.subscriptions.push(
+    new UnusedCodeProvider(),
+    new UnusedFileProvider(),
+    new DuplicateProvider(),
+    new ShowTextDocumentCommand(),
+    new DeleteFileCommand(),
+  );
 }
 
-// This method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() { }
