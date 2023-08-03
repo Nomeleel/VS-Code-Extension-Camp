@@ -21,7 +21,7 @@ export abstract class UnusedProvider extends ReportProvider {
         const unused = new UnusedNode(u.path, uri);
         unused.setChildren(
           u.issues?.map(i => {
-            return new IssueNode(i.declarationName, uri, i.declarationType, i.offset + i.column);
+            return new IssueNode(i.declarationName, uri, i.declarationType, i.offset);
           })
         );
 

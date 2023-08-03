@@ -14,7 +14,14 @@ export class ShowTextDocumentCommand extends DisposableBase {
     const activeEditor = await window.showTextDocument(textDocument!);
     let range = new Range(new Position(0, 0), new Position(0, 0));
     if (start && label) {
-      start += textDocument.lineAt(textDocument.positionAt(start).line).text.indexOf(label) - 1;
+      for (let line = textDocument.positionAt(start).line; line <= textDocument.lineCount; line++) {
+        let col = textDocument.lineAt(line).text.indexOf(label)
+        if (col != -1) {
+          start = textDocument.offsetAt(new Position(line, col));
+          break;
+        }
+      }
+
       range = new Range(textDocument.positionAt(start), textDocument.positionAt(start + label.length));
     }
     activeEditor.selection = new Selection(range.start, range.end);
